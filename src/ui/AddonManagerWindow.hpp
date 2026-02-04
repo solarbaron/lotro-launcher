@@ -14,6 +14,7 @@
 #include <QDialog>
 #include <QString>
 #include <QTableWidget>
+#include <QListWidget>
 
 #include "addons/AddonManager.hpp"
 
@@ -118,6 +119,7 @@ private:
     void updateAddonList();
     void updateButtonStates();
     QTableWidget* createAddonTable();
+    QListWidget* createAddonGrid();
     QWidget* createAddonTypeTab(AddonType type);
     
     class Impl;

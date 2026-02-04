@@ -2,6 +2,6 @@
 <RCC version="1.0">
     <qresource prefix="/">
         <file>dark_theme.qss</file>
-        <file>icon.png</file>
+        <file>dropdown_arrow.svg</file>
     </qresource>
 </RCC>

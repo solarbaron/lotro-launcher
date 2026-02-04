@@ -13,6 +13,7 @@
 #include <QCheckBox>
 #include <QComboBox>
 #include <QLabel>
+#include <QSizePolicy>
 
 namespace lotro {
 
@@ -43,16 +44,22 @@ void LoginWidget::setupUi() {
     
     // Account selector with delete button
     QHBoxLayout* accountLayout = new QHBoxLayout();
+    accountLayout->setSpacing(5);
+    
     m_impl->accountSelector = new QComboBox();
     m_impl->accountSelector->setPlaceholderText("Select saved account...");
+    m_impl->accountSelector->setMinimumWidth(180);
+    m_impl->accountSelector->setFixedHeight(34);
     m_impl->accountSelector->setVisible(false); // Hidden until we have saved accounts
-    accountLayout->addWidget(m_impl->accountSelector, 1);
+    accountLayout->addWidget(m_impl->accountSelector);
     
-    m_impl->deleteButton = new QPushButton("🗑");
+    m_impl->deleteButton = new QPushButton("×");
+    m_impl->deleteButton->setObjectName("deleteAccountButton");
     m_impl->deleteButton->setToolTip("Delete selected account");
-    m_impl->deleteButton->setMaximumWidth(40);
+    m_impl->deleteButton->setFixedSize(16, 34);  // Same height as accountSelector
     m_impl->deleteButton->setVisible(false);
     accountLayout->addWidget(m_impl->deleteButton);
+    
     layout->addLayout(accountLayout);
     
     // Username

@@ -93,126 +93,167 @@ MainWindow::~MainWindow() = default;
 
 void MainWindow::setupUi() {
     setWindowTitle("LOTRO Launcher");
-    setMinimumSize(800, 600);
+    setMinimumSize(900, 700);
+    resize(1000, 750);  // Default size larger than minimum
     
     // Create central widget
     QWidget* centralWidget = new QWidget(this);
     setCentralWidget(centralWidget);
     
-    // Create menu bar
-    QMenuBar* menuBar = new QMenuBar(this);
-    setMenuBar(menuBar);
-    
-    QMenu* fileMenu = menuBar->addMenu(tr("&File"));
-    QAction* settingsAction = fileMenu->addAction(tr("&Settings"));
-    connect(settingsAction, &QAction::triggered, this, &MainWindow::openSettings);
-    fileMenu->addSeparator();
-    QAction* exitAction = fileMenu->addAction(tr("E&xit"));
-    connect(exitAction, &QAction::triggered, this, &QWidget::close);
-    
-    QMenu* toolsMenu = menuBar->addMenu(tr("&Tools"));
-    QAction* addonsAction = toolsMenu->addAction(tr("&Addon Manager"));
-    connect(addonsAction, &QAction::triggered, this, &MainWindow::openAddonManager);
-    QAction* trackerAction = toolsMenu->addAction(tr("&Character Tracker"));
-    connect(trackerAction, &QAction::triggered, this, &MainWindow::openCharacterTracker);
+    // Menu bar removed - features accessible via navigation buttons
     
     QVBoxLayout* mainLayout = new QVBoxLayout(centralWidget);
-    mainLayout->setSpacing(10);
-    mainLayout->setContentsMargins(15, 15, 15, 15);
+    mainLayout->setSpacing(0);
+    mainLayout->setContentsMargins(0, 0, 0, 0);
     
-    // Header with game selection
-    QHBoxLayout* headerLayout = new QHBoxLayout();
+    // ========== TOP NAVIGATION BAR ==========
+    QFrame* topNavBar = new QFrame();
+    topNavBar->setObjectName("topNavBar");
+    topNavBar->setFixedHeight(50);
     
-    QLabel* logoLabel = new QLabel("LOTRO Launcher");
-    logoLabel->setObjectName("headerLabel");
-    headerLayout->addWidget(logoLabel);
+    QHBoxLayout* navLayout = new QHBoxLayout(topNavBar);
+    navLayout->setContentsMargins(20, 0, 20, 0);
+    navLayout->setSpacing(10);
     
-    headerLayout->addStretch();
+    // Navigation buttons
+    m_impl->addonsButton = new QPushButton("Add-ons");
+    m_impl->addonsButton->setObjectName("navButton");
+    m_impl->journalButton = new QPushButton("Journal");
+    m_impl->journalButton->setObjectName("navButton");
     
-    m_impl->settingsButton = new QPushButton("⚙ Settings");
-    m_impl->addonsButton = new QPushButton("📦 Add-ons");
-    m_impl->journalButton = new QPushButton("📓 Journal");
-    headerLayout->addWidget(m_impl->journalButton);
-    headerLayout->addWidget(m_impl->addonsButton);
-    headerLayout->addWidget(m_impl->settingsButton);
+    QPushButton* trackerButton = new QPushButton("Tracker");
+    trackerButton->setObjectName("navButton");
+    connect(trackerButton, &QPushButton::clicked, this, &MainWindow::openCharacterTracker);
     
-    mainLayout->addLayout(headerLayout);
+    m_impl->settingsButton = new QPushButton("Settings");
+    m_impl->settingsButton->setObjectName("navButton");
     
-    // Main content area
-    QHBoxLayout* contentLayout = new QHBoxLayout();
+    navLayout->addWidget(m_impl->addonsButton);
+    navLayout->addWidget(m_impl->journalButton);
+    navLayout->addWidget(trackerButton);
+    navLayout->addWidget(m_impl->settingsButton);
     
-    // Left side: Login and world selection
-    QVBoxLayout* leftLayout = new QVBoxLayout();
+    navLayout->addStretch();
     
-    // Login section
-    QGroupBox* loginGroup = new QGroupBox("Account");
-    QVBoxLayout* loginLayout = new QVBoxLayout(loginGroup);
+    mainLayout->addWidget(topNavBar);
+    
+    // ========== MAIN CONTENT AREA ==========
+    QWidget* contentArea = new QWidget();
+    QHBoxLayout* contentLayout = new QHBoxLayout(contentArea);
+    contentLayout->setContentsMargins(15, 15, 15, 15);
+    contentLayout->setSpacing(15);
+    
+    // --- LEFT: LOGIN PANEL ---
+    QFrame* loginPanel = new QFrame();
+    loginPanel->setObjectName("loginPanel");
+    loginPanel->setFixedWidth(300);
+    
+    QVBoxLayout* loginPanelLayout = new QVBoxLayout(loginPanel);
+    loginPanelLayout->setContentsMargins(20, 20, 20, 20);
+    loginPanelLayout->setSpacing(12);
+    
+    // Account section
+    QLabel* accountLabel = new QLabel("Account");
+    accountLabel->setObjectName("sectionLabel");
+    loginPanelLayout->addWidget(accountLabel);
     
     m_impl->loginWidget = new LoginWidget();
-    loginLayout->addWidget(m_impl->loginWidget);
+    loginPanelLayout->addWidget(m_impl->loginWidget);
     
-    leftLayout->addWidget(loginGroup);
+    // Decorative separator
+    QFrame* sep1 = new QFrame();
+    sep1->setObjectName("separator");
+    sep1->setFrameShape(QFrame::HLine);
+    sep1->setFixedHeight(2);
+    loginPanelLayout->addWidget(sep1);
     
-    // World selection
-    QGroupBox* worldGroup = new QGroupBox("Server");
-    QVBoxLayout* worldLayout = new QVBoxLayout(worldGroup);
+    // Server section
+    QLabel* serverLabel = new QLabel("Server");
+    serverLabel->setObjectName("sectionLabel");
+    loginPanelLayout->addWidget(serverLabel);
     
     m_impl->worldSelector = new QComboBox();
     m_impl->worldSelector->setEnabled(false);
     m_impl->worldSelector->addItem("Select a server...");
-    worldLayout->addWidget(m_impl->worldSelector);
+    loginPanelLayout->addWidget(m_impl->worldSelector);
     
-    // Loading indicator for server status
-    m_impl->loadingLabel = new LoadingLabel("Fetching server status...", worldGroup);
+    m_impl->loadingLabel = new LoadingLabel("Fetching servers...", loginPanel);
     m_impl->loadingLabel->hide();
-    worldLayout->addWidget(m_impl->loadingLabel);
-    
-    leftLayout->addWidget(worldGroup);
-    
-    // Launch button
-    m_impl->launchButton = new QPushButton("PLAY");
-    m_impl->launchButton->setObjectName("playButton");
-    m_impl->launchButton->setMinimumHeight(60);
-    m_impl->launchButton->setEnabled(false);
-    leftLayout->addWidget(m_impl->launchButton);
+    loginPanelLayout->addWidget(m_impl->loadingLabel);
     
     // Logout button (hidden by default)
     m_impl->logoutButton = new QPushButton("Logout");
     m_impl->logoutButton->setVisible(false);
-    leftLayout->addWidget(m_impl->logoutButton);
+    loginPanelLayout->addWidget(m_impl->logoutButton);
     
-    leftLayout->addStretch();
-    contentLayout->addLayout(leftLayout, 1);
+    loginPanelLayout->addStretch();
     
-    // Right side: News
-    QGroupBox* newsGroup = new QGroupBox("News");
-    QVBoxLayout* newsGroupLayout = new QVBoxLayout(newsGroup);
+    contentLayout->addWidget(loginPanel);
     
+    // --- RIGHT: NEWS SECTION (Main Focus) ---
+    QFrame* newsPanel = new QFrame();
+    newsPanel->setObjectName("newsPanel");
+    
+    QVBoxLayout* newsPanelLayout = new QVBoxLayout(newsPanel);
+    newsPanelLayout->setContentsMargins(20, 20, 20, 20);
+    newsPanelLayout->setSpacing(15);
+    
+    // News header
+    QLabel* newsHeader = new QLabel("Latest News & Updates");
+    newsHeader->setObjectName("sectionLabel");
+    newsHeader->setStyleSheet("font-size: 16px;");
+    newsPanelLayout->addWidget(newsHeader);
+    
+    // News scroll area
     m_impl->newsfeedScrollArea = new QScrollArea();
     m_impl->newsfeedScrollArea->setWidgetResizable(true);
     m_impl->newsfeedScrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_impl->newsfeedScrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     
     m_impl->newsfeedContainer = new QWidget();
     m_impl->newsfeedLayout = new QVBoxLayout(m_impl->newsfeedContainer);
-    m_impl->newsfeedLayout->setSpacing(10);
+    m_impl->newsfeedLayout->setSpacing(12);
     m_impl->newsfeedLayout->setContentsMargins(5, 5, 5, 5);
     m_impl->newsfeedLayout->addStretch();
     
     m_impl->newsfeedScrollArea->setWidget(m_impl->newsfeedContainer);
-    newsGroupLayout->addWidget(m_impl->newsfeedScrollArea);
+    newsPanelLayout->addWidget(m_impl->newsfeedScrollArea);
     
-    contentLayout->addWidget(newsGroup, 2);
+    contentLayout->addWidget(newsPanel, 1);  // Stretch to fill remaining space
     
-    mainLayout->addLayout(contentLayout);
+    mainLayout->addWidget(contentArea, 1);
     
-    // Status bar
+    // ========== FOOTER BAR (Play Button) ==========
+    QFrame* footerBar = new QFrame();
+    footerBar->setObjectName("footerBar");
+    footerBar->setFixedHeight(65);
+    footerBar->setStyleSheet("QFrame#footerBar { background-color: #0d0d15; border-top: 2px solid #c9a227; }");
+    
+    QHBoxLayout* footerLayout = new QHBoxLayout(footerBar);
+    footerLayout->setContentsMargins(20, 8, 20, 8);
+    
+    // Status on left
     m_impl->statusLabel = new QLabel("Ready");
-    statusBar()->addWidget(m_impl->statusLabel);
+    m_impl->statusLabel->setStyleSheet("color: #b0b0b0; font-size: 12px;");
+    footerLayout->addWidget(m_impl->statusLabel);
     
     m_impl->progressBar = new QProgressBar();
     m_impl->progressBar->setVisible(false);
-    m_impl->progressBar->setMaximumWidth(200);
-    statusBar()->addPermanentWidget(m_impl->progressBar);
+    m_impl->progressBar->setFixedWidth(200);
+    footerLayout->addWidget(m_impl->progressBar);
+    
+    footerLayout->addStretch();
+    
+    // Play button on right - prominent position
+    m_impl->launchButton = new QPushButton("PLAY");
+    m_impl->launchButton->setObjectName("playButton");
+    m_impl->launchButton->setFixedSize(180, 45);
+    m_impl->launchButton->setCursor(Qt::PointingHandCursor);
+    m_impl->launchButton->setEnabled(false);
+    
+    footerLayout->addWidget(m_impl->launchButton);
+    
+    mainLayout->addWidget(footerBar);
 }
 
 void MainWindow::setupConnections() {
@@ -626,7 +667,7 @@ void MainWindow::refreshNewsfeed() {
     // Add loading indicator
     QLabel* loadingLabel = new QLabel("Loading news...");
     loadingLabel->setAlignment(Qt::AlignCenter);
-    loadingLabel->setStyleSheet("color: #666; font-style: italic;");
+    loadingLabel->setStyleSheet("color: #6a6a8a; font-style: italic;");
     m_impl->newsfeedLayout->insertWidget(0, loadingLabel);
     
     // Fetch news asynchronously
@@ -650,7 +691,7 @@ void MainWindow::refreshNewsfeed() {
         if (items.empty()) {
             QLabel* noNewsLabel = new QLabel("No news available");
             noNewsLabel->setAlignment(Qt::AlignCenter);
-            noNewsLabel->setStyleSheet("color: #666;");
+            noNewsLabel->setStyleSheet("color: #6a6a8a;");
             m_impl->newsfeedLayout->insertWidget(0, noNewsLabel);
             return;
         }
@@ -662,31 +703,33 @@ void MainWindow::refreshNewsfeed() {
             card->setFrameShape(QFrame::StyledPanel);
             card->setStyleSheet(R"(
                 QFrame {
-                    background-color: #f5f5f5;
-                    border: 1px solid #ddd;
-                    border-radius: 6px;
+                    background-color: #252542;
+                    border: 1px solid #3a3a5c;
+                    border-left: 3px solid #c9a227;
+                    border-radius: 4px;
                     padding: 8px;
                 }
                 QFrame:hover {
-                    background-color: #eee;
-                    border-color: #ccc;
+                    background-color: #2d2d50;
+                    border-color: #4a4a6c;
+                    border-left-color: #e6c96a;
                 }
             )");
             card->setCursor(Qt::PointingHandCursor);
             
             QVBoxLayout* cardLayout = new QVBoxLayout(card);
-            cardLayout->setSpacing(4);
-            cardLayout->setContentsMargins(10, 8, 10, 8);
+            cardLayout->setSpacing(6);
+            cardLayout->setContentsMargins(12, 10, 12, 10);
             
             // Title
             QLabel* titleLabel = new QLabel(newsItem.title);
             titleLabel->setWordWrap(true);
-            titleLabel->setStyleSheet("font-weight: bold; font-size: 13px; color: #333;");
+            titleLabel->setStyleSheet("font-weight: bold; font-size: 13px; color: #c9a227;");
             cardLayout->addWidget(titleLabel);
             
             // Date
             QLabel* dateLabel = new QLabel(newsItem.publishedDateString());
-            dateLabel->setStyleSheet("font-size: 11px; color: #888;");
+            dateLabel->setStyleSheet("font-size: 11px; color: #6a6a8a; margin-bottom: 4px;");
             cardLayout->addWidget(dateLabel);
             
             // Description - store both full and truncated text
@@ -700,7 +743,7 @@ void MainWindow::refreshNewsfeed() {
             if (!fullDesc.isEmpty()) {
                 QLabel* descLabel = new QLabel(truncatedDesc);
                 descLabel->setWordWrap(true);
-                descLabel->setStyleSheet("font-size: 12px; color: #555;");
+                descLabel->setStyleSheet("font-size: 12px; color: #b0b0c0;");
                 descLabel->setObjectName("descLabel");
                 cardLayout->addWidget(descLabel);
                 

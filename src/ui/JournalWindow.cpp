@@ -37,11 +37,32 @@ void JournalWindow::setupUi() {
     leftLayout->setContentsMargins(0, 0, 0, 0);
     
     auto* listLabel = new QLabel("Entries");
-    listLabel->setStyleSheet("font-weight: bold; font-size: 14px;");
     leftLayout->addWidget(listLabel);
     
     m_entryList = new QListWidget();
     m_entryList->setMinimumWidth(200);
+    m_entryList->setStyleSheet(R"(
+        QListWidget {
+            background-color: #0d0d15;
+            border: 2px solid #3a3a5c;
+            border-radius: 4px;
+            color: #ffffff;
+            padding: 5px;
+        }
+        QListWidget::item {
+            padding: 8px;
+            border-radius: 3px;
+            margin: 2px 0;
+            color: #ffffff;
+        }
+        QListWidget::item:selected {
+            background-color: #2a9d8f;
+            color: #ffffff;
+        }
+        QListWidget::item:hover:!selected {
+            background-color: #252542;
+        }
+    )");
     leftLayout->addWidget(m_entryList);
     
     // List buttons
@@ -64,21 +85,43 @@ void JournalWindow::setupUi() {
     // Title
     auto* titleLayout = new QHBoxLayout();
     auto* titleLabel = new QLabel("Title:");
-    titleLabel->setStyleSheet("font-weight: bold;");
     m_titleEdit = new QLineEdit();
+    m_titleEdit->setObjectName("journalTitle");
     m_titleEdit->setPlaceholderText("Enter entry title...");
+    m_titleEdit->setStyleSheet(R"(
+        QLineEdit {
+            background-color: #0d0d15;
+            border: 2px solid #3a3a5c;
+            border-radius: 4px;
+            padding: 8px;
+            color: #ffffff;
+            font-size: 14px;
+        }
+        QLineEdit:focus { border-color: #c9a227; }
+    )");
     titleLayout->addWidget(titleLabel);
     titleLayout->addWidget(m_titleEdit);
     rightLayout->addLayout(titleLayout);
     
     // Content
     auto* contentLabel = new QLabel("Content:");
-    contentLabel->setStyleSheet("font-weight: bold;");
     rightLayout->addWidget(contentLabel);
     
     m_contentEdit = new QTextEdit();
+    m_contentEdit->setObjectName("journalContent");
     m_contentEdit->setPlaceholderText("Write your notes, plans, and goals here...");
     m_contentEdit->setMinimumWidth(400);
+    m_contentEdit->setStyleSheet(R"(
+        QTextEdit {
+            background-color: #0a0a12;
+            border: 2px solid #3a3a5c;
+            border-radius: 4px;
+            padding: 10px;
+            color: #ffffff;
+            font-size: 13px;
+        }
+        QTextEdit:focus { border-color: #c9a227; }
+    )");
     rightLayout->addWidget(m_contentEdit, 1);
     
     // Save button

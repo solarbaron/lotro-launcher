@@ -26,6 +26,8 @@
 #include <QTimer>
 #include <QDesktopServices>
 #include <QUrl>
+#include <QListWidget>
+#include <QListWidgetItem>
 
 #include <spdlog/spdlog.h>
 
@@ -49,15 +51,38 @@ public:
     QStackedWidget* skinsStack = nullptr;
     QStackedWidget* musicStack = nullptr;
     
-    // Tables for installed addons
+    // Grid views for installed addons (using QListWidget in icon mode)
+    QListWidget* pluginsInstalledGrid = nullptr;
+    QListWidget* skinsInstalledGrid = nullptr;
+    QListWidget* musicInstalledGrid = nullptr;
+    
+    // Grid views for remote addons
+    QListWidget* pluginsRemoteGrid = nullptr;
+    QListWidget* skinsRemoteGrid = nullptr;
+    QListWidget* musicRemoteGrid = nullptr;
+    
+    // Table views for list mode
     QTableWidget* pluginsInstalledTable = nullptr;
     QTableWidget* skinsInstalledTable = nullptr;
     QTableWidget* musicInstalledTable = nullptr;
-    
-    // Tables for remote addons
     QTableWidget* pluginsRemoteTable = nullptr;
     QTableWidget* skinsRemoteTable = nullptr;
     QTableWidget* musicRemoteTable = nullptr;
+    
+    // View mode stacks for each type (grid vs list)
+    QStackedWidget* pluginsViewStack = nullptr;
+    QStackedWidget* skinsViewStack = nullptr;
+    QStackedWidget* musicViewStack = nullptr;
+    
+    // Details panel (shown in grid mode)
+    QWidget* detailsPanel = nullptr;
+    QLabel* detailsName = nullptr;
+    QLabel* detailsAuthor = nullptr;
+    QLabel* detailsVersion = nullptr;
+    QLabel* detailsCategory = nullptr;
+    QLabel* detailsDownloads = nullptr;
+    QLabel* detailsReleased = nullptr;
+    QLabel* detailsDescription = nullptr;
     
     QLineEdit* searchEdit = nullptr;
     QProgressBar* progressBar = nullptr;
@@ -68,9 +93,11 @@ public:
     QPushButton* removeBtn = nullptr;
     QPushButton* refreshBtn = nullptr;
     QPushButton* browseBtn = nullptr;
+    QPushButton* viewToggleBtn = nullptr;
     
     // Track current view
     bool showingRemote = false;
+    bool isGridView = true;  // Default to grid view
     AddonType currentType = AddonType::Plugin;
 };
 
@@ -111,8 +138,12 @@ void AddonManagerWindow::setupUi() {
     m_impl->searchEdit->setClearButtonEnabled(true);
     toolbarLayout->addWidget(m_impl->searchEdit, 1);
     
-    m_impl->refreshBtn = new QPushButton("🔄 Refresh");
+    m_impl->refreshBtn = new QPushButton("Refresh");
     toolbarLayout->addWidget(m_impl->refreshBtn);
+    
+    m_impl->viewToggleBtn = new QPushButton("List View");
+    m_impl->viewToggleBtn->setCheckable(true);
+    toolbarLayout->addWidget(m_impl->viewToggleBtn);
     
     mainLayout->addLayout(toolbarLayout);
     
@@ -120,9 +151,9 @@ void AddonManagerWindow::setupUi() {
     m_impl->typeTabWidget = new QTabWidget();
     
     // Create tabs for each addon type
-    m_impl->typeTabWidget->addTab(createAddonTypeTab(AddonType::Plugin), "🔌 Plugins");
-    m_impl->typeTabWidget->addTab(createAddonTypeTab(AddonType::Skin), "🎨 Skins");
-    m_impl->typeTabWidget->addTab(createAddonTypeTab(AddonType::Music), "🎵 Music");
+    m_impl->typeTabWidget->addTab(createAddonTypeTab(AddonType::Plugin), "Plugins");
+    m_impl->typeTabWidget->addTab(createAddonTypeTab(AddonType::Skin), "Skins");
+    m_impl->typeTabWidget->addTab(createAddonTypeTab(AddonType::Music), "Music");
     
     mainLayout->addWidget(m_impl->typeTabWidget);
     
@@ -139,10 +170,10 @@ void AddonManagerWindow::setupUi() {
     // Action buttons
     QHBoxLayout* actionsLayout = new QHBoxLayout();
     
-    m_impl->installBtn = new QPushButton("📥 Install from File...");
-    m_impl->browseBtn = new QPushButton("🌐 Open on LotroInterface");
-    m_impl->updateBtn = new QPushButton("⬆️ Update");
-    m_impl->removeBtn = new QPushButton("🗑️ Remove");
+    m_impl->installBtn = new QPushButton("Install from File...");
+    m_impl->browseBtn = new QPushButton("Open on LotroInterface");
+    m_impl->updateBtn = new QPushButton("Update");
+    m_impl->removeBtn = new QPushButton("Remove");
     
     actionsLayout->addWidget(m_impl->installBtn);
     actionsLayout->addWidget(m_impl->browseBtn);
@@ -168,48 +199,78 @@ QWidget* AddonManagerWindow::createAddonTypeTab(AddonType type) {
     
     // Source tab bar (Installed / Find More)
     QTabBar* sourceBar = new QTabBar();
-    sourceBar->addTab("📦 Installed");
-    sourceBar->addTab("🔍 Find More");
+    sourceBar->addTab("Installed");
+    sourceBar->addTab("Find More");
     layout->addWidget(sourceBar);
     
-    // Stacked widget for switching views
-    QStackedWidget* stack = new QStackedWidget();
+    // View stack for grid vs list mode
+    QStackedWidget* viewStack = new QStackedWidget();
     
-    // Installed table
+    // === GRID VIEW (index 0) ===
+    QWidget* gridContainer = new QWidget();
+    QVBoxLayout* gridLayout = new QVBoxLayout(gridContainer);
+    gridLayout->setContentsMargins(0, 0, 0, 0);
+    
+    QStackedWidget* gridSourceStack = new QStackedWidget();
+    QListWidget* installedGrid = createAddonGrid();
+    QListWidget* remoteGrid = createAddonGrid();
+    gridSourceStack->addWidget(installedGrid);
+    gridSourceStack->addWidget(remoteGrid);
+    gridLayout->addWidget(gridSourceStack);
+    
+    viewStack->addWidget(gridContainer);
+    
+    // === LIST VIEW (index 1) ===
+    QWidget* listContainer = new QWidget();
+    QVBoxLayout* listLayout = new QVBoxLayout(listContainer);
+    listLayout->setContentsMargins(0, 0, 0, 0);
+    
+    QStackedWidget* listSourceStack = new QStackedWidget();
     QTableWidget* installedTable = createAddonTable();
-    stack->addWidget(installedTable);
-    
-    // Remote table
     QTableWidget* remoteTable = createAddonTable();
-    stack->addWidget(remoteTable);
+    listSourceStack->addWidget(installedTable);
+    listSourceStack->addWidget(remoteTable);
+    listLayout->addWidget(listSourceStack);
     
-    layout->addWidget(stack);
+    viewStack->addWidget(listContainer);
+    
+    layout->addWidget(viewStack);
     
     // Store references
     switch (type) {
         case AddonType::Plugin:
             m_impl->pluginsSourceBar = sourceBar;
-            m_impl->pluginsStack = stack;
+            m_impl->pluginsStack = gridSourceStack;
+            m_impl->pluginsViewStack = viewStack;
+            m_impl->pluginsInstalledGrid = installedGrid;
+            m_impl->pluginsRemoteGrid = remoteGrid;
             m_impl->pluginsInstalledTable = installedTable;
             m_impl->pluginsRemoteTable = remoteTable;
             break;
         case AddonType::Skin:
             m_impl->skinsSourceBar = sourceBar;
-            m_impl->skinsStack = stack;
+            m_impl->skinsStack = gridSourceStack;
+            m_impl->skinsViewStack = viewStack;
+            m_impl->skinsInstalledGrid = installedGrid;
+            m_impl->skinsRemoteGrid = remoteGrid;
             m_impl->skinsInstalledTable = installedTable;
             m_impl->skinsRemoteTable = remoteTable;
             break;
         case AddonType::Music:
             m_impl->musicSourceBar = sourceBar;
-            m_impl->musicStack = stack;
+            m_impl->musicStack = gridSourceStack;
+            m_impl->musicViewStack = viewStack;
+            m_impl->musicInstalledGrid = installedGrid;
+            m_impl->musicRemoteGrid = remoteGrid;
             m_impl->musicInstalledTable = installedTable;
             m_impl->musicRemoteTable = remoteTable;
             break;
     }
     
-    // Connect source bar
-    connect(sourceBar, &QTabBar::currentChanged, [this, stack, type](int index) {
-        stack->setCurrentIndex(index);
+    // Connect source bar to switch both grid and list source stacks
+    connect(sourceBar, &QTabBar::currentChanged, [this, gridSourceStack, listSourceStack, type](int index) {
+        gridSourceStack->setCurrentIndex(index);
+        listSourceStack->setCurrentIndex(index);
         m_impl->showingRemote = (index == 1);
         if (index == 1) {
             loadRemoteAddons(type);
@@ -241,8 +302,80 @@ QTableWidget* AddonManagerWindow::createAddonTable() {
     table->setAlternatingRowColors(true);
     table->setEditTriggers(QAbstractItemView::NoEditTriggers);
     table->setSortingEnabled(true);
+    table->verticalHeader()->setVisible(false);
+    table->setShowGrid(false);
+    table->setStyleSheet(R"(
+        QTableWidget {
+            background-color: #0d0d15;
+            border: 2px solid #3a3a5c;
+            border-radius: 4px;
+            color: #ffffff;
+        }
+        QTableWidget::item {
+            padding: 8px;
+            color: #e0e0e0;
+            border-bottom: 1px solid #1a1a2e;
+        }
+        QTableWidget::item:hover {
+            background-color: #252542;
+        }
+        QTableWidget::item:selected {
+            background-color: #2a9d8f;
+            color: #ffffff;
+        }
+        QTableWidget::item:alternate {
+            background-color: #151525;
+        }
+        QHeaderView::section {
+            background-color: #1a1a2e;
+            color: #c9a227;
+            padding: 10px 8px;
+            border: none;
+            border-right: 1px solid #3a3a5c;
+            border-bottom: 2px solid #c9a227;
+            font-weight: bold;
+        }
+    )");
     
     return table;
+}
+
+QListWidget* AddonManagerWindow::createAddonGrid() {
+    QListWidget* grid = new QListWidget();
+    grid->setViewMode(QListView::IconMode);
+    grid->setIconSize(QSize(64, 64));
+    grid->setGridSize(QSize(200, 130));
+    grid->setSpacing(12);
+    grid->setResizeMode(QListView::Adjust);
+    grid->setWrapping(true);
+    grid->setMovement(QListView::Static);
+    grid->setSelectionMode(QAbstractItemView::SingleSelection);
+    grid->setWordWrap(true);
+    grid->setUniformItemSizes(true);
+    grid->setStyleSheet(R"(
+        QListWidget {
+            background-color: #0d0d15;
+            border: none;
+        }
+        QListWidget::item {
+            background-color: #252542;
+            border: 1px solid #3a3a5c;
+            border-radius: 8px;
+            color: #ffffff;
+            padding: 10px;
+        }
+        QListWidget::item:hover {
+            background-color: #3a3a5c;
+            border-color: #c9a227;
+        }
+        QListWidget::item:selected {
+            background-color: #2a9d8f;
+            border-color: #4fc3b5;
+            color: #ffffff;
+        }
+    )");
+    
+    return grid;
 }
 
 void AddonManagerWindow::setupConnections() {
@@ -266,22 +399,85 @@ void AddonManagerWindow::setupConnections() {
     });
     
     // Double-click to install/view
-    auto connectTableDoubleClick = [this](QTableWidget* table, bool isRemote) {
-        connect(table, &QTableWidget::cellDoubleClicked, [this, isRemote](int row, int) {
-            if (isRemote) {
-                installSelected();
-            } else {
-                openAddonPage();
-            }
-        });
+    auto connectGridDoubleClick = [this](QListWidget* grid, bool isRemote) {
+        if (grid) {
+            connect(grid, &QListWidget::itemDoubleClicked, [this, isRemote](QListWidgetItem*) {
+                if (isRemote) {
+                    installSelected();
+                } else {
+                    openAddonPage();
+                }
+            });
+        }
     };
     
-    connectTableDoubleClick(m_impl->pluginsInstalledTable, false);
-    connectTableDoubleClick(m_impl->pluginsRemoteTable, true);
-    connectTableDoubleClick(m_impl->skinsInstalledTable, false);
-    connectTableDoubleClick(m_impl->skinsRemoteTable, true);
-    connectTableDoubleClick(m_impl->musicInstalledTable, false);
-    connectTableDoubleClick(m_impl->musicRemoteTable, true);
+    connectGridDoubleClick(m_impl->pluginsInstalledGrid, false);
+    connectGridDoubleClick(m_impl->pluginsRemoteGrid, true);
+    connectGridDoubleClick(m_impl->skinsInstalledGrid, false);
+    connectGridDoubleClick(m_impl->skinsRemoteGrid, true);
+    connectGridDoubleClick(m_impl->musicInstalledGrid, false);
+    connectGridDoubleClick(m_impl->musicRemoteGrid, true);
+    
+    // Grid Selection for Details Panel
+    auto connectGridSelection = [this](QListWidget* grid) {
+        if (grid) {
+            connect(grid, &QListWidget::itemSelectionChanged, [this, grid]() {
+                auto selectedItems = grid->selectedItems();
+                if (selectedItems.isEmpty()) return;
+                
+                QListWidgetItem* item = selectedItems.first();
+                QString name = item->data(Qt::UserRole + 1).toString();
+                QString author = item->data(Qt::UserRole + 2).toString();
+                QString version = item->data(Qt::UserRole + 3).toString();
+                QString category = item->data(Qt::UserRole + 4).toString();
+                int downloads = item->data(Qt::UserRole + 5).toInt();
+                QString released = item->data(Qt::UserRole + 6).toString();
+                
+                // Update details panel if it exists
+                if (m_impl->detailsPanel) {
+                    QList<QLabel*> labels = m_impl->detailsPanel->findChildren<QLabel*>();
+                    for (QLabel* label : labels) {
+                        if (label->objectName() == "detailsTitle") label->setText(name);
+                        if (label->objectName() == "detailsAuthor") label->setText("Author: " + author);
+                        if (label->objectName() == "detailsVersion") label->setText("Version: " + version);
+                        if (label->objectName() == "detailsCategory") label->setText("Category: " + category);
+                        if (label->objectName() == "detailsDownloads" && downloads > 0) label->setText("Downloads: " + QString::number(downloads));
+                        if (label->objectName() == "detailsReleased") label->setText("Released: " + released);
+                    }
+                }
+                
+                // Update button states when selection changes
+                updateButtonStates();
+            });
+        }
+    };
+    
+    connectGridSelection(m_impl->pluginsInstalledGrid);
+    connectGridSelection(m_impl->pluginsRemoteGrid);
+    connectGridSelection(m_impl->skinsInstalledGrid);
+    connectGridSelection(m_impl->skinsRemoteGrid);
+    connectGridSelection(m_impl->musicInstalledGrid);
+    connectGridSelection(m_impl->musicRemoteGrid);
+    
+    // View toggle button
+    connect(m_impl->viewToggleBtn, &QPushButton::toggled, [this](bool listMode) {
+        m_impl->isGridView = !listMode;
+        m_impl->viewToggleBtn->setText(listMode ? "Grid View" : "List View");
+        
+        // Switch view stacks for current type
+        int viewIndex = listMode ? 1 : 0;  // 0 = grid, 1 = list
+        if (m_impl->pluginsViewStack) m_impl->pluginsViewStack->setCurrentIndex(viewIndex);
+        if (m_impl->skinsViewStack) m_impl->skinsViewStack->setCurrentIndex(viewIndex);
+        if (m_impl->musicViewStack) m_impl->musicViewStack->setCurrentIndex(viewIndex);
+        
+        // Show/hide details panel
+        if (m_impl->detailsPanel) {
+            m_impl->detailsPanel->setVisible(!listMode);
+        }
+        
+        // Reload current view
+        refresh();
+    });
 }
 
 void AddonManagerWindow::updateButtonStates() {
@@ -340,46 +536,77 @@ void AddonManagerWindow::loadInstalledAddons(AddonType type) {
         return;
     }
     
+    QListWidget* grid = nullptr;
     QTableWidget* table = nullptr;
     switch (type) {
-        case AddonType::Plugin: table = m_impl->pluginsInstalledTable; break;
-        case AddonType::Skin:   table = m_impl->skinsInstalledTable; break;
-        case AddonType::Music:  table = m_impl->musicInstalledTable; break;
+        case AddonType::Plugin: 
+            grid = m_impl->pluginsInstalledGrid; 
+            table = m_impl->pluginsInstalledTable;
+            break;
+        case AddonType::Skin:   
+            grid = m_impl->skinsInstalledGrid; 
+            table = m_impl->skinsInstalledTable;
+            break;
+        case AddonType::Music:  
+            grid = m_impl->musicInstalledGrid; 
+            table = m_impl->musicInstalledTable;
+            break;
     }
-    
-    if (!table) return;
     
     auto addons = m_impl->addonManager->getInstalledAddons(type);
     
-    table->setSortingEnabled(false);
-    table->setRowCount(static_cast<int>(addons.size()));
-    
-    for (int row = 0; row < static_cast<int>(addons.size()); ++row) {
-        const auto& addon = addons[row];
-        
-        table->setItem(row, 0, new QTableWidgetItem(addon.name));
-        table->setItem(row, 1, new QTableWidgetItem(addon.author));
-        table->setItem(row, 2, new QTableWidgetItem(addon.installedVersion));
-        table->setItem(row, 3, new QTableWidgetItem(addon.category));
-        table->setItem(row, 4, new QTableWidgetItem(addon.releaseDate));
-        
-        // Downloads column - use formatted number
-        QString downloadsStr = addon.downloadCount > 0 
-            ? QString::number(addon.downloadCount) : "-";
-        table->setItem(row, 5, new QTableWidgetItem(downloadsStr));
-        
-        QString statusText;
-        if (addon.hasUpdate()) {
-            statusText = "⬆️ Update Available";
-        } else {
-            statusText = "✅ Installed";
+    // Populate grid view
+    if (grid) {
+        grid->clear();
+        for (const auto& addon : addons) {
+            QString itemText = addon.name + "\n" + addon.author + "\nv" + addon.installedVersion;
+            if (addon.hasUpdate()) {
+                itemText += "\n[Update Available]";
+            }
+            
+            QListWidgetItem* item = new QListWidgetItem(itemText);
+            item->setData(Qt::UserRole, addon.id);
+            item->setData(Qt::UserRole + 1, addon.name);
+            item->setData(Qt::UserRole + 2, addon.author);
+            item->setData(Qt::UserRole + 3, addon.installedVersion);
+            item->setData(Qt::UserRole + 4, addon.category);
+            item->setData(Qt::UserRole + 5, 0); // Downloads not stored locally usually, or irrelevant
+            item->setData(Qt::UserRole + 6, addon.releaseDate);
+            
+            item->setSizeHint(QSize(180, 100));
+            item->setTextAlignment(Qt::AlignCenter);
+            
+            grid->addItem(item);
         }
-        table->setItem(row, 6, new QTableWidgetItem(statusText));
-        table->setItem(row, 7, new QTableWidgetItem(addon.fileSize));
-        table->setItem(row, 8, new QTableWidgetItem(addon.id));
     }
     
-    table->setSortingEnabled(true);
+    // Populate table view
+    if (table) {
+        table->setSortingEnabled(false);
+        table->setRowCount(static_cast<int>(addons.size()));
+        
+        for (int row = 0; row < static_cast<int>(addons.size()); ++row) {
+            const auto& addon = addons[row];
+            
+            table->setItem(row, 0, new QTableWidgetItem(addon.name));
+            table->setItem(row, 1, new QTableWidgetItem(addon.author));
+            table->setItem(row, 2, new QTableWidgetItem(addon.installedVersion));
+            table->setItem(row, 3, new QTableWidgetItem(addon.category));
+            table->setItem(row, 4, new QTableWidgetItem(addon.releaseDate));
+            
+            QString downloadsStr = addon.downloadCount > 0 
+                ? QString::number(addon.downloadCount) : "-";
+            table->setItem(row, 5, new QTableWidgetItem(downloadsStr));
+            
+            QString statusText = addon.hasUpdate() ? "Update Available" : "Installed";
+            table->setItem(row, 6, new QTableWidgetItem(statusText));
+            table->setItem(row, 7, new QTableWidgetItem(addon.fileSize));
+            table->setItem(row, 8, new QTableWidgetItem(addon.id));
+        }
+        
+        table->setSortingEnabled(true);
+    }
+    
     m_impl->statusLabel->setText(QString("Found %1 installed %2")
         .arg(addons.size())
         .arg(addonTypeToString(type).toLower() + "s"));
@@ -390,14 +617,22 @@ void AddonManagerWindow::loadRemoteAddons(AddonType type) {
         return;
     }
     
+    QListWidget* grid = nullptr;
     QTableWidget* table = nullptr;
     switch (type) {
-        case AddonType::Plugin: table = m_impl->pluginsRemoteTable; break;
-        case AddonType::Skin:   table = m_impl->skinsRemoteTable; break;
-        case AddonType::Music:  table = m_impl->musicRemoteTable; break;
+        case AddonType::Plugin: 
+            grid = m_impl->pluginsRemoteGrid; 
+            table = m_impl->pluginsRemoteTable;
+            break;
+        case AddonType::Skin:   
+            grid = m_impl->skinsRemoteGrid; 
+            table = m_impl->skinsRemoteTable;
+            break;
+        case AddonType::Music:  
+            grid = m_impl->musicRemoteGrid; 
+            table = m_impl->musicRemoteTable;
+            break;
     }
-    
-    if (!table) return;
     
     m_impl->statusLabel->setText("Fetching addons from lotrointerface.com...");
     m_impl->progressBar->setVisible(true);
@@ -408,7 +643,7 @@ void AddonManagerWindow::loadRemoteAddons(AddonType type) {
     
     // Poll for completion
     QTimer* timer = new QTimer(this);
-    connect(timer, &QTimer::timeout, [this, future, table, type, timer]() mutable {
+    connect(timer, &QTimer::timeout, [this, future, grid, table, type, timer]() mutable {
         if (future.isFinished()) {
             timer->stop();
             timer->deleteLater();
@@ -417,32 +652,62 @@ void AddonManagerWindow::loadRemoteAddons(AddonType type) {
             
             m_impl->progressBar->setVisible(false);
             
-            table->setSortingEnabled(false);
-            table->setRowCount(static_cast<int>(addons.size()));
-            
-            for (int row = 0; row < static_cast<int>(addons.size()); ++row) {
-                const auto& addon = addons[row];
+            // Populate grid view
+            if (grid) {
+                grid->clear();
+                for (const auto& addon : addons) {
+                    auto installed = m_impl->addonManager->getInstalledAddon(addon.id, type);
+                    QString statusText = installed ? "[Installed]" : "";
+                    
+                    QString itemText = addon.name + "\n" + addon.author + "\nv" + addon.version;
+                    if (!statusText.isEmpty()) {
+                        itemText += "\n" + statusText;
+                    }
+                    
+                    QListWidgetItem* item = new QListWidgetItem(itemText);
+                item->setData(Qt::UserRole, addon.id);
+                item->setData(Qt::UserRole + 1, addon.name);
+                item->setData(Qt::UserRole + 2, addon.author);
+                item->setData(Qt::UserRole + 3, addon.version);
+                item->setData(Qt::UserRole + 4, addon.category);
+                item->setData(Qt::UserRole + 5, addon.downloadCount);
+                item->setData(Qt::UserRole + 6, addon.releaseDate);
                 
-                table->setItem(row, 0, new QTableWidgetItem(addon.name));
-                table->setItem(row, 1, new QTableWidgetItem(addon.author));
-                table->setItem(row, 2, new QTableWidgetItem(addon.version));
-                table->setItem(row, 3, new QTableWidgetItem(addon.category));
-                table->setItem(row, 4, new QTableWidgetItem(addon.releaseDate));
+                item->setSizeHint(QSize(180, 100));
+                item->setTextAlignment(Qt::AlignCenter);
                 
-                // Downloads column - format nicely
-                QString downloadsStr = addon.downloadCount > 0 
-                    ? QString::number(addon.downloadCount) : "-";
-                table->setItem(row, 5, new QTableWidgetItem(downloadsStr));
-                
-                // Check if installed
-                auto installed = m_impl->addonManager->getInstalledAddon(addon.id, type);
-                QString statusText = installed ? "✅ Installed" : "📥 Available";
-                table->setItem(row, 6, new QTableWidgetItem(statusText));
-                table->setItem(row, 7, new QTableWidgetItem(addon.fileSize));
-                table->setItem(row, 8, new QTableWidgetItem(addon.id));
+                grid->addItem(item);
+                }
             }
             
-            table->setSortingEnabled(true);
+            // Populate table view
+            if (table) {
+                table->setSortingEnabled(false);
+                table->setRowCount(static_cast<int>(addons.size()));
+                
+                for (int row = 0; row < static_cast<int>(addons.size()); ++row) {
+                    const auto& addon = addons[row];
+                    
+                    table->setItem(row, 0, new QTableWidgetItem(addon.name));
+                    table->setItem(row, 1, new QTableWidgetItem(addon.author));
+                    table->setItem(row, 2, new QTableWidgetItem(addon.version));
+                    table->setItem(row, 3, new QTableWidgetItem(addon.category));
+                    table->setItem(row, 4, new QTableWidgetItem(addon.releaseDate));
+                    
+                    QString downloadsStr = addon.downloadCount > 0 
+                        ? QString::number(addon.downloadCount) : "-";
+                    table->setItem(row, 5, new QTableWidgetItem(downloadsStr));
+                    
+                    auto installed = m_impl->addonManager->getInstalledAddon(addon.id, type);
+                    QString statusText = installed ? "Installed" : "Available";
+                    table->setItem(row, 6, new QTableWidgetItem(statusText));
+                    table->setItem(row, 7, new QTableWidgetItem(addon.fileSize));
+                    table->setItem(row, 8, new QTableWidgetItem(addon.id));
+                }
+                
+                table->setSortingEnabled(true);
+            }
+            
             m_impl->statusLabel->setText(QString("Found %1 available %2")
                 .arg(addons.size())
                 .arg(addonTypeToString(type).toLower() + "s"));
@@ -477,26 +742,26 @@ void AddonManagerWindow::installFromFile() {
 }
 
 void AddonManagerWindow::installSelected() {
-    QTableWidget* table = nullptr;
+    QListWidget* grid = nullptr;
     AddonType type = m_impl->currentType;
     
     switch (type) {
-        case AddonType::Plugin: table = m_impl->pluginsRemoteTable; break;
-        case AddonType::Skin:   table = m_impl->skinsRemoteTable; break;
-        case AddonType::Music:  table = m_impl->musicRemoteTable; break;
+        case AddonType::Plugin: grid = m_impl->pluginsRemoteGrid; break;
+        case AddonType::Skin:   grid = m_impl->skinsRemoteGrid; break;
+        case AddonType::Music:  grid = m_impl->musicRemoteGrid; break;
     }
     
-    if (!table) return;
+    if (!grid) return;
     
-    auto selectedItems = table->selectedItems();
+    auto selectedItems = grid->selectedItems();
     if (selectedItems.isEmpty()) {
         QMessageBox::information(this, "Install", "Please select an addon to install.");
         return;
     }
     
-    int row = selectedItems[0]->row();
-    QString addonId = table->item(row, 8)->text();  // ID column at index 8
-    QString addonName = table->item(row, 0)->text();
+    QListWidgetItem* item = selectedItems[0];
+    QString addonId = item->data(Qt::UserRole).toString();
+    QString addonName = item->data(Qt::UserRole + 1).toString();
     
     m_impl->statusLabel->setText(QString("Installing %1...").arg(addonName));
     m_impl->progressBar->setVisible(true);
@@ -524,8 +789,8 @@ void AddonManagerWindow::installSelected() {
                 if (future.result()) {
                     m_impl->statusLabel->setText(QString("%1 installed successfully!").arg(addonName));
                     m_impl->addonManager->refreshInstalledAddons();
-                    loadInstalledAddons(m_impl->currentType);  // Refresh installed tab
-                    loadRemoteAddons(m_impl->currentType);  // Refresh to show installed status
+                    loadInstalledAddons(m_impl->currentType);
+                    loadRemoteAddons(m_impl->currentType);
                 } else {
                     m_impl->statusLabel->setText(QString("Failed to install %1").arg(addonName));
                     QMessageBox::warning(this, "Error", "Failed to install addon.");
@@ -537,26 +802,26 @@ void AddonManagerWindow::installSelected() {
 }
 
 void AddonManagerWindow::updateSelected() {
-    QTableWidget* table = nullptr;
+    QListWidget* grid = nullptr;
     AddonType type = m_impl->currentType;
     
     switch (type) {
-        case AddonType::Plugin: table = m_impl->pluginsInstalledTable; break;
-        case AddonType::Skin:   table = m_impl->skinsInstalledTable; break;
-        case AddonType::Music:  table = m_impl->musicInstalledTable; break;
+        case AddonType::Plugin: grid = m_impl->pluginsInstalledGrid; break;
+        case AddonType::Skin:   grid = m_impl->skinsInstalledGrid; break;
+        case AddonType::Music:  grid = m_impl->musicInstalledGrid; break;
     }
     
-    if (!table) return;
+    if (!grid) return;
     
-    auto selectedItems = table->selectedItems();
+    auto selectedItems = grid->selectedItems();
     if (selectedItems.isEmpty()) {
         QMessageBox::information(this, "Update", "Please select an addon to update.");
         return;
     }
     
-    int row = selectedItems[0]->row();
-    QString addonId = table->item(row, 8)->text();  // ID column at index 8
-    QString addonName = table->item(row, 0)->text();
+    QListWidgetItem* item = selectedItems[0];
+    QString addonId = item->data(Qt::UserRole).toString();
+    QString addonName = item->data(Qt::UserRole + 1).toString();
     
     m_impl->statusLabel->setText(QString("Updating %1...").arg(addonName));
     m_impl->progressBar->setVisible(true);
@@ -612,26 +877,26 @@ void AddonManagerWindow::updateAll() {
 }
 
 void AddonManagerWindow::removeSelected() {
-    QTableWidget* table = nullptr;
+    QListWidget* grid = nullptr;
     AddonType type = m_impl->currentType;
     
     switch (type) {
-        case AddonType::Plugin: table = m_impl->pluginsInstalledTable; break;
-        case AddonType::Skin:   table = m_impl->skinsInstalledTable; break;
-        case AddonType::Music:  table = m_impl->musicInstalledTable; break;
+        case AddonType::Plugin: grid = m_impl->pluginsInstalledGrid; break;
+        case AddonType::Skin:   grid = m_impl->skinsInstalledGrid; break;
+        case AddonType::Music:  grid = m_impl->musicInstalledGrid; break;
     }
     
-    if (!table) return;
+    if (!grid) return;
     
-    auto selectedItems = table->selectedItems();
+    auto selectedItems = grid->selectedItems();
     if (selectedItems.isEmpty()) {
         QMessageBox::warning(this, "Remove", "Please select an addon to remove.");
         return;
     }
     
-    int row = selectedItems[0]->row();
-    QString addonId = table->item(row, 8)->text();  // ID column is now at index 8
-    QString addonName = table->item(row, 0)->text();
+    QListWidgetItem* item = selectedItems[0];
+    QString addonId = item->data(Qt::UserRole).toString();
+    QString addonName = item->data(Qt::UserRole + 1).toString();
     
     auto result = QMessageBox::question(this, "Confirm Remove",
         QString("Are you sure you want to remove '%1'?").arg(addonName));
@@ -654,71 +919,62 @@ void AddonManagerWindow::removeSelected() {
 }
 
 void AddonManagerWindow::openAddonPage() {
-    QTableWidget* table = nullptr;
+    QListWidget* grid = nullptr;
     AddonType type = m_impl->currentType;
     
     if (m_impl->showingRemote) {
         switch (type) {
-            case AddonType::Plugin: table = m_impl->pluginsRemoteTable; break;
-            case AddonType::Skin:   table = m_impl->skinsRemoteTable; break;
-            case AddonType::Music:  table = m_impl->musicRemoteTable; break;
+            case AddonType::Plugin: grid = m_impl->pluginsRemoteGrid; break;
+            case AddonType::Skin:   grid = m_impl->skinsRemoteGrid; break;
+            case AddonType::Music:  grid = m_impl->musicRemoteGrid; break;
         }
     } else {
         switch (type) {
-            case AddonType::Plugin: table = m_impl->pluginsInstalledTable; break;
-            case AddonType::Skin:   table = m_impl->skinsInstalledTable; break;
-            case AddonType::Music:  table = m_impl->musicInstalledTable; break;
+            case AddonType::Plugin: grid = m_impl->pluginsInstalledGrid; break;
+            case AddonType::Skin:   grid = m_impl->skinsInstalledGrid; break;
+            case AddonType::Music:  grid = m_impl->musicInstalledGrid; break;
         }
     }
     
-    if (!table) return;
+    if (!grid) return;
     
-    auto selectedItems = table->selectedItems();
+    auto selectedItems = grid->selectedItems();
     if (selectedItems.isEmpty()) {
         QMessageBox::information(this, "Open Page", "Please select an addon.");
         return;
     }
     
-    int row = selectedItems[0]->row();
-    QString addonId = table->item(row, 8)->text();  // ID column at index 8
+    QListWidgetItem* item = selectedItems[0];
+    QString addonId = item->data(Qt::UserRole).toString();
     
     QString url = QString("https://www.lotrointerface.com/downloads/info%1").arg(addonId);
     QDesktopServices::openUrl(QUrl(url));
 }
 
 void AddonManagerWindow::search(const QString& query) {
-    QTableWidget* table = nullptr;
+    QListWidget* grid = nullptr;
     
     if (m_impl->showingRemote) {
         switch (m_impl->currentType) {
-            case AddonType::Plugin: table = m_impl->pluginsRemoteTable; break;
-            case AddonType::Skin:   table = m_impl->skinsRemoteTable; break;
-            case AddonType::Music:  table = m_impl->musicRemoteTable; break;
+            case AddonType::Plugin: grid = m_impl->pluginsRemoteGrid; break;
+            case AddonType::Skin:   grid = m_impl->skinsRemoteGrid; break;
+            case AddonType::Music:  grid = m_impl->musicRemoteGrid; break;
         }
     } else {
         switch (m_impl->currentType) {
-            case AddonType::Plugin: table = m_impl->pluginsInstalledTable; break;
-            case AddonType::Skin:   table = m_impl->skinsInstalledTable; break;
-            case AddonType::Music:  table = m_impl->musicInstalledTable; break;
+            case AddonType::Plugin: grid = m_impl->pluginsInstalledGrid; break;
+            case AddonType::Skin:   grid = m_impl->skinsInstalledGrid; break;
+            case AddonType::Music:  grid = m_impl->musicInstalledGrid; break;
         }
     }
     
-    if (!table) return;
+    if (!grid) return;
     
-    for (int row = 0; row < table->rowCount(); ++row) {
-        bool match = query.isEmpty();
-        
-        if (!match) {
-            for (int col = 0; col < 4; ++col) {  // Search name, author, version, category
-                auto item = table->item(row, col);
-                if (item && item->text().contains(query, Qt::CaseInsensitive)) {
-                    match = true;
-                    break;
-                }
-            }
-        }
-        
-        table->setRowHidden(row, !match);
+    for (int i = 0; i < grid->count(); ++i) {
+        QListWidgetItem* item = grid->item(i);
+        bool match = query.isEmpty() || 
+            item->text().contains(query, Qt::CaseInsensitive);
+        item->setHidden(!match);
     }
 }
 
