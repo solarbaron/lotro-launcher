@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "https://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>solarbaron@example.com</email>
+		<name>Solar Baron</name>
+	</maintainer>
+	<longdescription lang="en">
+		LOTRO Launcher is a custom launcher for The Lord of the Rings Online (LOTRO).
+		It provides features such as addon management, account management, journal
+		notes, and news feed integration.
+	</longdescription>
+	<upstream>
+		<remote-id type="github">solarbaron/lotro-launcher</remote-id>
+		<bugs-to>https://github.com/solarbaron/lotro-launcher/issues</bugs-to>
+	</upstream>
+</pkgmetadata>

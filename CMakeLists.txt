@@ -201,11 +201,13 @@ install(TARGETS ${PROJECT_NAME}
     RUNTIME DESTINATION bin
 )
 
-# Install patch client wrapper
-install(FILES ${CMAKE_SOURCE_DIR}/resources/bin/run_patch_client.exe
-    DESTINATION bin
-    PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
-)
+# Install patch client wrapper (only if it exists - needs separate compilation with mingw)
+if(EXISTS "${CMAKE_SOURCE_DIR}/resources/bin/run_patch_client.exe")
+    install(FILES ${CMAKE_SOURCE_DIR}/resources/bin/run_patch_client.exe
+        DESTINATION bin
+        PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
+    )
+endif()
 
 # Testing support
 option(BUILD_TESTS "Build unit tests" ON)
