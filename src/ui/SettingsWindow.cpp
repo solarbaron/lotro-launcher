@@ -47,6 +47,7 @@ public:
     QCheckBox* dxvkCheck = nullptr;
     QCheckBox* esyncCheck = nullptr;
     QCheckBox* fsyncCheck = nullptr;
+    QCheckBox* steamIntegrationCheck = nullptr;
 #endif
     
     QDialogButtonBox* buttonBox = nullptr;
@@ -180,6 +181,19 @@ void SettingsWindow::setupUi() {
     wineOptionsLayout->addWidget(m_impl->fsyncCheck);
     
     wineLayout->addWidget(wineOptionsGroup);
+    
+    // Steam integration
+    QGroupBox* steamGroup = new QGroupBox("Steam Integration");
+    QVBoxLayout* steamLayout = new QVBoxLayout(steamGroup);
+    
+    m_impl->steamIntegrationCheck = new QCheckBox("Show as 'Playing LOTRO' in Steam");
+    m_impl->steamIntegrationCheck->setChecked(true);
+    m_impl->steamIntegrationCheck->setToolTip(
+        "When enabled, the launcher will show you as playing LOTRO in Steam.\n"
+        "Requires Steam to be running and libsteam_api.so to be available.");
+    steamLayout->addWidget(m_impl->steamIntegrationCheck);
+    
+    wineLayout->addWidget(steamGroup);
     wineLayout->addStretch();
     
     tabs->addTab(wineTab, "Wine");
@@ -341,6 +355,10 @@ void SettingsWindow::loadSettings() {
         m_impl->fsyncCheck->setChecked(wineConfig->fsyncEnabled);
     }
     updateWineSection();
+    
+    // Steam integration setting (global, not per-game)
+    auto& programConfig = configManager.programConfig();
+    m_impl->steamIntegrationCheck->setChecked(programConfig.steamIntegrationEnabled);
 #endif
 }
 
@@ -373,6 +391,11 @@ void SettingsWindow::saveSettings() {
     wineConfig.fsyncEnabled = m_impl->fsyncCheck->isChecked();
     
     configManager.setWineConfig(m_impl->gameId.toStdString(), wineConfig);
+    
+    // Steam integration setting (global)
+    auto programConfig = configManager.programConfig();
+    programConfig.steamIntegrationEnabled = m_impl->steamIntegrationCheck->isChecked();
+    configManager.setProgramConfig(programConfig);
 #endif
     
     configManager.save();

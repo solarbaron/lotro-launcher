@@ -172,6 +172,11 @@ bool ConfigManager::loadProgramConfig() {
         if (j.contains("logVerbosity")) {
             m_programConfig.logVerbosity = j["logVerbosity"].get<std::string>();
         }
+#ifdef PLATFORM_LINUX
+        if (j.contains("steamIntegrationEnabled")) {
+            m_programConfig.steamIntegrationEnabled = j["steamIntegrationEnabled"].get<bool>();
+        }
+#endif
         
         return true;
     } catch (const std::exception& e) {
@@ -190,6 +195,9 @@ bool ConfigManager::saveProgramConfig() {
         j["gamesSortingMode"] = m_programConfig.gamesSortingMode;
         j["onGameStart"] = m_programConfig.onGameStart;
         j["logVerbosity"] = m_programConfig.logVerbosity;
+#ifdef PLATFORM_LINUX
+        j["steamIntegrationEnabled"] = m_programConfig.steamIntegrationEnabled;
+#endif
         
         std::ofstream file(configPath);
         file << j.dump(2);

@@ -129,15 +129,19 @@ set(UI_SOURCES
     src/ui/JournalWindow.cpp
 )
 
-# Linux-only Wine sources
+# Linux-only Wine and Steam sources
 if(PLATFORM_LINUX)
     set(WINE_SOURCES
         src/wine/WineManager.cpp
         src/wine/WinePrefixSetup.cpp
         src/wine/WineProcessBuilder.cpp
     )
+    set(STEAM_SOURCES
+        src/steam/SteamIntegration.cpp
+    )
 else()
     set(WINE_SOURCES "")
+    set(STEAM_SOURCES "")
 endif()
 
 # Platform-specific sources
@@ -164,6 +168,7 @@ add_executable(${PROJECT_NAME}
     ${DAT_SOURCES}
     ${UI_SOURCES}
     ${WINE_SOURCES}
+    ${STEAM_SOURCES}
     ${RESOURCES}
 )
 
@@ -188,7 +193,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 # Linux-specific linking
 if(PLATFORM_LINUX)
     target_include_directories(${PROJECT_NAME} PRIVATE ${LIBSECRET_INCLUDE_DIRS})
-    target_link_libraries(${PROJECT_NAME} PRIVATE ${LIBSECRET_LIBRARIES})
+    target_link_libraries(${PROJECT_NAME} PRIVATE ${LIBSECRET_LIBRARIES} dl)
 endif()
 
 # Windows-specific linking

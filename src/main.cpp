@@ -20,6 +20,7 @@
 
 #ifdef PLATFORM_LINUX
 #include "wine/WineManager.hpp"
+#include "steam/SteamIntegration.hpp"
 #endif
 
 namespace {
@@ -125,6 +126,18 @@ int main(int argc, char* argv[]) {
     if (!wineManager.isSetup()) {
         spdlog::info("Wine environment needs setup");
         // This will be handled by the main window or wizard
+    }
+    
+    // Initialize Steam integration to show as "Playing" in Steam
+    if (configManager.programConfig().steamIntegrationEnabled) {
+        auto& steamIntegration = lotro::SteamIntegration::instance();
+        if (steamIntegration.initialize()) {
+            spdlog::info("Steam integration active - showing as Playing in Steam");
+        } else {
+            spdlog::debug("Steam integration not available or Steam not running");
+        }
+    } else {
+        spdlog::debug("Steam integration disabled in settings");
     }
 #endif
     

@@ -3,5 +3,6 @@
     <qresource prefix="/">
         <file>dark_theme.qss</file>
         <file>dropdown_arrow.svg</file>
+        <file>checkmark.svg</file>
     </qresource>
 </RCC>

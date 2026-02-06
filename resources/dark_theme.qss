@@ -303,9 +303,19 @@ QCheckBox::indicator {
     background-color: #0d0d15;
 }
 
+QCheckBox::indicator:hover {
+    border-color: #c9a227;
+}
+
 QCheckBox::indicator:checked {
     background-color: #2a9d8f;
-    border-color: #2a9d8f;
+    border-color: #4fc3b5;
+    image: url(:/checkmark.svg);
+}
+
+QCheckBox::indicator:checked:hover {
+    background-color: #3ab5a6;
+    border-color: #6fd4c8;
 }
 
 /* ========== Scroll Bars ========== */

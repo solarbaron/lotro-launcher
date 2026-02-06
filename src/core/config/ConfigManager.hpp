@@ -31,6 +31,9 @@ struct ProgramConfig {
     std::string gamesSortingMode = "last-played";  // priority, last-played, alphabetical
     std::string onGameStart = "stay";              // stay, close
     std::string logVerbosity = "info";             // debug, info, warning, error
+#ifdef PLATFORM_LINUX
+    bool steamIntegrationEnabled = true;           // Show as playing in Steam
+#endif
 };
 
 /**

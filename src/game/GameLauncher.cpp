@@ -15,6 +15,7 @@
 #include "wine/WineManager.hpp"
 #include "wine/WineProcessBuilder.hpp"
 #include "core/config/WineConfig.hpp"
+#include "steam/SteamIntegration.hpp"
 #endif
 
 #include <QProcess>
@@ -320,6 +321,22 @@ public:
                 result.success = true;
                 result.processId = m_process->processId();
                 spdlog::info("Game process started with PID: {}", result.processId);
+                
+#ifdef PLATFORM_LINUX
+                // Initialize Steam integration to show "Playing" status
+                auto& steam = SteamIntegration::instance();
+                if (steam.initialize()) {
+                    spdlog::info("Steam integration active - game shown as playing");
+                    
+                    // Connect process finished signal to shutdown Steam
+                    QObject::connect(m_process.get(), 
+                        QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
+                        [](int exitCode, QProcess::ExitStatus) {
+                            spdlog::info("Game exited with code: {}", exitCode);
+                            SteamIntegration::instance().shutdown();
+                        });
+                }
+#endif
             }
             
         } catch (const std::exception& e) {
