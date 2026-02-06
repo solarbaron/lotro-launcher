@@ -288,6 +288,10 @@ public:
             QStringList wineArgs = wineManager.buildWineArgs(batPath, args);
             QProcessEnvironment env = wineManager.getWineEnvironment();
             
+            // Set Steam App ID for Proton compatibility (LOTRO = 212500)
+            env.insert("SteamAppId", "212500");
+            env.insert("SteamGameId", "212500");
+            
             m_process->setProcessEnvironment(env);
             
             QString wineExe = wineArgs.takeFirst();

@@ -401,6 +401,60 @@ QStringList WineManager::buildWineArgs(
     return builder.buildCommandLine();
 }
 
+std::filesystem::path WineManager::getPlainWineExecutable() const {
+    // For user mode, use their Wine directly
+    if (m_config.prefixMode == WinePrefixMode::User) {
+        return m_config.userWineExecutable;
+    }
+    
+    // Look for plain Wine (not umu-run) for console app support
+    // Wine installed from packages usually resides in /usr/bin/wine
+    QString winePath = QStandardPaths::findExecutable("wine");
+    if (!winePath.isEmpty()) {
+        spdlog::debug("Found plain wine at: {}", winePath.toStdString());
+        return std::filesystem::path(winePath.toStdString());
+    }
+    
+    // Check common paths
+    std::vector<std::filesystem::path> commonPaths = {
+        "/usr/bin/wine",
+        "/usr/local/bin/wine",
+        "/opt/wine/bin/wine",
+        "/opt/wine-stable/bin/wine"
+    };
+    
+    for (const auto& path : commonPaths) {
+        if (std::filesystem::exists(path)) {
+            spdlog::debug("Found plain wine at: {}", path.string());
+            return path;
+        }
+    }
+    
+    // Fallback - hope it's in PATH
+    spdlog::warn("Plain wine not found, using 'wine' from PATH");
+    return "wine";
+}
+
+QStringList WineManager::buildWineArgsForConsoleApp(
+    const std::filesystem::path& executable,
+    const QStringList& args
+) const {
+    // Use plain Wine instead of umu-run/Proton for console apps
+    // Proton doesn't capture stdout/stderr properly
+    WineProcessBuilder builder;
+    builder.setWineExecutable(getPlainWineExecutable())
+           .setPrefix(getPrefixPath())
+           .setExecutable(executable)
+           .addArguments(args)
+           .setEsync(m_config.esyncEnabled && checkEsyncSupport())
+           .setFsync(m_config.fsyncEnabled && checkFsyncSupport());
+    
+    // Set minimal debug level - we want output from the app, not Wine
+    builder.setDebugLevel("-all");
+    
+    return builder.buildCommandLine();
+}
+
 QProcessEnvironment WineManager::getWineEnvironment() const {
     WineProcessBuilder builder;
     builder.setWineExecutable(getWineExecutable())

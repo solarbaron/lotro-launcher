@@ -161,10 +161,6 @@ public:
      */
     bool isDxvkInstalled() const;
     
-    // ==================
-    // Process execution
-    // ==================
-    
     /**
      * Build Wine command line arguments
      * 
@@ -176,6 +172,30 @@ public:
         const std::filesystem::path& executable,
         const QStringList& args = {}
     ) const;
+    
+    /**
+     * Build Wine command line for console applications
+     * 
+     * Uses plain Wine instead of umu-run/Proton because Proton
+     * doesn't properly capture stdout/stderr from console apps.
+     * This is needed for the patch client where we need to parse output.
+     * 
+     * @param executable Path to Windows executable
+     * @param args Arguments to pass to executable
+     * @return Full argument list for QProcess
+     */
+    QStringList buildWineArgsForConsoleApp(
+        const std::filesystem::path& executable,
+        const QStringList& args = {}
+    ) const;
+    
+    /**
+     * Get path to plain Wine executable (not umu-run/Proton)
+     * 
+     * This is needed for console apps that require stdout capture.
+     * Falls back to "wine" in PATH if not found.
+     */
+    std::filesystem::path getPlainWineExecutable() const;
     
     /**
      * Get environment variables for Wine process
@@ -232,8 +252,9 @@ private:
 
 // UMU configuration
 namespace UmuConfig {
-    // Game ID for LOTRO in umu database
-    constexpr const char* LOTRO_GAME_ID = "umu-lotro";
+    // Game ID for LOTRO - use Steam App ID format for proper Proton fixes
+    // LOTRO Steam App ID: 212500
+    constexpr const char* LOTRO_GAME_ID = "umu-212500";
     
     // Proton version to use (GE-Proton auto-downloads latest)
     constexpr const char* PROTON_VERSION = "GE-Proton";

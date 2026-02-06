@@ -15,12 +15,16 @@ KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 RDEPEND="
-	dev-qt/qtbase:6[gui,widgets,network]
+	dev-qt/qtbase:6[gui,widgets,network,xml,concurrent]
 	dev-libs/openssl:=
 	net-misc/curl
+	sys-libs/zlib
+	app-crypt/libsecret
+	games-util/umu-launcher
 "
 DEPEND="${RDEPEND}
 	dev-libs/spdlog
+	dev-libs/nlohmann-json
 "
 BDEPEND="
 	dev-build/cmake

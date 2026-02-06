@@ -141,12 +141,13 @@ private:
         // Extract server address (host:port format, no http://)
         QString patchServer = extractPatchServer(patchServerUrl);
         
-        // Build full path to PatchClient.dll (in game directory)
+        // Build full path to PatchClient.dll - OneLauncher passes the full path
         auto patchClientPath = m_gameDirectory / m_patchClientFilename.toStdString();
         QString patchClientFullPath = QString::fromStdString(patchClientPath.string());
         
         // Build arguments for run_patch_client.exe wrapper
-        // Format: run_patch_client.exe "/path/to/PatchClient.dll" "server:port --language English --phase"
+        // OneLauncher joins all patchclient args into a single string as the second argument
+        // Format: run_patch_client.exe "full/path/to/PatchClient.dll" "server:port --language English --filesonly"
         QString patchArgs = QString("%1 --language English --%2")
             .arg(patchServer)
             .arg(phaseStr);
@@ -154,20 +155,23 @@ private:
         spdlog::info("Patch client: {}", patchClientFullPath.toStdString());
         spdlog::info("Patch args: {}", patchArgs.toStdString());
         
+        // Set working directory to game directory (critical for patchclient.dll to find other DLLs)
+        m_process->setWorkingDirectory(QString::fromStdString(m_gameDirectory.string()));
+        
+        // Build command: run_patch_client.exe "dll_path" "args_string"
         QStringList args;
         args << patchClientFullPath << patchArgs;
         
-        // Set working directory to game directory
-        m_process->setWorkingDirectory(QString::fromStdString(m_gameDirectory.string()));
-        
 #ifdef PLATFORM_LINUX
         auto& wineManager = WineManager::instance();
-        QStringList wineArgs = wineManager.buildWineArgs(
+        // Use buildWineArgsForConsoleApp because Proton doesn't capture stdout
+        // We need plain Wine to get the patch client output for progress parsing
+        QStringList wineArgs = wineManager.buildWineArgsForConsoleApp(
             getPatchClientRunnerPath(), args);
         QProcessEnvironment env = wineManager.getWineEnvironment();
         
-        // Merge stderr with stdout so we capture all output
-        m_process->setProcessChannelMode(QProcess::MergedChannels);
+        // Use separate channels to properly capture stdout (where progress info comes from)
+        m_process->setProcessChannelMode(QProcess::SeparateChannels);
         m_process->setProcessEnvironment(env);
         QString executable = wineArgs.takeFirst();
         spdlog::info("Running: {} {}", executable.toStdString(), wineArgs.join(" ").toStdString());
@@ -176,59 +180,85 @@ private:
         m_process->start(QString::fromStdString(getPatchClientRunnerPath().string()), args);
 #endif
         
-        if (!m_process->waitForStarted(10000)) {
+        if (!m_process->waitForStarted(30000)) {
             m_lastError = "Failed to start patch process";
             spdlog::error(m_lastError.toStdString());
             return false;
         }
         
+        spdlog::info("Patch process started with PID: {}", m_process->processId());
+        
         // Read output and parse progress
-        // Update status to show we're running
         QString statusMsg = (phase == PatchPhase::FilesOnly) 
-            ? "Checking and patching files..." 
-            : "Patching game data...";
+            ? "Checking files..." 
+            : "Checking data...";
         currentProgress.status = statusMsg;
-        currentProgress.totalBytes = 100;  // Use for indeterminate progress
+        currentProgress.totalBytes = 0;
+        currentProgress.currentBytes = 0;
+        currentProgress.totalFiles = 0;
+        currentProgress.currentFile = 0;
         
         if (progress) {
             progress(currentProgress);
         }
         
-        // Wait for process with periodic status updates
-        int progressTick = 0;
+        // Wait for process with periodic output reading
         while (m_process->state() == QProcess::Running && !m_cancelled) {
-            m_process->waitForReadyRead(500);
+            // Wait for output or timeout
+            m_process->waitForReadyRead(200);
             
-            // Update progress to show activity (pulse animation)
-            progressTick = (progressTick + 5) % 100;
-            currentProgress.currentBytes = progressTick;
+            // Read stdout for progress info
+            while (m_process->canReadLine()) {
+                QByteArray rawLine = m_process->readLine();
+                QString line = QString::fromUtf8(rawLine).trimmed();
+                if (!line.isEmpty()) {
+                    spdlog::info("Patch output: {}", line.toStdString());
+                    parsePatchLine(line, currentProgress);
+                    if (progress) {
+                        progress(currentProgress);
+                    }
+                }
+            }
             
-            if (progress) {
-                progress(currentProgress);
+            // Also read stderr for error messages
+            QByteArray stderrData = m_process->readAllStandardError();
+            if (!stderrData.isEmpty()) {
+                QString stderrStr = QString::fromUtf8(stderrData).trimmed();
+                if (!stderrStr.isEmpty()) {
+                    spdlog::warn("Patch stderr: {}", stderrStr.toStdString());
+                }
             }
             
             // Process Qt events so UI updates
             QCoreApplication::processEvents();
-            
-            // Try to read any output (though Wine may not provide any)
-            while (m_process->canReadLine()) {
-                QString line = QString::fromUtf8(m_process->readLine()).trimmed();
-                spdlog::debug("Patch output: {}", line.toStdString());
+        }
+        
+        if (m_cancelled) {
+            spdlog::info("Patching cancelled by user");
+            return false;
+        }
+        
+        // Read any remaining output
+        m_process->waitForFinished(30000);
+        
+        // Read any remaining stdout
+        while (m_process->canReadLine()) {
+            QString line = QString::fromUtf8(m_process->readLine()).trimmed();
+            if (!line.isEmpty()) {
+                spdlog::info("Patch output (final): {}", line.toStdString());
                 parsePatchLine(line, currentProgress);
             }
         }
         
-        if (m_cancelled) {
-            return false;
-        }
-        
-        m_process->waitForFinished(30000);
-        
         // Exit code 0 means success
         int exitCode = m_process->exitCode();
+        spdlog::info("Patch process exited with code: {}", exitCode);
+        
         if (exitCode != 0) {
-            m_lastError = QString("Patch phase %1 failed with exit code %2")
-                .arg(phaseStr).arg(exitCode);
+            // Read any error output
+            QString stderrStr = QString::fromUtf8(m_process->readAllStandardError());
+            m_lastError = QString("Patch phase %1 failed with exit code %2. %3")
+                .arg(phaseStr).arg(exitCode).arg(stderrStr);
             spdlog::error(m_lastError.toStdString());
             currentProgress.status = "Error: " + m_lastError;
             if (progress) {
@@ -241,8 +271,12 @@ private:
         currentProgress.status = (phase == PatchPhase::FilesOnly) 
             ? "Files up to date" 
             : "Data patching complete";
-        currentProgress.currentBytes = 100;
-        currentProgress.totalBytes = 100;
+        if (currentProgress.totalBytes > 0) {
+            currentProgress.currentBytes = currentProgress.totalBytes;
+        }
+        if (currentProgress.totalFiles > 0) {
+            currentProgress.currentFile = currentProgress.totalFiles;
+        }
         
         if (progress) {
             progress(currentProgress);
