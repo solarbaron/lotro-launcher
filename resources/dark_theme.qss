@@ -18,10 +18,20 @@
  */
 
 /* ========== Main Window ========== */
-QMainWindow, QDialog {
+QMainWindow, QDialog, QWizard, QWizardPage {
     background-color: #1a1a2e;
     color: #ffffff;
     font-family: "Segoe UI", "Arial", sans-serif;
+}
+
+/* ========== Setup Wizard ========== */
+QWizard QLabel {
+    color: #ffffff;
+}
+
+QWizard QRadioButton {
+    color: #ffffff;
+    spacing: 8px;
 }
 
 QWidget {
