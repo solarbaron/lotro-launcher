@@ -1,0 +1,182 @@
+[
+  {
+    "id": "deed_shire_explorer",
+    "name": "Explorer of the Shire",
+    "description": "Discover all the landmarks of the Shire.",
+    "category": "Exploration",
+    "region": "The Shire",
+    "level": 10,
+    "virtueXP": 10,
+    "lotroPoints": 5,
+    "titleReward": "Explorer of the Shire"
+  },
+  {
+    "id": "deed_shire_wolf_slayer",
+    "name": "Wolf-slayer",
+    "description": "Defeat wolves in the Shire.",
+    "category": "Slayer",
+    "region": "The Shire",
+    "level": 8,
+    "virtueXP": 10,
+    "lotroPoints": 5
+  },
+  {
+    "id": "deed_bree_explorer",
+    "name": "Explorer of Bree-land",
+    "description": "Discover all the landmarks of Bree-land.",
+    "category": "Exploration",
+    "region": "Bree-land",
+    "level": 20,
+    "virtueXP": 10,
+    "lotroPoints": 5,
+    "titleReward": "Explorer of Bree-land"
+  },
+  {
+    "id": "deed_bree_brigand_slayer",
+    "name": "Brigand-slayer",
+    "description": "Defeat brigands in Bree-land.",
+    "category": "Slayer",
+    "region": "Bree-land",
+    "level": 15,
+    "virtueXP": 10,
+    "lotroPoints": 5
+  },
+  {
+    "id": "deed_lone_lands_explorer",
+    "name": "Explorer of the Lone-lands",
+    "description": "Discover all the landmarks of the Lone-lands.",
+    "category": "Exploration",
+    "region": "Lone-lands",
+    "level": 25,
+    "virtueXP": 10,
+    "lotroPoints": 5,
+    "titleReward": "Explorer of the Lone-lands"
+  },
+  {
+    "id": "deed_north_downs_explorer",
+    "name": "Explorer of the North Downs",
+    "description": "Discover all the landmarks of the North Downs.",
+    "category": "Exploration",
+    "region": "North Downs",
+    "level": 30,
+    "virtueXP": 10,
+    "lotroPoints": 5,
+    "titleReward": "Explorer of the North Downs"
+  },
+  {
+    "id": "deed_champion_strike",
+    "name": "Blade of the Champion",
+    "description": "Use Champion Strike many times.",
+    "category": "Class",
+    "region": "",
+    "level": 15,
+    "virtueXP": 10,
+    "lotroPoints": 5,
+    "traitReward": "Blade Damage Bonus"
+  },
+  {
+    "id": "deed_guardian_block",
+    "name": "Shield of the Guardian",
+    "description": "Block attacks successfully.",
+    "category": "Class",
+    "region": "",
+    "level": 15,
+    "virtueXP": 10,
+    "lotroPoints": 5,
+    "traitReward": "Block Rating Bonus"
+  },
+  {
+    "id": "deed_elf_history",
+    "name": "History of the Elves",
+    "description": "Learn about the history of the Elves.",
+    "category": "Race",
+    "region": "Ered Luin",
+    "level": 10,
+    "virtueXP": 10,
+    "lotroPoints": 5
+  },
+  {
+    "id": "deed_dwarf_history",
+    "name": "History of the Dwarves",
+    "description": "Learn about the history of the Dwarves.",
+    "category": "Race",
+    "region": "Ered Luin",
+    "level": 10,
+    "virtueXP": 10,
+    "lotroPoints": 5
+  },
+  {
+    "id": "deed_angmar_explorer",
+    "name": "Explorer of Angmar",
+    "description": "Discover all the landmarks of Angmar.",
+    "category": "Exploration",
+    "region": "Angmar",
+    "level": 45,
+    "virtueXP": 15,
+    "lotroPoints": 10,
+    "titleReward": "Explorer of Angmar"
+  },
+  {
+    "id": "deed_moria_explorer",
+    "name": "Explorer of Moria",
+    "description": "Discover all the landmarks of Moria.",
+    "category": "Exploration",
+    "region": "Moria",
+    "level": 55,
+    "virtueXP": 15,
+    "lotroPoints": 10,
+    "titleReward": "Explorer of Moria"
+  },
+  {
+    "id": "deed_rohan_rep",
+    "name": "Ally of the Rohirrim",
+    "description": "Gain reputation with the Rohirrim.",
+    "category": "Reputation",
+    "region": "East Rohan",
+    "level": 75,
+    "virtueXP": 20,
+    "lotroPoints": 15
+  },
+  {
+    "id": "deed_gondor_rep",
+    "name": "Defender of Gondor",
+    "description": "Gain reputation with the people of Gondor.",
+    "category": "Reputation",
+    "region": "Western Gondor",
+    "level": 95,
+    "virtueXP": 20,
+    "lotroPoints": 15
+  },
+  {
+    "id": "deed_eriador_quests",
+    "name": "Quests of Eriador",
+    "description": "Complete quests throughout Eriador.",
+    "category": "Quest",
+    "region": "Eriador",
+    "level": 30,
+    "virtueXP": 15,
+    "lotroPoints": 10
+  },
+  {
+    "id": "deed_social_emotes",
+    "name": "The Life of the Party",
+    "description": "Use various emotes at festivals.",
+    "category": "Social",
+    "region": "",
+    "level": 1,
+    "virtueXP": 5,
+    "lotroPoints": 5,
+    "titleReward": "Party Animal"
+  },
+  {
+    "id": "deed_lore_tomes",
+    "name": "Scholar of the Ages",
+    "description": "Find ancient lore throughout Middle-earth.",
+    "category": "Lore",
+    "region": "",
+    "level": 40,
+    "virtueXP": 15,
+    "lotroPoints": 10,
+    "titleReward": "Scholar"
+  }
+]

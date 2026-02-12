@@ -24,6 +24,7 @@
 #include "companion/ProcessMemory.hpp"
 
 #include <spdlog/spdlog.h>
+#include <QStandardPaths>
 
 namespace lotro {
 
@@ -36,6 +37,12 @@ CharacterTrackerWindow::CharacterTrackerWindow(const QString& gamePath, QWidget*
     setWindowTitle(tr("Character Tracker"));
     setMinimumSize(400, 500);
     resize(450, 550);
+    
+    // Initialize character tracker
+    auto dataDir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+    m_characterTracker = std::make_unique<CharacterTracker>(
+        std::filesystem::path(dataDir.toStdString()) / "companion"
+    );
     
     setupUi();
     setupConnections();
@@ -69,6 +76,13 @@ void CharacterTrackerWindow::setupUi() {
     m_exportButton = new QPushButton(tr("Export Data..."));
     m_exportButton->setMinimumHeight(36);
     controlLayout->addWidget(m_exportButton);
+    
+    // Save Character Button
+    m_saveButton = new QPushButton(tr("Save Character"));
+    m_saveButton->setMinimumHeight(36);
+    m_saveButton->setEnabled(false);
+    m_saveButton->setToolTip(tr("Save current character to the Saved Characters list"));
+    controlLayout->addWidget(m_saveButton);
     
     mainLayout->addLayout(controlLayout);
     
@@ -209,6 +223,26 @@ void CharacterTrackerWindow::setupConnections() {
         m_exportWindow->raise();
         m_exportWindow->activateWindow();
     });
+    
+    // Save button - converts CharacterInfo to Character and saves
+    connect(m_saveButton, &QPushButton::clicked, this, [this]() {
+        if (!m_lastCharacterInfo.isValid() || !m_characterTracker) {
+            return;
+        }
+        
+        Character character;
+        character.name = m_lastCharacterInfo.name;
+        character.server = m_lastCharacterInfo.server;
+        character.characterClass = parseCharacterClass(m_lastCharacterInfo.className);
+        character.race = parseCharacterRace(m_lastCharacterInfo.race);
+        character.level = m_lastCharacterInfo.level;
+        character.accountName = m_lastCharacterInfo.account;
+        character.destinyPoints = m_lastCharacterInfo.destinyPoints;
+        character.lastPlayed = std::chrono::system_clock::now();
+        
+        m_characterTracker->saveCharacter(character);
+        setStatus(tr("Character saved: %1").arg(character.name));
+    });
 }
 
 void CharacterTrackerWindow::connectToGame() {
@@ -260,6 +294,8 @@ void CharacterTrackerWindow::refresh() {
     
     auto info = m_extractor->extractCharacter();
     if (info) {
+        m_lastCharacterInfo = *info;  // Store for saving
+        m_saveButton->setEnabled(info->isValid());
         updateDisplay(*info);
         setStatus(tr("Updated: %1").arg(QTime::currentTime().toString("hh:mm:ss")));
     } else {

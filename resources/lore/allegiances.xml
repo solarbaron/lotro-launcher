@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8"?><allegiances>
+<allegiance id="1879351840" name="Hobbits of the Company" advancementProgressionID="1879353332" icon="1092329915" group="1" minLevel="110" travelSkillId="1879357637" description="key:621000666:54354734">
+<deed id="1879352050" name="Hobbits of the Company: Allegiance Level 1"/>
+<deed id="1879352032" name="Hobbits of the Company: Allegiance Level 2"/>
+<deed id="1879352083" name="Hobbits of the Company: Allegiance Level 3"/>
+<deed id="1879352112" name="Hobbits of the Company: Allegiance Level 4"/>
+<deed id="1879352072" name="Hobbits of the Company: Allegiance Level 5"/>
+<deed id="1879352049" name="Hobbits of the Company: Allegiance Level 6"/>
+<deed id="1879352103" name="Hobbits of the Company: Allegiance Level 7"/>
+<deed id="1879352040" name="Hobbits of the Company: Allegiance Level 8"/>
+<deed id="1879352092" name="Hobbits of the Company: Allegiance Level 9"/>
+<deed id="1879352034" name="Hobbits of the Company: Allegiance Level 10"/>
+<deed id="1879352086" name="Hobbits of the Company: Allegiance Level 11"/>
+<deed id="1879352094" name="Hobbits of the Company: Allegiance Level 12"/>
+<deed id="1879352053" name="Hobbits of the Company: Allegiance Level 13"/>
+<deed id="1879352105" name="Hobbits of the Company: Allegiance Level 14"/>
+<deed id="1879352063" name="Hobbits of the Company: Allegiance Level 15"/>
+<deed id="1879352062" name="Hobbits of the Company: Allegiance Level 16"/>
+<deed id="1879352115" name="Hobbits of the Company: Allegiance Level 17"/>
+<deed id="1879352074" name="Hobbits of the Company: Allegiance Level 18"/>
+<deed id="1879352033" name="Hobbits of the Company: Allegiance Level 19"/>
+<deed id="1879352114" name="Hobbits of the Company: Allegiance Level 20"/>
+<deed id="1879352073" name="Hobbits of the Company: Allegiance Level 21"/>
+<deed id="1879352085" name="Hobbits of the Company: Allegiance Level 22"/>
+<deed id="1879352041" name="Hobbits of the Company: Allegiance Level 23"/>
+<deed id="1879352093" name="Hobbits of the Company: Allegiance Level 24"/>
+<deed id="1879352052" name="Hobbits of the Company: Allegiance Level 25"/>
+<deed id="1879352051" name="Hobbits of the Company: Allegiance Level 26"/>
+<deed id="1879352104" name="Hobbits of the Company: Allegiance Level 27"/>
+<deed id="1879352061" name="Hobbits of the Company: Allegiance Level 28"/>
+<deed id="1879352113" name="Hobbits of the Company: Allegiance Level 29"/>
+<deed id="1879352058" name="Hobbits of the Company: Allegiance Level 30"/>
+</allegiance>
+<allegiance id="1879351841" name="The Court of Lothlórien" advancementProgressionID="1879353332" icon="1092329920" group="1" minLevel="110" travelSkillId="1879357634" description="key:621000668:54354734">
+<deed id="1879352042" name="The Court of Lothlórien: Allegiance Level 1"/>
+<deed id="1879352065" name="The Court of Lothlórien: Allegiance Level 2"/>
+<deed id="1879352107" name="The Court of Lothlórien: Allegiance Level 3"/>
+<deed id="1879352075" name="The Court of Lothlórien: Allegiance Level 4"/>
+<deed id="1879352116" name="The Court of Lothlórien: Allegiance Level 5"/>
+<deed id="1879352044" name="The Court of Lothlórien: Allegiance Level 6"/>
+<deed id="1879352087" name="The Court of Lothlórien: Allegiance Level 7"/>
+<deed id="1879352055" name="The Court of Lothlórien: Allegiance Level 8"/>
+<deed id="1879352097" name="The Court of Lothlórien: Allegiance Level 9"/>
+<deed id="1879352106" name="The Court of Lothlórien: Allegiance Level 10"/>
+<deed id="1879352064" name="The Court of Lothlórien: Allegiance Level 11"/>
+<deed id="1879352095" name="The Court of Lothlórien: Allegiance Level 12"/>
+<deed id="1879352054" name="The Court of Lothlórien: Allegiance Level 13"/>
+<deed id="1879352088" name="The Court of Lothlórien: Allegiance Level 14"/>
+<deed id="1879352043" name="The Court of Lothlórien: Allegiance Level 15"/>
+<deed id="1879352077" name="The Court of Lothlórien: Allegiance Level 16"/>
+<deed id="1879352036" name="The Court of Lothlórien: Allegiance Level 17"/>
+<deed id="1879352066" name="The Court of Lothlórien: Allegiance Level 18"/>
+<deed id="1879352118" name="The Court of Lothlórien: Allegiance Level 19"/>
+<deed id="1879352119" name="The Court of Lothlórien: Allegiance Level 20"/>
+<deed id="1879352078" name="The Court of Lothlórien: Allegiance Level 21"/>
+<deed id="1879352109" name="The Court of Lothlórien: Allegiance Level 22"/>
+<deed id="1879352068" name="The Court of Lothlórien: Allegiance Level 23"/>
+<deed id="1879352100" name="The Court of Lothlórien: Allegiance Level 24"/>
+<deed id="1879352057" name="The Court of Lothlórien: Allegiance Level 25"/>
+<deed id="1879352089" name="The Court of Lothlórien: Allegiance Level 26"/>
+<deed id="1879352046" name="The Court of Lothlórien: Allegiance Level 27"/>
+<deed id="1879352079" name="The Court of Lothlórien: Allegiance Level 28"/>
+<deed id="1879352037" name="The Court of Lothlórien: Allegiance Level 29"/>
+<deed id="1879352084" name="The Court of Lothlórien: Allegiance Level 30"/>
+</allegiance>
+<allegiance id="1879351842" name="The Kingdom of Gondor" advancementProgressionID="1879353332" icon="1092329898" group="1" minLevel="110" travelSkillId="1879357635" description="key:621000665:54354734">
+<deed id="1879352096" name="The Kingdom of Gondor: Allegiance Level 1"/>
+<deed id="1879352117" name="The Kingdom of Gondor: Allegiance Level 2"/>
+<deed id="1879352067" name="The Kingdom of Gondor: Allegiance Level 3"/>
+<deed id="1879352035" name="The Kingdom of Gondor: Allegiance Level 4"/>
+<deed id="1879352076" name="The Kingdom of Gondor: Allegiance Level 5"/>
+<deed id="1879352099" name="The Kingdom of Gondor: Allegiance Level 6"/>
+<deed id="1879352045" name="The Kingdom of Gondor: Allegiance Level 7"/>
+<deed id="1879352108" name="The Kingdom of Gondor: Allegiance Level 8"/>
+<deed id="1879352056" name="The Kingdom of Gondor: Allegiance Level 9"/>
+<deed id="1879352120" name="The Kingdom of Gondor: Allegiance Level 10"/>
+<deed id="1879352070" name="The Kingdom of Gondor: Allegiance Level 11"/>
+<deed id="1879352038" name="The Kingdom of Gondor: Allegiance Level 12"/>
+<deed id="1879352080" name="The Kingdom of Gondor: Allegiance Level 13"/>
+<deed id="1879352047" name="The Kingdom of Gondor: Allegiance Level 14"/>
+<deed id="1879352090" name="The Kingdom of Gondor: Allegiance Level 15"/>
+<deed id="1879352059" name="The Kingdom of Gondor: Allegiance Level 16"/>
+<deed id="1879352101" name="The Kingdom of Gondor: Allegiance Level 17"/>
+<deed id="1879352069" name="The Kingdom of Gondor: Allegiance Level 18"/>
+<deed id="1879352110" name="The Kingdom of Gondor: Allegiance Level 19"/>
+<deed id="1879352039" name="The Kingdom of Gondor: Allegiance Level 20"/>
+<deed id="1879352082" name="The Kingdom of Gondor: Allegiance Level 21"/>
+<deed id="1879352048" name="The Kingdom of Gondor: Allegiance Level 22"/>
+<deed id="1879352091" name="The Kingdom of Gondor: Allegiance Level 23"/>
+<deed id="1879352060" name="The Kingdom of Gondor: Allegiance Level 24"/>
+<deed id="1879352102" name="The Kingdom of Gondor: Allegiance Level 25"/>
+<deed id="1879352071" name="The Kingdom of Gondor: Allegiance Level 26"/>
+<deed id="1879352111" name="The Kingdom of Gondor: Allegiance Level 27"/>
+<deed id="1879352081" name="The Kingdom of Gondor: Allegiance Level 28"/>
+<deed id="1879352121" name="The Kingdom of Gondor: Allegiance Level 29"/>
+<deed id="1879352098" name="The Kingdom of Gondor: Allegiance Level 30"/>
+</allegiance>
+<allegiance id="1879351843" name="Durin's Folk" advancementProgressionID="1879353332" icon="1092329907" group="1" minLevel="110" travelSkillId="1879357636" description="key:621000667:54354734">
+<deed id="1879352015" name="Durin's Folk: Allegiance Level 1"/>
+<deed id="1879352028" name="Durin's Folk: Allegiance Level 2"/>
+<deed id="1879352023" name="Durin's Folk: Allegiance Level 3"/>
+<deed id="1879352008" name="Durin's Folk: Allegiance Level 4"/>
+<deed id="1879352003" name="Durin's Folk: Allegiance Level 5"/>
+<deed id="1879352017" name="Durin's Folk: Allegiance Level 6"/>
+<deed id="1879352012" name="Durin's Folk: Allegiance Level 7"/>
+<deed id="1879352025" name="Durin's Folk: Allegiance Level 8"/>
+<deed id="1879352020" name="Durin's Folk: Allegiance Level 9"/>
+<deed id="1879352013" name="Durin's Folk: Allegiance Level 10"/>
+<deed id="1879352009" name="Durin's Folk: Allegiance Level 11"/>
+<deed id="1879352004" name="Durin's Folk: Allegiance Level 12"/>
+<deed id="1879352029" name="Durin's Folk: Allegiance Level 13"/>
+<deed id="1879352024" name="Durin's Folk: Allegiance Level 14"/>
+<deed id="1879352019" name="Durin's Folk: Allegiance Level 15"/>
+<deed id="1879352016" name="Durin's Folk: Allegiance Level 16"/>
+<deed id="1879352011" name="Durin's Folk: Allegiance Level 17"/>
+<deed id="1879352007" name="Durin's Folk: Allegiance Level 18"/>
+<deed id="1879352002" name="Durin's Folk: Allegiance Level 19"/>
+<deed id="1879352031" name="Durin's Folk: Allegiance Level 20"/>
+<deed id="1879352027" name="Durin's Folk: Allegiance Level 21"/>
+<deed id="1879352022" name="Durin's Folk: Allegiance Level 22"/>
+<deed id="1879352018" name="Durin's Folk: Allegiance Level 23"/>
+<deed id="1879352014" name="Durin's Folk: Allegiance Level 24"/>
+<deed id="1879352010" name="Durin's Folk: Allegiance Level 25"/>
+<deed id="1879352005" name="Durin's Folk: Allegiance Level 26"/>
+<deed id="1879352030" name="Durin's Folk: Allegiance Level 27"/>
+<deed id="1879352026" name="Durin's Folk: Allegiance Level 28"/>
+<deed id="1879352021" name="Durin's Folk: Allegiance Level 29"/>
+<deed id="1879352006" name="Durin's Folk: Allegiance Level 30"/>
+</allegiance>
+<allegiance id="1879418273" name="The Zhélruka Clan" advancementProgressionID="1879353332" icon="1092670066" group="2" minLevel="20" travelSkillId="1879418262" description="key:621042326:54354734">
+<deed id="1879417244" name="Zhélruka: Allegiance Level 1"/>
+<deed id="1879418281" name="Zhélruka: Allegiance Level 2"/>
+<deed id="1879418253" name="Zhélruka: Allegiance Level 3"/>
+<deed id="1879418268" name="Zhélruka: Allegiance Level 4"/>
+<deed id="1879418276" name="Zhélruka: Allegiance Level 5"/>
+<deed id="1879418265" name="Zhélruka: Allegiance Level 6"/>
+<deed id="1879418271" name="Zhélruka: Allegiance Level 7"/>
+<deed id="1879418256" name="Zhélruka: Allegiance Level 8"/>
+<deed id="1879418259" name="Zhélruka: Allegiance Level 9"/>
+<deed id="1879418270" name="Zhélruka: Allegiance Level 10"/>
+<deed id="1879418264" name="Zhélruka: Allegiance Level 11"/>
+<deed id="1879418266" name="Zhélruka: Allegiance Level 12"/>
+<deed id="1879418260" name="Zhélruka: Allegiance Level 13"/>
+<deed id="1879418257" name="Zhélruka: Allegiance Level 14"/>
+<deed id="1879418254" name="Zhélruka: Allegiance Level 15"/>
+<deed id="1879418274" name="Zhélruka: Allegiance Level 16"/>
+<deed id="1879418267" name="Zhélruka: Allegiance Level 17"/>
+<deed id="1879418261" name="Zhélruka: Allegiance Level 18"/>
+<deed id="1879418258" name="Zhélruka: Allegiance Level 19"/>
+<deed id="1879418252" name="Zhélruka: Allegiance Level 20"/>
+<deed id="1879418278" name="Zhélruka: Allegiance Level 21"/>
+<deed id="1879418280" name="Zhélruka: Allegiance Level 22"/>
+<deed id="1879418275" name="Zhélruka: Allegiance Level 23"/>
+<deed id="1879418269" name="Zhélruka: Allegiance Level 24"/>
+<deed id="1879418263" name="Zhélruka: Allegiance Level 25"/>
+<deed id="1879418255" name="Zhélruka: Allegiance Level 26"/>
+<deed id="1879418251" name="Zhélruka: Allegiance Level 27"/>
+<deed id="1879418277" name="Zhélruka: Allegiance Level 28"/>
+<deed id="1879418272" name="Zhélruka: Allegiance Level 29"/>
+<deed id="1879418279" name="Zhélruka: Allegiance Level 30"/>
+</allegiance>
+<allegiance id="1879473475" name="Ledger-keepers" advancementProgressionID="1879478784" icon="1092926309" group="3" minLevel="140" travelSkillId="1879475972" description="key:621083905:54354734">
+<deed id="1879473497" name="Ledger-keepers: Umbar Barharbêl: Allegiance Level 1"/>
+<deed id="1879473544" name="Ledger-keepers: Umbar Barharbêl: Allegiance Level 2"/>
+<deed id="1879473481" name="Ledger-keepers: Umbar Barharbêl: Allegiance Level 3"/>
+<deed id="1879473530" name="Ledger-keepers: Umbar Barharbêl: Allegiance Level 4"/>
+<deed id="1879473464" name="Ledger-keepers: Umbar Barharbêl: Allegiance Level 5"/>
+<deed id="1879473514" name="Ledger-keepers: Umbar Barharbêl: Allegiance Level 6"/>
+<deed id="1879473450" name="Ledger-keepers: Umbar Barharbêl: Allegiance Level 7"/>
+<deed id="1879473498" name="Ledger-keepers: Umbar Barharbêl: Allegiance Level 8"/>
+<deed id="1879473435" name="Ledger-keepers: Umbar Barharbêl: Allegiance Level 9"/>
+<deed id="1879473513" name="Ledger-keepers: Umbar Barharbêl: Allegiance Level 10"/>
+<deed id="1879473448" name="Ledger-keepers: Umbar Barharbêl: Allegiance Level 11"/>
+<deed id="1879473496" name="Ledger-keepers: Umbar Barharbêl: Allegiance Level 12"/>
+<deed id="1879473433" name="Ledger-keepers: Umbar Barharbêl: Allegiance Level 13"/>
+<deed id="1879473480" name="Ledger-keepers: Umbar Barharbêl: Allegiance Level 14"/>
+<deed id="1879473558" name="Ledger-keepers: Umbar Barharbêl: Allegiance Level 15"/>
+<deed id="1879473463" name="Ledger-keepers: Umbar Barharbêl: Allegiance Level 16"/>
+<deed id="1879473542" name="Ledger-keepers: Umbar Barharbêl: Allegiance Level 17"/>
+<deed id="1879473449" name="Ledger-keepers: Umbar Barharbêl: Allegiance Level 18"/>
+<deed id="1879473529" name="Ledger-keepers: Umbar Barharbêl: Allegiance Level 19"/>
+<deed id="1879473494" name="Ledger-keepers: Umbar Barharbêl: Allegiance Level 20"/>
+<deed id="1879473430" name="Ledger-keepers: Umbar Barharbêl: Allegiance Level 21"/>
+<deed id="1879473478" name="Ledger-keepers: Umbar Barharbêl: Allegiance Level 22"/>
+<deed id="1879473555" name="Ledger-keepers: Umbar Barharbêl: Allegiance Level 23"/>
+<deed id="1879473461" name="Ledger-keepers: Umbar Barharbêl: Allegiance Level 24"/>
+<deed id="1879473540" name="Ledger-keepers: Umbar Barharbêl: Allegiance Level 25"/>
+<deed id="1879473447" name="Ledger-keepers: Umbar Barharbêl: Allegiance Level 26"/>
+<deed id="1879473528" name="Ledger-keepers: Umbar Barharbêl: Allegiance Level 27"/>
+<deed id="1879473431" name="Ledger-keepers: Umbar Barharbêl: Allegiance Level 28"/>
+<deed id="1879473511" name="Ledger-keepers: Umbar Barharbêl: Allegiance Level 29"/>
+<deed id="1879473543" name="Ledger-keepers: Umbar Barharbêl: Allegiance Level 30"/>
+</allegiance>
+<allegiance id="1879473516" name="Order of the Eagle" advancementProgressionID="1879478784" icon="1092926310" group="3" minLevel="140" travelSkillId="1879475966" description="key:621083872:54354734">
+<deed id="1879473526" name="Order of the Eagle: Allegiance Level 1"/>
+<deed id="1879473510" name="Order of the Eagle: Allegiance Level 2"/>
+<deed id="1879473428" name="Order of the Eagle: Allegiance Level 3"/>
+<deed id="1879473492" name="Order of the Eagle: Allegiance Level 4"/>
+<deed id="1879473553" name="Order of the Eagle: Allegiance Level 5"/>
+<deed id="1879473538" name="Order of the Eagle: Allegiance Level 6"/>
+<deed id="1879473457" name="Order of the Eagle: Allegiance Level 7"/>
+<deed id="1879473524" name="Order of the Eagle: Allegiance Level 8"/>
+<deed id="1879473445" name="Order of the Eagle: Allegiance Level 9"/>
+<deed id="1879473422" name="Order of the Eagle: Allegiance Level 10"/>
+<deed id="1879473504" name="Order of the Eagle: Allegiance Level 11"/>
+<deed id="1879473519" name="Order of the Eagle: Allegiance Level 12"/>
+<deed id="1879473454" name="Order of the Eagle: Allegiance Level 13"/>
+<deed id="1879473534" name="Order of the Eagle: Allegiance Level 14"/>
+<deed id="1879473470" name="Order of the Eagle: Allegiance Level 15"/>
+<deed id="1879473469" name="Order of the Eagle: Allegiance Level 16"/>
+<deed id="1879473549" name="Order of the Eagle: Allegiance Level 17"/>
+<deed id="1879473486" name="Order of the Eagle: Allegiance Level 18"/>
+<deed id="1879473421" name="Order of the Eagle: Allegiance Level 19"/>
+<deed id="1879473443" name="Order of the Eagle: Allegiance Level 20"/>
+<deed id="1879473522" name="Order of the Eagle: Allegiance Level 21"/>
+<deed id="1879473537" name="Order of the Eagle: Allegiance Level 22"/>
+<deed id="1879473473" name="Order of the Eagle: Allegiance Level 23"/>
+<deed id="1879473551" name="Order of the Eagle: Allegiance Level 24"/>
+<deed id="1879473490" name="Order of the Eagle: Allegiance Level 25"/>
+<deed id="1879473488" name="Order of the Eagle: Allegiance Level 26"/>
+<deed id="1879473425" name="Order of the Eagle: Allegiance Level 27"/>
+<deed id="1879473506" name="Order of the Eagle: Allegiance Level 28"/>
+<deed id="1879473440" name="Order of the Eagle: Allegiance Level 29"/>
+<deed id="1879473458" name="Order of the Eagle: Allegiance Level 30"/>
+</allegiance>
+<curve id="1879353332">
+<level level="0" points="0"/>
+<level level="1" points="1405"/>
+<level level="2" points="2800"/>
+<level level="3" points="4300"/>
+<level level="4" points="5800"/>
+<level level="5" points="7400"/>
+<level level="6" points="9000"/>
+<level level="7" points="10700"/>
+<level level="8" points="12400"/>
+<level level="9" points="14200"/>
+<level level="10" points="16100"/>
+<level level="11" points="17700"/>
+<level level="12" points="19400"/>
+<level level="13" points="21100"/>
+<level level="14" points="22900"/>
+<level level="15" points="24800"/>
+<level level="16" points="26700"/>
+<level level="17" points="28700"/>
+<level level="18" points="30800"/>
+<level level="19" points="32900"/>
+<level level="20" points="35100"/>
+<level level="21" points="37000"/>
+<level level="22" points="39000"/>
+<level level="23" points="41100"/>
+<level level="24" points="43200"/>
+<level level="25" points="45400"/>
+<level level="26" points="47700"/>
+<level level="27" points="50100"/>
+<level level="28" points="52600"/>
+<level level="29" points="55100"/>
+<level level="30" points="57700"/>
+</curve>
+<curve id="1879353333">
+<level level="0" points="0"/>
+<level level="1" points="1976"/>
+<level level="2" points="4000"/>
+<level level="3" points="6100"/>
+<level level="4" points="8200"/>
+<level level="5" points="10400"/>
+<level level="6" points="12700"/>
+<level level="7" points="15100"/>
+<level level="8" points="17600"/>
+<level level="9" points="20100"/>
+<level level="10" points="22700"/>
+<level level="11" points="25000"/>
+<level level="12" points="27400"/>
+<level level="13" points="29900"/>
+<level level="14" points="32400"/>
+<level level="15" points="35000"/>
+<level level="16" points="37700"/>
+<level level="17" points="40500"/>
+<level level="18" points="43400"/>
+<level level="19" points="46400"/>
+<level level="20" points="49500"/>
+<level level="21" points="52200"/>
+<level level="22" points="55000"/>
+<level level="23" points="57900"/>
+<level level="24" points="60900"/>
+<level level="25" points="64000"/>
+<level level="26" points="67300"/>
+<level level="27" points="70700"/>
+<level level="28" points="74200"/>
+<level level="29" points="77800"/>
+<level level="30" points="81500"/>
+</curve>
+<curve id="1879353334">
+<level level="0" points="0"/>
+<level level="1" points="2345"/>
+<level level="2" points="4700"/>
+<level level="3" points="7200"/>
+<level level="4" points="9700"/>
+<level level="5" points="12300"/>
+<level level="6" points="15000"/>
+<level level="7" points="17800"/>
+<level level="8" points="20700"/>
+<level level="9" points="23700"/>
+<level level="10" points="26800"/>
+<level level="11" points="29500"/>
+<level level="12" points="32300"/>
+<level level="13" points="35200"/>
+<level level="14" points="38200"/>
+<level level="15" points="41300"/>
+<level level="16" points="44600"/>
+<level level="17" points="48000"/>
+<level level="18" points="51500"/>
+<level level="19" points="55100"/>
+<level level="20" points="58800"/>
+<level level="21" points="62100"/>
+<level level="22" points="65500"/>
+<level level="23" points="69000"/>
+<level level="24" points="72600"/>
+<level level="25" points="76300"/>
+<level level="26" points="80200"/>
+<level level="27" points="84200"/>
+<level level="28" points="88300"/>
+<level level="29" points="92600"/>
+<level level="30" points="97000"/>
+</curve>
+<curve id="1879353335">
+<level level="0" points="0"/>
+<level level="1" points="1000"/>
+<level level="2" points="2000"/>
+<level level="3" points="3000"/>
+<level level="4" points="4100"/>
+<level level="5" points="5200"/>
+<level level="6" points="6300"/>
+<level level="7" points="7500"/>
+<level level="8" points="8700"/>
+<level level="9" points="10000"/>
+<level level="10" points="11300"/>
+<level level="11" points="12400"/>
+<level level="12" points="13600"/>
+<level level="13" points="14800"/>
+<level level="14" points="16100"/>
+<level level="15" points="17400"/>
+<level level="16" points="18800"/>
+<level level="17" points="20200"/>
+<level level="18" points="21700"/>
+<level level="19" points="23200"/>
+<level level="20" points="24800"/>
+<level level="21" points="26200"/>
+<level level="22" points="27600"/>
+<level level="23" points="29100"/>
+<level level="24" points="30600"/>
+<level level="25" points="32200"/>
+<level level="26" points="33800"/>
+<level level="27" points="35500"/>
+<level level="28" points="37200"/>
+<level level="29" points="39000"/>
+<level level="30" points="40900"/>
+</curve>
+<curve id="1879478784">
+<level level="0" points="0"/>
+<level level="1" points="1405"/>
+<level level="2" points="2800"/>
+<level level="3" points="4300"/>
+<level level="4" points="5800"/>
+<level level="5" points="7400"/>
+<level level="6" points="9000"/>
+<level level="7" points="10700"/>
+<level level="8" points="12400"/>
+<level level="9" points="14200"/>
+<level level="10" points="16100"/>
+<level level="11" points="17700"/>
+<level level="12" points="19400"/>
+<level level="13" points="21100"/>
+<level level="14" points="22900"/>
+<level level="15" points="24800"/>
+<level level="16" points="26700"/>
+<level level="17" points="28700"/>
+<level level="18" points="30800"/>
+<level level="19" points="32900"/>
+<level level="20" points="35100"/>
+<level level="21" points="37000"/>
+<level level="22" points="39000"/>
+<level level="23" points="41100"/>
+<level level="24" points="43200"/>
+<level level="25" points="45400"/>
+<level level="26" points="47700"/>
+<level level="27" points="50100"/>
+<level level="28" points="52600"/>
+<level level="29" points="55100"/>
+<level level="30" points="57700"/>
+</curve>
+</allegiances>

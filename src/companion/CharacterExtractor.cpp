@@ -30,8 +30,8 @@ CharacterExtractor::CharacterExtractor(const QString& gamePath)
                 m_subscriptionKeyPropertyId = registry->getPropertyId("Account_GameAccountName");
                 m_accountTypePropertyId = registry->getPropertyId("Billing@Player.AccountType");
                 
-                m_classPropertyId = registry->getPropertyId("Advancement_Class");
-                m_racePropertyId = registry->getPropertyId("Advancement_Race");
+                m_classPropertyId = registry->getPropertyId("AdvTable_Class");
+                m_racePropertyId = registry->getPropertyId("AdvTable_Race");
                 
                 m_maxMoralePropertyId = registry->getPropertyId("Vital_MaxMorale");
                 m_currentMoralePropertyId = registry->getPropertyId("Vital_CurrentMorale");
@@ -50,6 +50,36 @@ CharacterExtractor::CharacterExtractor(const QString& gamePath)
                              m_maxPowerPropertyId, m_currentPowerPropertyId);
                 spdlog::info("  Money={}, DestinyPoints={}, LotroPoints={}",
                              m_moneyPropertyId, m_destinyPointsPropertyId, m_lotroPointsPropertyId);
+                
+                // Debug: Search for properties if not found
+                if (m_classPropertyId == -1) {
+                    spdlog::info("Searching for 'AdvTable' properties (first 15):");
+                    auto props = registry->searchProperties("AdvTable", 15);
+                    for (const auto& p : props) {
+                        spdlog::info("  Found: {} (ID={})", p->name().toStdString(), p->propertyId());
+                    }
+                }
+                if (m_racePropertyId == -1) {
+                    spdlog::info("Searching for 'Race' properties:");
+                    auto props = registry->searchProperties("Race", 10);
+                    for (const auto& p : props) {
+                        spdlog::info("  Found: {} (ID={})", p->name().toStdString(), p->propertyId());
+                    }
+                }
+                if (m_currentMoralePropertyId == -1) {
+                    spdlog::info("Searching for 'Vital' properties:");
+                    auto props = registry->searchProperties("Vital", 15);
+                    for (const auto& p : props) {
+                        spdlog::info("  Found: {} (ID={})", p->name().toStdString(), p->propertyId());
+                    }
+                }
+                if (m_moneyPropertyId == -1) {
+                    spdlog::info("Searching for 'Inventory' properties:");
+                    auto props = registry->searchProperties("Inventory", 15);
+                    for (const auto& p : props) {
+                        spdlog::info("  Found: {} (ID={})", p->name().toStdString(), p->propertyId());
+                    }
+                }
             }
         } else {
             spdlog::warn("Failed to initialize DAT file access");
@@ -569,7 +599,12 @@ std::optional<CharacterInfo> CharacterExtractor::extractCharacter() {
         auto classId = readIntProperty(*playerEntity, m_classPropertyId);
         if (classId) {
             info.className = mapClassId(*classId);
+            spdlog::info("Class ID {} -> {}", *classId, info.className.toStdString());
+        } else {
+            spdlog::info("Failed to read class property {} from entity", m_classPropertyId);
         }
+    } else {
+        spdlog::info("Class property ID not set");
     }
     
     // Read Race
@@ -577,7 +612,12 @@ std::optional<CharacterInfo> CharacterExtractor::extractCharacter() {
         auto raceId = readIntProperty(*playerEntity, m_racePropertyId);
         if (raceId) {
             info.race = mapRaceId(*raceId);
+            spdlog::info("Race ID {} -> {}", *raceId, info.race.toStdString());
+        } else {
+            spdlog::info("Failed to read race property {} from entity", m_racePropertyId);
         }
+    } else {
+        spdlog::info("Race property ID not set");
     }
     
     // Read Vitals (Morale/Power)
@@ -650,6 +690,304 @@ std::optional<CharacterInfo> CharacterExtractor::extractCharacter() {
                  info.morale, info.maxMorale);
     
     return info;
+}
+
+std::optional<CharacterData> CharacterExtractor::extractFullData() {
+    // First get basic character info
+    auto basicInfo = extractCharacter();
+    if (!basicInfo) {
+        return std::nullopt;
+    }
+    
+    CharacterData data;
+    data.basic = *basicInfo;
+    
+    // Find player entity again for extended properties
+    auto playerEntity = findPlayerEntity();
+    if (!playerEntity) {
+        return data;  // Return basic info only
+    }
+    
+    auto* registry = m_datFacade ? m_datFacade->getPropertiesRegistry() : nullptr;
+    if (!registry) {
+        spdlog::warn("No property registry available for extended extraction");
+        return data;
+    }
+    
+    // === Extract Virtues ===
+    // Property names like "Trait_Virtue_Rank_Charity", "Trait_Virtue_XP_Charity"
+    const std::vector<std::pair<QString, QString>> virtueKeys = {
+        {"CHARITY",      "Charity"},
+        {"COMPASSION",   "Compassion"},
+        {"CONFIDENCE",   "Confidence"},
+        {"DETERMINATION","Determination"},
+        {"DISCIPLINE",   "Discipline"},
+        {"EMPATHY",      "Empathy"},
+        {"FIDELITY",     "Fidelity"},
+        {"FORTITUDE",    "Fortitude"},
+        {"HONESTY",      "Honesty"},
+        {"HONOUR",       "Honour"},
+        {"IDEALISM",     "Idealism"},
+        {"INNOCENCE",    "Innocence"},
+        {"JUSTICE",      "Justice"},
+        {"LOYALTY",      "Loyalty"},
+        {"MERCY",        "Mercy"},
+        {"PATIENCE",     "Patience"},
+        {"TOLERANCE",    "Tolerance"},
+        {"VALOUR",       "Valour"},
+        {"WISDOM",       "Wisdom"},
+        {"WIT",          "Wit"},
+        {"ZEAL",         "Zeal"}
+    };
+    
+    // Virtue property name suffixes (from XML analysis)
+    const std::map<QString, QString> virtueRankSuffix = {
+        {"CHARITY", "Charity"}, {"COMPASSION", "Compassionate"}, {"CONFIDENCE", "Confidence"},
+        {"DETERMINATION", "Determination"}, {"DISCIPLINE", "Discipline"}, {"EMPATHY", "Empathy"},
+        {"FIDELITY", "Fidelity"}, {"FORTITUDE", "Fortitude"}, {"HONESTY", "Honesty"},
+        {"HONOUR", "Honour"}, {"IDEALISM", "Idealism"}, {"INNOCENCE", "Innocence"},
+        {"JUSTICE", "Just"}, {"LOYALTY", "Loyalty"}, {"MERCY", "Merciful"},
+        {"PATIENCE", "Patience"}, {"TOLERANCE", "Tolerant"}, {"VALOUR", "Valor"},
+        {"WISDOM", "Wisdom"}, {"WIT", "Wit"}, {"ZEAL", "Zeal"}
+    };
+    
+    for (const auto& [key, displayName] : virtueKeys) {
+        VirtueStatus vs;
+        vs.key = key;
+        vs.name = displayName;
+        
+        // Get property IDs
+        QString suffixIt = virtueRankSuffix.count(key) ? virtueRankSuffix.at(key) : displayName;
+        QString rankProp = QString("Trait_Virtue_Rank_%1").arg(suffixIt);
+        QString xpProp = QString("Trait_Virtue_XP_%1").arg(suffixIt);
+        
+        int rankPropId = registry->getPropertyId(rankProp.toStdString().c_str());
+        int xpPropId = registry->getPropertyId(xpProp.toStdString().c_str());
+        
+        if (rankPropId != -1) {
+            if (auto rank = readIntProperty(*playerEntity, rankPropId)) {
+                vs.rank = *rank;
+            }
+        }
+        
+        if (xpPropId != -1) {
+            if (auto xp = readIntProperty(*playerEntity, xpPropId)) {
+                vs.xp = *xp;
+            }
+        }
+        
+        data.virtues.push_back(vs);
+    }
+    
+    spdlog::info("Extracted {} virtues", data.virtues.size());
+    
+    // === Extract Reputation ===
+    // Property names like "Reputation_Faction_Breeland_Men_CurrentTier"
+    const std::vector<std::tuple<QString, QString, QString>> factionKeys = {
+        {"BREE", "Men of Bree", "Reputation_Faction_Breeland_Men"},
+        {"SHIRE", "The Mathom Society", "Reputation_Faction_Shire_Mathoms"},
+        {"DWARVES", "Thorin's Hall", "Reputation_Faction_Eredluin_Dwarves"},
+        {"EGLAIN", "The Eglain", "Reputation_Faction_Lonelands_Eglain"},
+        {"ESTELDIN", "Rangers of Esteldín", "Reputation_Faction_Northdowns_Esteldin"},
+        {"RIVENDELL", "Elves of Rivendell", "Reputation_Faction_Rivendell_Elves"},
+        {"ANNUMINAS", "Wardens of Annúminas", "Reputation_Faction_Evendim_Wardens"},
+        {"ANGMAR", "Council of the North", "Reputation_Faction_Angmar_Council"},
+        {"FOROCHEL", "Lossoth of Forochel", "Reputation_Faction_Forochel_Lossoth"},
+        {"GALADHRIM", "Galadhrim", "Reputation_Faction_Lorien_Elves"},
+        {"MALLEDHRIM", "Malledhrim", "Reputation_Faction_Mirkwood_Elves"},
+        {"IRON_GARRISON", "Iron Garrison Guards", "Reputation_Faction_Moria_Guards"},
+        {"IRON_MINERS", "Iron Garrison Miners", "Reputation_Faction_Moria_Miners"},
+        {"ENEDWAITH", "The Grey Company", "Reputation_Faction_Enedwaith_GreyCompany"},
+        {"DUNLAND", "Men of Dunland", "Reputation_Faction_Dunland_Men"},
+        {"THEODRED", "Théodred's Riders", "Reputation_Faction_Rohan_Theodred"},
+        {"HELMINGAS", "The Helmingas", "Reputation_Faction_Rohan_Helmingas"},
+        {"ENTS", "The Ents of Fangorn Forest", "Reputation_Faction_Fangorn_Ents"},
+        {"WILDERMORE", "People of Wildermore", "Reputation_Faction_Wildermore_People"},
+        {"DALE", "Men of Dale", "Reputation_Faction_Dale_Men"},
+        {"EREBOR", "Dwarves of Erebor", "Reputation_Faction_Erebor_Dwarves"},
+    };
+    
+    for (const auto& [key, name, propPrefix] : factionKeys) {
+        FactionStatus fs;
+        fs.key = key;
+        fs.name = name;
+        
+        QString tierProp = QString("%1_CurrentTier").arg(propPrefix);
+        QString repProp = QString("%1_EarnedReputation").arg(propPrefix);
+        
+        int tierPropId = registry->getPropertyId(tierProp.toStdString().c_str());
+        int repPropId = registry->getPropertyId(repProp.toStdString().c_str());
+        
+        if (tierPropId != -1) {
+            if (auto tier = readIntProperty(*playerEntity, tierPropId)) {
+                fs.tier = *tier;
+            }
+        }
+        
+        if (repPropId != -1) {
+            if (auto rep = readIntProperty(*playerEntity, repPropId)) {
+                fs.reputation = *rep;
+            }
+        }
+        
+        if (fs.tier > 0 || fs.reputation > 0) {
+            data.factions.push_back(fs);
+        }
+    }
+    
+    spdlog::info("Extracted {} faction reputations", data.factions.size());
+    
+    // === Extract Crafting Professions ===
+    // Property names like "Craft_Scholar_MasteryLevel", "Craft_Scholar_ProficiencyLevel"
+    const std::vector<std::pair<QString, QString>> professionKeys = {
+        {"SCHOLAR",     "Scholar"},
+        {"METALSMITH",  "Metalsmith"},
+        {"JEWELLER",    "Jeweller"},
+        {"TAILOR",      "Tailor"},
+        {"WEAPONSMITH", "Weaponsmith"},
+        {"WOODWORKER",  "Woodworker"},
+        {"COOK",        "Cook"},
+        {"FARMER",      "Farmer"},
+        {"FORESTER",    "Forester"},
+        {"PROSPECTOR",  "Prospector"}
+    };
+    
+    for (const auto& [key, name] : professionKeys) {
+        QString enabledProp = QString("Craft_%1_Enabled").arg(name);
+        int enabledPropId = registry->getPropertyId(enabledProp.toStdString().c_str());
+        
+        bool isEnabled = false;
+        if (enabledPropId != -1) {
+            if (auto val = readIntProperty(*playerEntity, enabledPropId)) {
+                isEnabled = *val != 0;
+            }
+        }
+        
+        if (isEnabled) {
+            CraftingProfessionStatus cps;
+            cps.name = name;
+            
+            QString masteryProp = QString("Craft_%1_MasteryLevel").arg(name);
+            QString profProp = QString("Craft_%1_ProficiencyLevel").arg(name);
+            QString masteryXpProp = QString("Craft_%1_MasteryXP").arg(name);
+            QString profXpProp = QString("Craft_%1_ProficiencyXP").arg(name);
+            
+            int masteryPropId = registry->getPropertyId(masteryProp.toStdString().c_str());
+            int profPropId = registry->getPropertyId(profProp.toStdString().c_str());
+            int masteryXpPropId = registry->getPropertyId(masteryXpProp.toStdString().c_str());
+            int profXpPropId = registry->getPropertyId(profXpProp.toStdString().c_str());
+            
+            if (masteryPropId != -1) {
+                if (auto val = readIntProperty(*playerEntity, masteryPropId)) {
+                    cps.mastery = *val;
+                }
+            }
+            if (profPropId != -1) {
+                if (auto val = readIntProperty(*playerEntity, profPropId)) {
+                    cps.tier = *val;
+                }
+            }
+            if (masteryXpPropId != -1) {
+                if (auto val = readIntProperty(*playerEntity, masteryXpPropId)) {
+                    cps.hasMastered = (*val > 0);
+                }
+            }
+            if (profXpPropId != -1) {
+                if (auto val = readIntProperty(*playerEntity, profXpPropId)) {
+                    cps.proficiency = *val;
+                }
+            }
+            
+            data.crafting.professions.push_back(cps);
+        }
+    }
+    
+    spdlog::info("Extracted {} crafting professions", data.crafting.professions.size());
+    
+    // === Extract Equipment ===
+    // Equipment slots and their property names
+    const std::vector<std::pair<QString, QString>> equipmentSlots = {
+        {"HEAD",       "Inventory_EquippedHelmItem"},
+        {"SHOULDERS",  "Inventory_EquippedShoulderItem"},
+        {"CHEST",      "Inventory_EquippedChestItem"},
+        {"HANDS",      "Inventory_EquippedGlovesItem"},
+        {"LEGS",       "Inventory_EquippedLegsItem"},
+        {"FEET",       "Inventory_EquippedBootsItem"},
+        {"BACK",       "Inventory_EquippedBackItem"},
+        {"MAIN_HAND",  "Inventory_EquippedMainhandItem"},
+        {"OFF_HAND",   "Inventory_EquippedOffhandItem"},
+        {"RANGED",     "Inventory_EquippedRangedItem"},
+        {"POCKET",     "Inventory_EquippedPocketItem"},
+        {"EAR1",       "Inventory_EquippedEarring1Item"},
+        {"EAR2",       "Inventory_EquippedEarring2Item"},
+        {"NECK",       "Inventory_EquippedNecklaceItem"},
+        {"WRIST1",     "Inventory_EquippedBracelet1Item"},
+        {"WRIST2",     "Inventory_EquippedBracelet2Item"},
+        {"RING1",      "Inventory_EquippedRing1Item"},
+        {"RING2",      "Inventory_EquippedRing2Item"},
+        {"CLASS_SLOT", "Inventory_EquippedClassSlotItem"},
+    };
+    
+    for (const auto& [slotName, propName] : equipmentSlots) {
+        int propId = registry->getPropertyId(propName.toStdString().c_str());
+        if (propId != -1) {
+            if (auto val = readIntProperty(*playerEntity, propId)) {
+                if (*val != 0) {
+                    data.equippedGear[slotName] = *val;
+                }
+            }
+        }
+    }
+    
+    spdlog::info("Extracted {} equipped items", data.equippedGear.size());
+    
+    // === Extract Wallet Currencies ===
+    // Common wallet currencies with their property names
+    const std::vector<std::pair<int, QString>> currencyProperties = {
+        {1, "Wallet_Currency_Marks"},
+        {2, "Wallet_Currency_Medallions"},
+        {3, "Wallet_Currency_Seals"},
+        {4, "Wallet_Currency_MithrilCoins"},
+        {5, "Wallet_Currency_Commendations"},
+        {6, "Wallet_Currency_Skirmish_Marks"},
+        {7, "Wallet_Currency_Fate_Tokens"},
+        {8, "Wallet_Currency_Hobbit_Presents"},
+        {9, "Wallet_Currency_Silver_Tokens"},
+        {10, "Wallet_Currency_Gift_Mathom"},
+        {11, "Wallet_Currency_Crafting_Guild"},
+        {12, "Wallet_Currency_AnniversaryTokens"},
+        {13, "Wallet_Currency_FestivalTokens"},
+        {14, "Wallet_Currency_Figments"},
+        {15, "Wallet_Currency_MoriaShards"},
+    };
+    
+    for (const auto& [currencyId, propName] : currencyProperties) {
+        int propId = registry->getPropertyId(propName.toStdString().c_str());
+        if (propId != -1) {
+            if (auto val = readIntProperty(*playerEntity, propId)) {
+                if (*val > 0) {
+                    data.wallet[currencyId] = *val;
+                }
+            }
+        }
+    }
+    
+    spdlog::info("Extracted {} wallet currencies", data.wallet.size());
+    
+    // === Extract Current Title ===
+    // Try to find current title property
+    int titlePropId = registry->getPropertyId("Advancement_CurrentTitle");
+    if (titlePropId != -1) {
+        if (auto val = readIntProperty(*playerEntity, titlePropId)) {
+            if (*val > 0) {
+                data.titles.push_back(*val);
+            }
+        }
+    }
+    
+    spdlog::info("Current title: {}", data.titles.empty() ? "none" : std::to_string(data.titles[0]));
+    
+    return data;
 }
 
 std::optional<uint64_t> CharacterExtractor::readPropertyValue(uint64_t entityAddress, uint32_t propId) {

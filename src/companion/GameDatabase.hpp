@@ -96,6 +96,59 @@ struct Emote {
 };
 
 /**
+ * Skill information
+ */
+struct Skill {
+    QString id;
+    QString name;
+    QString category;
+    int iconId = 0;
+};
+
+/**
+ * Trait information  
+ */
+struct Trait {
+    QString id;
+    QString name;
+    QString category;
+    int iconId = 0;
+    int minLevel = 0;
+    bool cosmetic = false;
+};
+
+/**
+ * Quest information
+ */
+struct Quest {
+    QString id;
+    QString name;
+    QString category;
+    int level = 0;
+    QString questArc;
+};
+
+/**
+ * Collection item (mounts, pets, etc.)
+ */
+struct CollectionItem {
+    QString id;
+    QString name;
+    QString collectionName;
+    QString category;
+};
+
+/**
+ * Cosmetic item
+ */
+struct Cosmetic {
+    QString id;
+    QString name;
+    QString category;
+    int iconId = 0;
+};
+
+/**
  * Game database
  * 
  * Provides lookup for game data similar to LOTRO Companion.
@@ -151,6 +204,20 @@ public:
     std::optional<Emote> getEmote(const QString& id) const;
     
     // =================
+    // Skill lookups
+    // =================
+    
+    std::vector<Skill> searchSkills(const QString& query) const;
+    std::optional<Skill> getSkill(const QString& id) const;
+    
+    // =================
+    // Trait lookups
+    // =================
+    
+    std::vector<Trait> searchTraits(const QString& query) const;
+    std::optional<Trait> getTrait(const QString& id) const;
+    
+    // =================
     // Statistics
     // =================
     
@@ -158,6 +225,11 @@ public:
     int recipeCount() const;
     int titleCount() const;
     int emoteCount() const;
+    int skillCount() const;
+    int traitCount() const;
+    int questCount() const;
+    int collectionCount() const;
+    int cosmeticCount() const;
     
 private:
     GameDatabase() = default;
@@ -165,10 +237,17 @@ private:
     GameDatabase(const GameDatabase&) = delete;
     GameDatabase& operator=(const GameDatabase&) = delete;
     
+    bool loadDeedsXml(const std::filesystem::path& path);
+    bool loadRecipesXml(const std::filesystem::path& path);
     bool loadDeeds(const std::filesystem::path& path);
     bool loadRecipes(const std::filesystem::path& path);
     bool loadTitles(const std::filesystem::path& path);
     bool loadEmotes(const std::filesystem::path& path);
+    bool loadSkills(const std::filesystem::path& path);
+    bool loadTraits(const std::filesystem::path& path);
+    bool loadQuests(const std::filesystem::path& path);
+    bool loadCollections(const std::filesystem::path& path);
+    bool loadCosmetics(const std::filesystem::path& path);
     
     bool m_loaded = false;
     
@@ -176,6 +255,11 @@ private:
     std::vector<Recipe> m_recipes;
     std::vector<Title> m_titles;
     std::vector<Emote> m_emotes;
+    std::vector<Skill> m_skills;
+    std::vector<Trait> m_traits;
+    std::vector<Quest> m_quests;
+    std::vector<CollectionItem> m_collections;
+    std::vector<Cosmetic> m_cosmetics;
 };
 
 } // namespace lotro

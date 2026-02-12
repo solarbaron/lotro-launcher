@@ -9,6 +9,7 @@
 #pragma once
 
 #include "../companion/CharacterExtractor.hpp"
+#include "../companion/CharacterTracker.hpp"
 
 #include <QDialog>
 #include <QTimer>
@@ -93,15 +94,17 @@ private:
     QLabel* m_destinyLabel;
     QLabel* m_lotroPointsLabel;
     
-    // Export
+    // Export/Save
     QPushButton* m_exportButton;
+    QPushButton* m_saveButton;
     class DataExportWindow* m_exportWindow = nullptr;
     
-    // Backend
     QString m_gamePath;
     std::unique_ptr<CharacterExtractor> m_extractor;
+    std::unique_ptr<CharacterTracker> m_characterTracker;
     QTimer* m_autoRefreshTimer;
     bool m_connected = false;
+    CharacterInfo m_lastCharacterInfo;  // Store last extracted character for saving
 };
 
 } // namespace lotro

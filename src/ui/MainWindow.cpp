@@ -8,7 +8,7 @@
 #include "LoginWidget.hpp"
 #include "SettingsWindow.hpp"
 #include "AddonManagerWindow.hpp"
-#include "CharacterTrackerWindow.hpp"
+#include "CompanionWindow.hpp"
 #include "JournalWindow.hpp"
 #include "LoadingSpinner.hpp"
 #include "core/config/ConfigManager.hpp"
@@ -625,7 +625,7 @@ void MainWindow::openAddonManager() {
 }
 
 void MainWindow::openCharacterTracker() {
-    // Get game path for DAT file access
+    // Get game path if available
     QString gamePath;
     auto& configManager = ConfigManager::instance();
     auto gameConfig = configManager.getGameConfig(m_impl->currentGameId.toStdString());
@@ -633,8 +633,8 @@ void MainWindow::openCharacterTracker() {
         gamePath = QString::fromStdString(gameConfig->gameDirectory.string());
     }
     
-    CharacterTrackerWindow tracker(gamePath, this);
-    tracker.exec();
+    CompanionWindow companion(gamePath, this);
+    companion.exec();
 }
 
 void MainWindow::refreshNewsfeed() {

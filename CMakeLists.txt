@@ -105,6 +105,11 @@ set(ADDONS_SOURCES
 set(COMPANION_SOURCES
     src/companion/ProcessMemory.cpp
     src/companion/CharacterExtractor.cpp
+    src/companion/CharacterTracker.cpp
+    src/companion/GameDatabase.cpp
+    src/companion/ItemDatabase.cpp
+    src/companion/StatCalculator.cpp
+    src/companion/LiveSyncService.cpp
     src/companion/PatternScanner.cpp
     src/companion/export/DataExporter.cpp
 )
@@ -124,6 +129,12 @@ set(UI_SOURCES
     src/ui/AddonManagerWindow.cpp
     src/ui/SetupWizard.cpp
     src/ui/CharacterTrackerWindow.cpp
+    src/ui/CharacterListWidget.cpp
+    src/ui/DeedBrowserWidget.cpp
+    src/ui/RecipeBrowserWidget.cpp
+    src/ui/GearSimulatorWidget.cpp
+    src/ui/SyncStatusWidget.cpp
+    src/ui/CompanionWindow.cpp
     src/ui/DataExportWindow.cpp
     src/ui/PatchDialog.cpp
     src/ui/JournalWindow.cpp

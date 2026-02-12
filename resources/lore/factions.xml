@@ -1,0 +1,970 @@
+<?xml version="1.0" encoding="UTF-8"?><factions>
+<faction id="1879091345" key="SHIRE" name="The Mathom Society" category="Eriador" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Shire_Mathoms_CurrentTier" currentReputationProperty="Reputation_Faction_Shire_Mathoms_EarnedReputation" description="key:620792414:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="Known_to_the_Mathom_Society"/>
+<level tier="5" key="FRIEND" name="key:620879993:74285333" lotroPoints="10" requiredReputation="50000" deedKey="Friend_to_the_Mathom_Society"/>
+<level tier="6" key="ALLY" name="key:620879993:74285334" lotroPoints="15" requiredReputation="75000" deedKey="Ally_of_the_Mathom_Society"/>
+<level tier="7" key="KINDRED" name="key:620879993:74285335" lotroPoints="20" requiredReputation="105000" deedKey="Kindred_with_the_Mathom_Society"/>
+</faction>
+<faction id="1879091340" key="BREE" name="Men of Bree" category="Eriador" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Breeland_Men_CurrentTier" currentReputationProperty="Reputation_Faction_Breeland_Men_EarnedReputation" description="key:620792409:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="Known_to_the_Men_of_Bree"/>
+<level tier="5" key="FRIEND" name="key:620879993:74285333" lotroPoints="10" requiredReputation="50000" deedKey="Friend_to_the_Men_of_Bree"/>
+<level tier="6" key="ALLY" name="key:620879993:74285334" lotroPoints="15" requiredReputation="75000" deedKey="Ally_to_the_Men_of_Bree"/>
+<level tier="7" key="KINDRED" name="key:620879993:74285335" lotroPoints="20" requiredReputation="105000" deedKey="Kindred_to_the_Men_of_Bree"/>
+</faction>
+<faction id="1879091408" key="DWARVES" name="Thorin's Hall" category="Eriador" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Eredluin_Dwarves_CurrentTier" currentReputationProperty="Reputation_Faction_Eredluin_Dwarves_EarnedReputation" description="key:620792479:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="Known_to_Thorin%27s_Hall"/>
+<level tier="5" key="FRIEND" name="key:620879993:74285333" lotroPoints="10" requiredReputation="50000" deedKey="Friend_to_Thorin%27s_Hall"/>
+<level tier="6" key="ALLY" name="key:620879993:74285334" lotroPoints="15" requiredReputation="75000" deedKey="Ally_of_Thorin%27s_Hall"/>
+<level tier="7" key="KINDRED" name="key:620879993:74285335" lotroPoints="20" requiredReputation="105000" deedKey="Kindred_to_Thorin%27s_Hall"/>
+</faction>
+<faction id="1879161272" key="EGLAIN" name="The Eglain" category="Eriador" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Lonelands_Eglain_CurrentTier" currentReputationProperty="Reputation_Faction_Lonelands_Eglain_EarnedReputation" description="key:620843054:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="Known_to_the_Eglain"/>
+<level tier="5" key="FRIEND" name="key:620879993:74285333" lotroPoints="10" requiredReputation="50000" deedKey="Friend_of_the_Eglain"/>
+<level tier="6" key="ALLY" name="key:620879993:74285334" lotroPoints="15" requiredReputation="75000" deedKey="Ally_of_the_Eglain"/>
+<level tier="7" key="KINDRED" name="key:620879993:74285335" lotroPoints="20" requiredReputation="105000" deedKey="Eglan"/>
+</faction>
+<faction id="1879091344" key="ESTELDIN" name="Rangers of Esteldín" category="Eriador" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Northdowns_Esteldin_CurrentTier" currentReputationProperty="Reputation_Faction_Northdowns_Esteldin_EarnedReputation" description="key:620792413:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="Known_to_the_Rangers_of_Esteld%C3%ADn"/>
+<level tier="5" key="FRIEND" name="key:620879993:74285333" lotroPoints="10" requiredReputation="50000" deedKey="Friend_to_the_Rangers_of_Esteld%C3%ADn"/>
+<level tier="6" key="ALLY" name="key:620879993:74285334" lotroPoints="15" requiredReputation="75000" deedKey="Ally_to_the_Rangers_of_Esteld%C3%ADn"/>
+<level tier="7" key="KINDRED" name="key:620879993:74285335" lotroPoints="20" requiredReputation="105000" deedKey="Kindred_with_the_Rangers_of_Esteld%C3%ADn"/>
+</faction>
+<faction id="1879091346" key="RIVENDELL" name="Elves of Rivendell" category="Eriador" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Rivendell_Elves_CurrentTier" currentReputationProperty="Reputation_Faction_Rivendell_Elves_EarnedReputation" description="key:620792408:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="Known_to_the_Elves_of_Rivendell"/>
+<level tier="5" key="FRIEND" name="key:620879993:74285333" lotroPoints="10" requiredReputation="50000" deedKey="Friend_to_the_Elves_of_Rivendell"/>
+<level tier="6" key="ALLY" name="key:620879993:74285334" lotroPoints="15" requiredReputation="75000" deedKey="Ally_to_the_Elves_of_Rivendell"/>
+<level tier="7" key="KINDRED" name="key:620879993:74285335" lotroPoints="20" requiredReputation="105000" deedKey="Kindred_with_the_Elves_of_Rivendell"/>
+</faction>
+<faction id="1879091343" key="ANNUMINAS" name="The Wardens of Annúminas" category="Eriador" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Evendim_Rangers_CurrentTier" currentReputationProperty="Reputation_Faction_Evendim_Rangers_EarnedReputation" description="key:620792412:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="Known_to_the_Wardens_of_Ann%C3%BAminas"/>
+<level tier="5" key="FRIEND" name="key:620879993:74285333" lotroPoints="10" requiredReputation="50000" deedKey="Friend_to_the_Wardens_of_Ann%C3%BAminas"/>
+<level tier="6" key="ALLY" name="key:620879993:74285334" lotroPoints="15" requiredReputation="75000" deedKey="Ally_to_the_Wardens_of_Ann%C3%BAminas"/>
+<level tier="7" key="KINDRED" name="key:620879993:74285335" lotroPoints="20" requiredReputation="105000" deedKey="Kindred_with_the_Wardens_of_Ann%C3%BAminas"/>
+</faction>
+<faction id="1879103954" key="LOSSOTH" name="Lossoth of Forochel" category="Eriador" lowestTier="1" initialTier="2" highestTier="7" currentTierProperty="Reputation_Faction_Forochel_Lossoth_CurrentTier" currentReputationProperty="Reputation_Faction_Forochel_Lossoth_EarnedReputation" description="key:620801682:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="Known_to_the_Lossoth"/>
+<level tier="5" key="FRIEND" name="key:620879993:74285333" lotroPoints="10" requiredReputation="50000" deedKey="Friend_to_the_Lossoth"/>
+<level tier="6" key="ALLY" name="key:620879993:74285334" lotroPoints="15" requiredReputation="75000" deedKey="Ally_to_the_Lossoth"/>
+<level tier="7" key="KINDRED" name="key:620879993:74285335" lotroPoints="20" requiredReputation="105000" deedKey="Kindred_with_the_Lossoth"/>
+</faction>
+<faction id="1879091341" key="COUNCIL_OF_THE_NORTH" name="Council of the North" category="Eriador" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Angmar_Free_People_CurrentTier" currentReputationProperty="Reputation_Faction_Angmar_Free_People_EarnedReputation" description="key:620792410:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="Known_to_the_Council_of_the_North"/>
+<level tier="5" key="FRIEND" name="key:620879993:74285333" lotroPoints="10" requiredReputation="50000" deedKey="Friend_to_the_Council_of_the_North"/>
+<level tier="6" key="ALLY" name="key:620879993:74285334" lotroPoints="15" requiredReputation="75000" deedKey="Ally_to_the_Council_of_the_North"/>
+<level tier="7" key="KINDRED" name="key:620879993:74285335" lotroPoints="20" requiredReputation="105000" deedKey="Kindred_with_the_Council_of_the_North"/>
+</faction>
+<faction id="1879097420" key="ELDGANG" name="The Eldgang" category="Eriador" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Angmar_Fire_Giant_CurrentTier" currentReputationProperty="Reputation_Faction_Angmar_Fire_Giant_EarnedReputation" description="key:620796107:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="0" requiredReputation="30000"/>
+<level tier="5" key="FRIEND" name="key:620879993:74285333" lotroPoints="0" requiredReputation="50000"/>
+<level tier="6" key="ALLY" name="key:620879993:74285334" lotroPoints="0" requiredReputation="75000"/>
+<level tier="7" key="KINDRED" name="key:620879993:74285335" lotroPoints="0" requiredReputation="105000"/>
+</faction>
+<faction id="1879413167" name="The League of the Axe" category="Eriador" lowestTier="1" initialTier="2" highestTier="6" currentTierProperty="Reputation_Faction_Wildwood_Axe_CurrentTier" currentReputationProperty="Reputation_Faction_Wildwood_Axe_EarnedReputation" description="key:621038333:54354734">
+<level tier="1" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" name="key:620879993:74285331" lotroPoints="5" requiredReputation="20000" deedKey="1879413220"/>
+<level tier="4" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="1879413214"/>
+<level tier="5" name="key:620879993:74285333" lotroPoints="5" requiredReputation="50000" deedKey="1879413221"/>
+<level tier="6" name="key:620879993:74285334" lotroPoints="10" requiredReputation="75000" deedKey="1879413219"/>
+</faction>
+<faction id="1879413168" name="Woodcutter's Brotherhood" category="Eriador" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Wildwood_Woodmen_CurrentTier" currentReputationProperty="Reputation_Faction_Wildwood_Woodmen_EarnedReputation" description="key:621038328:54354734">
+<level tier="1" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="1879413217"/>
+<level tier="5" name="key:620879993:74285333" lotroPoints="5" requiredReputation="50000" deedKey="1879413218"/>
+<level tier="6" name="key:620879993:74285334" lotroPoints="10" requiredReputation="75000" deedKey="1879413215"/>
+<level tier="7" name="key:620879993:74285335" lotroPoints="15" requiredReputation="105000" deedKey="1879413216"/>
+</faction>
+<faction id="1879442863" name="Defenders of The Angle" category="Eriador" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Trollshaws_Angle_CurrentTier" currentReputationProperty="Reputation_Faction_Trollshaws_Angle_EarnedReputation" description="key:621061693:54354734">
+<level tier="1" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" name="key:620879993:74285330" lotroPoints="0" requiredReputation="0"/>
+<level tier="3" name="key:620879993:74285331" lotroPoints="0" requiredReputation="1000"/>
+<level tier="4" name="key:620879993:74285332" lotroPoints="0" requiredReputation="7250"/>
+<level tier="5" name="key:620879993:74285333" lotroPoints="0" requiredReputation="13500"/>
+<level tier="6" name="key:620879993:74285334" lotroPoints="0" requiredReputation="19750"/>
+<level tier="7" name="key:620879993:74285335" lotroPoints="15" requiredReputation="26000" deedKey="1879445939"/>
+</faction>
+<faction id="1879443125" name="The Yonder-watch" category="Eriador" lowestTier="1" initialTier="4" highestTier="7" currentTierProperty="Reputation_Faction_Shire_Yondershire_CurrentTier" currentReputationProperty="Reputation_Faction_Shire_Yondershire_EarnedReputation" description="key:621061931:54354734">
+<level tier="1" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" name="key:620879993:74285330" lotroPoints="0" requiredReputation="0"/>
+<level tier="3" name="key:620879993:74285331" lotroPoints="0" requiredReputation="0"/>
+<level tier="4" name="key:620879993:74285332" lotroPoints="0" requiredReputation="0"/>
+<level tier="5" name="key:620879993:74285333" lotroPoints="5" requiredReputation="10000" deedKey="1879443131"/>
+<level tier="6" name="key:620879993:74285334" lotroPoints="10" requiredReputation="25000" deedKey="1879443124"/>
+<level tier="7" name="key:620879993:74285335" lotroPoints="15" requiredReputation="45000" deedKey="1879443127"/>
+</faction>
+<faction id="1879448435" name="Dúnedain of Cardolan" category="Eriador" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Cardoswan_CurrentTier" currentReputationProperty="Reputation_Faction_Cardoswan_EarnedReputation" description="key:621065339:54354734">
+<level tier="1" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="1879450841"/>
+<level tier="5" name="key:620879993:74285333" lotroPoints="10" requiredReputation="50000" deedKey="1879450842"/>
+<level tier="6" name="key:620879993:74285334" lotroPoints="15" requiredReputation="75000" deedKey="1879450839"/>
+<level tier="7" name="key:620879993:74285335" lotroPoints="20" requiredReputation="105000" deedKey="1879450840"/>
+</faction>
+<faction id="1879457726" name="Stewards of the Iron-home" category="Eriador" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Angmar_Reborn_Carn_Dum_CurrentTier" currentReputationProperty="Reputation_Faction_Angmar_Reborn_Carn_Dum_EarnedReputation" description="key:621071842:54354734">
+<level tier="1" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="1879459780"/>
+<level tier="5" name="key:620879993:74285333" lotroPoints="10" requiredReputation="50000" deedKey="1879459783"/>
+<level tier="6" name="key:620879993:74285334" lotroPoints="15" requiredReputation="75000" deedKey="1879459782"/>
+<level tier="7" name="key:620879993:74285335" lotroPoints="20" requiredReputation="105000" deedKey="1879459781"/>
+</faction>
+<faction id="1879143761" key="MORIA_GUARDS" name="Iron Garrison Guards" category="Rhovanion" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Moria_Dwarves_Fast_CurrentTier" currentReputationProperty="Reputation_Faction_Moria_Dwarves_Fast_EarnedReputation" description="key:620831443:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="Known_to_the_Iron_Garrison_Guards_(Deed)"/>
+<level tier="5" key="FRIEND" name="key:620879993:74285333" lotroPoints="10" requiredReputation="50000" deedKey="Friend_to_the_Iron_Garrison_Guards_(Deed)"/>
+<level tier="6" key="ALLY" name="key:620879993:74285334" lotroPoints="15" requiredReputation="75000" deedKey="Ally_to_the_Iron_Garrison_Guards"/>
+<level tier="7" key="KINDRED" name="key:620879993:74285335" lotroPoints="20" requiredReputation="105000" deedKey="Kindred_with_the_Iron_Garrison_Guards"/>
+</faction>
+<faction id="1879143766" key="MORIA_MINERS" name="Iron Garrison Miners" category="Rhovanion" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Moria_Dwarves_Slow_CurrentTier" currentReputationProperty="Reputation_Faction_Moria_Dwarves_Slow_EarnedReputation" description="key:620831444:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="Known_to_the_Iron_Garrison_Miners_(Deed)"/>
+<level tier="5" key="FRIEND" name="key:620879993:74285333" lotroPoints="10" requiredReputation="50000" deedKey="Friend_to_the_Iron_Garrison_Miners"/>
+<level tier="6" key="ALLY" name="key:620879993:74285334" lotroPoints="15" requiredReputation="75000" deedKey="Ally_to_the_Iron_Garrison_Miners"/>
+<level tier="7" key="KINDRED" name="key:620879993:74285335" lotroPoints="20" requiredReputation="105000" deedKey="Kindred_with_the_Iron_Garrison_Miners"/>
+</faction>
+<faction id="1879150133" key="GALADHRIM" name="Galadhrim" category="Rhovanion" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Lorien_Elves_CurrentTier" currentReputationProperty="Reputation_Faction_Lorien_Elves_EarnedReputation" description="key:620835579:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="Known_to_the_Galadhrim"/>
+<level tier="5" key="FRIEND" name="key:620879993:74285333" lotroPoints="10" requiredReputation="50000" deedKey="Friend_to_the_Galadhrim"/>
+<level tier="6" key="ALLY" name="key:620879993:74285334" lotroPoints="15" requiredReputation="75000" deedKey="Ally_to_the_Galadhrim"/>
+<level tier="7" key="KINDRED" name="key:620879993:74285335" lotroPoints="20" requiredReputation="105000" deedKey="Kindred_with_the_Galadhrim"/>
+</faction>
+<faction id="1879154438" key="MALLEDHRIM" name="Malledhrim" category="Rhovanion" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Mirkwood_Offensive_CurrentTier" currentReputationProperty="Reputation_Faction_Mirkwood_Offensive_EarnedReputation" description="key:620838639:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="Known_to_the_Malledhrim"/>
+<level tier="5" key="FRIEND" name="key:620879993:74285333" lotroPoints="10" requiredReputation="50000" deedKey="Friend_to_the_Malledhrim"/>
+<level tier="6" key="ALLY" name="key:620879993:74285334" lotroPoints="15" requiredReputation="75000" deedKey="Ally_to_the_Malledhrim"/>
+<level tier="7" key="KINDRED" name="key:620879993:74285335" lotroPoints="20" requiredReputation="105000" deedKey="Kindred_with_the_Malledhrim"/>
+</faction>
+<faction id="1879362403" key="ELVES_OF_FELEGOTH" name="Elves of Felegoth" category="Rhovanion" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Mirkwood_North_Elves_CurrentTier" currentReputationProperty="Reputation_Faction_Mirkwood_North_Elves_EarnedReputation" description="key:621006707:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="Known_to_the_Elves_of_Felegoth"/>
+<level tier="5" key="FRIEND" name="key:620879993:74285333" lotroPoints="10" requiredReputation="50000" deedKey="Friend_to_the_Elves_of_Felegoth"/>
+<level tier="6" key="ALLY" name="key:620879993:74285334" lotroPoints="15" requiredReputation="75000" deedKey="Ally_to_the_Elves_of_Felegoth"/>
+<level tier="7" key="KINDRED" name="key:620879993:74285335" lotroPoints="20" requiredReputation="105000" deedKey="Kindred_to_the_Elves_of_Felegoth"/>
+</faction>
+<faction id="1879362405" key="MEN_OF_DALE" name="Men of Dale" category="Rhovanion" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Mirkwood_North_Men_CurrentTier" currentReputationProperty="Reputation_Faction_Mirkwood_North_Men_EarnedReputation" description="key:621006708:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="Known_to_the_Men_of_Dale"/>
+<level tier="5" key="FRIEND" name="key:620879993:74285333" lotroPoints="10" requiredReputation="50000" deedKey="Friend_to_the_Men_of_Dale"/>
+<level tier="6" key="ALLY" name="key:620879993:74285334" lotroPoints="15" requiredReputation="75000" deedKey="Ally_to_the_Men_of_Dale"/>
+<level tier="7" key="KINDRED" name="key:620879993:74285335" lotroPoints="20" requiredReputation="105000" deedKey="Kindred_to_the_Men_of_Dale"/>
+</faction>
+<faction id="1879363082" key="DWARVES_OF_EREBOR" name="Dwarves of Erebor" category="Rhovanion" lowestTier="1" initialTier="3" highestTier="8" currentTierProperty="Reputation_Faction_Mirkwood_North_Dwarves_CurrentTier" currentReputationProperty="Reputation_Faction_Mirkwood_North_Dwarves_EarnedReputation" description="key:621007259:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="Known_to_the_Dwarves_of_Erebor"/>
+<level tier="5" key="FRIEND" name="key:620879993:74285333" lotroPoints="10" requiredReputation="50000" deedKey="Friend_to_the_Dwarves_of_Erebor"/>
+<level tier="6" key="ALLY" name="key:620879993:74285334" lotroPoints="15" requiredReputation="75000" deedKey="Ally_to_the_Dwarves_of_Erebor"/>
+<level tier="7" key="KINDRED" name="key:620879993:74285335" lotroPoints="20" requiredReputation="105000" deedKey="Kindred_to_the_Dwarves_of_Erebor"/>
+<level tier="8" key="RESPECTED" name="key:620879993:74285336" lotroPoints="20" requiredReputation="150000" deedKey="1879363094"/>
+</faction>
+<faction id="1879368441" key="GREY_MOUNTAINS_EXPEDITION" name="Grey Mountains Expedition" category="Rhovanion" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Dwarfholds_Eredmithrin_CurrentTier" currentReputationProperty="Reputation_Faction_Dwarfholds_Eredmithrin_EarnedReputation" description="key:621010250:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="Known_to_the_Grey_Mountains_Expedition"/>
+<level tier="5" key="FRIEND" name="key:620879993:74285333" lotroPoints="10" requiredReputation="50000" deedKey="Friend_to_the_Grey_Mountains_Expedition"/>
+<level tier="6" key="ALLY" name="key:620879993:74285334" lotroPoints="15" requiredReputation="75000" deedKey="Ally_to_the_Grey_Mountains_Expedition"/>
+<level tier="7" key="KINDRED" name="key:620879993:74285335" lotroPoints="20" requiredReputation="105000" deedKey="Kindred_to_the_Grey_Mountains_Expedition"/>
+</faction>
+<faction id="1879386002" key="WILDERFOLK" name="Wilderfolk" category="Rhovanion" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Vales_Of_Anduin_CurrentTier" currentReputationProperty="Reputation_Faction_Vales_Of_Anduin_EarnedReputation" description="key:621019113:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="1879386039"/>
+<level tier="5" key="FRIEND" name="key:620879993:74285333" lotroPoints="10" requiredReputation="50000" deedKey="1879386040"/>
+<level tier="6" key="ALLY" name="key:620879993:74285334" lotroPoints="15" requiredReputation="75000" deedKey="1879386041"/>
+<level tier="7" key="KINDRED" name="key:620879993:74285335" lotroPoints="20" requiredReputation="105000" deedKey="1879386038"/>
+</faction>
+<faction id="1879403792" name="Protectors of Wilderland" category="Rhovanion" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Wells_Of_Anduin_CurrentTier" currentReputationProperty="Reputation_Faction_Wells_Of_Anduin_EarnedReputation" description="key:621030928:54354734">
+<level tier="1" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="1879406715"/>
+<level tier="5" name="key:620879993:74285333" lotroPoints="10" requiredReputation="50000" deedKey="1879406717"/>
+<level tier="6" name="key:620879993:74285334" lotroPoints="15" requiredReputation="75000" deedKey="1879406716"/>
+<level tier="7" name="key:620879993:74285335" lotroPoints="20" requiredReputation="105000" deedKey="1879406714"/>
+</faction>
+<faction id="1879407816" name="March on Gundabad" category="Rhovanion" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Elderslade_CurrentTier" currentReputationProperty="Reputation_Faction_Elderslade_EarnedReputation" description="key:621034072:54354734">
+<level tier="1" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="1879407823"/>
+<level tier="5" name="key:620879993:74285333" lotroPoints="10" requiredReputation="50000" deedKey="1879407824"/>
+<level tier="6" name="key:620879993:74285334" lotroPoints="15" requiredReputation="75000" deedKey="1879407821"/>
+<level tier="7" name="key:620879993:74285335" lotroPoints="20" requiredReputation="105000" deedKey="1879407822"/>
+</faction>
+<faction id="1879408300" name="The Gabil'akkâ" category="Rhovanion" lowestTier="1" initialTier="3" highestTier="8" currentTierProperty="Reputation_Faction_Elderslade_Missions_CurrentTier" currentReputationProperty="Reputation_Faction_Elderslade_Missions_EarnedReputation" description="key:621034462:54354734">
+<level tier="1" name="key:621035211:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" name="key:621035210:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" name="key:621035211:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" name="key:621035211:74285332" lotroPoints="5" requiredReputation="30000" deedKey="1879409922"/>
+<level tier="5" name="key:621035211:74285333" lotroPoints="5" requiredReputation="50000" deedKey="1879409930"/>
+<level tier="6" name="key:621035211:74285334" lotroPoints="5" requiredReputation="75000" deedKey="1879409921"/>
+<level tier="7" name="key:621035211:74285335" lotroPoints="5" requiredReputation="105000" deedKey="1879409927"/>
+<level tier="8" name="key:621035211:74285336" lotroPoints="5" requiredReputation="150000" deedKey="1879409913"/>
+</faction>
+<faction id="1879413559" name="The Haban'akkâ of Thráin" category="Rhovanion" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Azanulbizar_CurrentTier" currentReputationProperty="Reputation_Faction_Azanulbizar_EarnedReputation" description="key:621038613:54354734">
+<level tier="1" name="key:621035211:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" name="key:621035210:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" name="key:621035211:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" name="key:621035211:74285332" lotroPoints="0" requiredReputation="30000" deedKey="1879417050"/>
+<level tier="5" name="key:621035211:74285333" lotroPoints="5" requiredReputation="50000" deedKey="1879417051"/>
+<level tier="6" name="key:621035211:74285334" lotroPoints="10" requiredReputation="75000" deedKey="1879417052"/>
+<level tier="7" name="key:621035211:74285335" lotroPoints="15" requiredReputation="105000" deedKey="1879417049"/>
+</faction>
+<faction id="1879416174" name="Kharum-ubnâr" category="Rhovanion" lowestTier="1" initialTier="2" highestTier="6" currentTierProperty="Reputation_Faction_Azanulbizar_Veterans_CurrentTier" currentReputationProperty="Reputation_Faction_Azanulbizar_Veterans_EarnedReputation" description="key:621040760:54354734">
+<level tier="1" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" name="key:620879993:74285332" lotroPoints="0" requiredReputation="30000" deedKey="1879413626"/>
+<level tier="5" name="key:620879993:74285333" lotroPoints="5" requiredReputation="50000" deedKey="1879413625"/>
+<level tier="6" name="key:620879993:74285334" lotroPoints="10" requiredReputation="75000" deedKey="1879413628"/>
+</faction>
+<faction id="1879416935" name="Reclaimers of the Mountain-hold" category="Rhovanion" lowestTier="1" initialTier="3" highestTier="10" currentTierProperty="Reputation_Faction_Gundabad_CurrentTier" currentReputationProperty="Reputation_Faction_Gundabad_EarnedReputation" description="key:621041312:54354734">
+<level tier="1" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="1879417189"/>
+<level tier="5" name="key:620879993:74285333" lotroPoints="10" requiredReputation="50000" deedKey="1879417187"/>
+<level tier="6" name="key:620879993:74285334" lotroPoints="15" requiredReputation="75000" deedKey="1879417185"/>
+<level tier="7" name="key:620879993:74285335" lotroPoints="20" requiredReputation="105000" deedKey="1879417183"/>
+<level tier="8" name="key:620879993:74285336" lotroPoints="20" requiredReputation="150000" deedKey="1879417188"/>
+<level tier="9" name="key:620879993:74285337" lotroPoints="20" requiredReputation="210000" deedKey="1879417186"/>
+<level tier="10" name="key:620879993:114823424" lotroPoints="50" requiredReputation="300000" deedKey="1879417184"/>
+</faction>
+<faction id="1879181920" key="ALGRAIG" name="Algraig, Men of Enedwaith" category="Dunland" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Enedwaith_Dunlendings_CurrentTier" currentReputationProperty="Reputation_Faction_Enedwaith_Dunlendings_EarnedReputation" description="key:620859398:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="Known_to_the_Algraig"/>
+<level tier="5" key="FRIEND" name="key:620879993:74285333" lotroPoints="10" requiredReputation="50000" deedKey="Friend_to_the_Algraig"/>
+<level tier="6" key="ALLY" name="key:620879993:74285334" lotroPoints="15" requiredReputation="75000" deedKey="Ally_to_the_Algraig"/>
+<level tier="7" key="KINDRED" name="key:620879993:74285335" lotroPoints="20" requiredReputation="105000" deedKey="Kindred_with_the_Algraig"/>
+</faction>
+<faction id="1879181919" key="GREY_COMPANY" name="The Grey Company" category="Dunland" lowestTier="1" initialTier="4" highestTier="7" currentTierProperty="Reputation_Faction_Enedwaith_Grey_Company_CurrentTier" currentReputationProperty="Reputation_Faction_Enedwaith_Grey_Company_EarnedReputation" description="key:620859397:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="Known_to_the_Grey_Company"/>
+<level tier="5" key="FRIEND" name="key:620879993:74285333" lotroPoints="10" requiredReputation="50000" deedKey="Friend_to_the_Grey_Company"/>
+<level tier="6" key="ALLY" name="key:620879993:74285334" lotroPoints="15" requiredReputation="75000" deedKey="Ally_to_the_Grey_Company"/>
+<level tier="7" key="KINDRED" name="key:620879993:74285335" lotroPoints="20" requiredReputation="105000" deedKey="Kindred_with_the_Grey_Company"/>
+</faction>
+<faction id="1879202077" key="DUNLAND" name="Men of Dunland" category="Dunland" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Dunland_Dunlendings_CurrentTier" currentReputationProperty="Reputation_Faction_Dunland_Dunlendings_EarnedReputation" description="key:620874499:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="Known_to_the_Men_of_Dunland"/>
+<level tier="5" key="FRIEND" name="key:620879993:74285333" lotroPoints="10" requiredReputation="50000" deedKey="Friend_to_the_Men_of_Dunland"/>
+<level tier="6" key="ALLY" name="key:620879993:74285334" lotroPoints="15" requiredReputation="75000" deedKey="Ally_to_the_Men_of_Dunland"/>
+<level tier="7" key="KINDRED" name="key:620879993:74285335" lotroPoints="20" requiredReputation="105000" deedKey="Kindred_to_the_Men_of_Dunland"/>
+</faction>
+<faction id="1879202078" key="THEODRED_RIDERS" name="Théodred's Riders" category="Dunland" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Dunland_Theodred_CurrentTier" currentReputationProperty="Reputation_Faction_Dunland_Theodred_EarnedReputation" description="key:620874501:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="Known_to_Th%C3%A9odred%27s_Riders"/>
+<level tier="5" key="FRIEND" name="key:620879993:74285333" lotroPoints="10" requiredReputation="50000" deedKey="Friend_to_Th%C3%A9odred%27s_Riders"/>
+<level tier="6" key="ALLY" name="key:620879993:74285334" lotroPoints="15" requiredReputation="75000" deedKey="Ally_to_the_Riders_of_Th%C3%A9odred"/>
+<level tier="7" key="KINDRED" name="key:620879993:74285335" lotroPoints="20" requiredReputation="105000" deedKey="Kindred_to_Th%C3%A9odred%27s_Riders"/>
+</faction>
+<faction id="1879227796" key="STANGARD_RIDERS" name="The Riders of Stangard" category="Rohan" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Greatriver_Stangard_CurrentTier" currentReputationProperty="Reputation_Faction_Greatriver_Stangard_EarnedReputation" description="key:620892994:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="Known_to_the_Riders_of_Stangard"/>
+<level tier="5" key="FRIEND" name="key:620879993:74285333" lotroPoints="10" requiredReputation="50000" deedKey="Friend_to_the_Riders_of_Stangard"/>
+<level tier="6" key="ALLY" name="key:620879993:74285334" lotroPoints="15" requiredReputation="75000" deedKey="Ally_to_the_Riders_of_Stangard"/>
+<level tier="7" key="KINDRED" name="key:620879993:74285335" lotroPoints="20" requiredReputation="105000" deedKey="Kindred_with_the_Riders_of_Stangard"/>
+</faction>
+<faction id="1879230121" key="LIMLIGHT_GORGE" name="Heroes of Limlight Gorge" category="Rohan" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Greatriver_Limlightgorge_CurrentTier" currentReputationProperty="Reputation_Faction_Greatriver_Limlightgorge_EarnedReputation" description="key:620894872:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="Known_to_the_Heroes_of_Limlight_Gorge"/>
+<level tier="5" key="FRIEND" name="key:620879993:74285333" lotroPoints="10" requiredReputation="50000" deedKey="Friend_to_the_Heroes_of_Limlight_Gorge"/>
+<level tier="6" key="ALLY" name="key:620879993:74285334" lotroPoints="15" requiredReputation="75000" deedKey="Ally_to_the_Heroes_of_Limlight_Gorge"/>
+<level tier="7" key="KINDRED" name="key:620879993:74285335" lotroPoints="20" requiredReputation="105000" deedKey="Kindred_with_the_Heroes_of_Limlight_Gorge"/>
+</faction>
+<faction id="1879237312" key="WOLD" name="Men of the Wold" category="Rohan" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Rohan_Wold_CurrentTier" currentReputationProperty="Reputation_Faction_Rohan_Wold_EarnedReputation" description="key:620898798:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="Known_to_the_Wold"/>
+<level tier="5" key="FRIEND" name="key:620879993:74285333" lotroPoints="10" requiredReputation="50000" deedKey="Friend_to_the_Wold"/>
+<level tier="6" key="ALLY" name="key:620879993:74285334" lotroPoints="15" requiredReputation="75000" deedKey="Ally_to_the_Wold"/>
+<level tier="7" key="KINDRED" name="key:620879993:74285335" lotroPoints="20" requiredReputation="105000" deedKey="Kindred_to_the_Wold"/>
+</faction>
+<faction id="1879237304" key="NORCROFTS" name="Men of the Norcrofts" category="Rohan" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Rohan_Norcrofts_CurrentTier" currentReputationProperty="Reputation_Faction_Rohan_Norcrofts_EarnedReputation" description="key:620898795:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="Known_to_the_Norcrofts"/>
+<level tier="5" key="FRIEND" name="key:620879993:74285333" lotroPoints="10" requiredReputation="50000" deedKey="Friend_to_the_Norcrofts"/>
+<level tier="6" key="ALLY" name="key:620879993:74285334" lotroPoints="15" requiredReputation="75000" deedKey="Ally_to_the_Norcrofts"/>
+<level tier="7" key="KINDRED" name="key:620879993:74285335" lotroPoints="20" requiredReputation="105000" deedKey="Kindred_to_the_Norcrofts"/>
+</faction>
+<faction id="1879237267" key="ENTWASH_VALE" name="Men of the Entwash Vale" category="Rohan" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Rohan_Entwashvale_CurrentTier" currentReputationProperty="Reputation_Faction_Rohan_Entwashvale_EarnedReputation" description="key:620898804:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="Known_to_the_Entwash_Vale"/>
+<level tier="5" key="FRIEND" name="key:620879993:74285333" lotroPoints="10" requiredReputation="50000" deedKey="Friend_to_the_Entwash_Vale"/>
+<level tier="6" key="ALLY" name="key:620879993:74285334" lotroPoints="15" requiredReputation="75000" deedKey="Ally_to_the_Entwash_Vale"/>
+<level tier="7" key="KINDRED" name="key:620879993:74285335" lotroPoints="20" requiredReputation="105000" deedKey="Kindred_to_the_Entwash_Vale"/>
+</faction>
+<faction id="1879237243" key="SUTCROFTS" name="Men of the Sutcrofts" category="Rohan" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Rohan_Sutcrofts_CurrentTier" currentReputationProperty="Reputation_Faction_Rohan_Sutcrofts_EarnedReputation" description="key:620898776:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="Known_to_the_Sutcrofts"/>
+<level tier="5" key="FRIEND" name="key:620879993:74285333" lotroPoints="10" requiredReputation="50000" deedKey="Friend_to_the_Sutcrofts"/>
+<level tier="6" key="ALLY" name="key:620879993:74285334" lotroPoints="15" requiredReputation="75000" deedKey="Ally_to_the_Sutcrofts"/>
+<level tier="7" key="KINDRED" name="key:620879993:74285335" lotroPoints="20" requiredReputation="105000" deedKey="Kindred_to_the_Sutcrofts"/>
+</faction>
+<faction id="1879259430" key="PEOPLE_WILDERMORE" name="People of Wildermore" category="Rohan" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Wildermore_Basic_CurrentTier" currentReputationProperty="Reputation_Faction_Wildermore_Basic_EarnedReputation" description="key:620914013:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="Known_to_the_People_of_Wildermore"/>
+<level tier="5" key="FRIEND" name="key:620879993:74285333" lotroPoints="10" requiredReputation="50000" deedKey="Friend_to_the_People_of_Wildermore"/>
+<level tier="6" key="ALLY" name="key:620879993:74285334" lotroPoints="15" requiredReputation="75000" deedKey="Ally_to_the_People_of_Wildermore"/>
+<level tier="7" key="KINDRED" name="key:620879993:74285335" lotroPoints="20" requiredReputation="105000" deedKey="Kindred_to_the_People_of_Wildermore"/>
+</faction>
+<faction id="1879259431" key="SURVIVORS_WILDERMORE" name="Survivors of Wildermore" category="Rohan" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Wildermore_Advanced_CurrentTier" currentReputationProperty="Reputation_Faction_Wildermore_Advanced_EarnedReputation" description="key:620914012:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="Known_to_the_Survivors_of_Wildermore"/>
+<level tier="5" key="FRIEND" name="key:620879993:74285333" lotroPoints="10" requiredReputation="50000" deedKey="Friend_to_the_Survivors_of_Wildermore"/>
+<level tier="6" key="ALLY" name="key:620879993:74285334" lotroPoints="15" requiredReputation="75000" deedKey="Ally_to_the_Survivors_of_Wildermore"/>
+<level tier="7" key="KINDRED" name="key:620879993:74285335" lotroPoints="20" requiredReputation="105000" deedKey="Kindred_to_the_Survivors_of_Wildermore"/>
+</faction>
+<faction id="1879271130" key="EORLINGAS" name="The Eorlingas" category="Rohan" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Rohan_West_Eorlingas_CurrentTier" currentReputationProperty="Reputation_Faction_Rohan_West_Eorlingas_EarnedReputation" description="key:620921729:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="Known_to_the_Eorlingas"/>
+<level tier="5" key="FRIEND" name="key:620879993:74285333" lotroPoints="10" requiredReputation="50000" deedKey="Friend_to_the_Eorlingas"/>
+<level tier="6" key="ALLY" name="key:620879993:74285334" lotroPoints="15" requiredReputation="75000" deedKey="Ally_to_the_Eorlingas"/>
+<level tier="7" key="KINDRED" name="key:620879993:74285335" lotroPoints="20" requiredReputation="105000" deedKey="Kindred_to_the_Eorlingas"/>
+</faction>
+<faction id="1879271131" key="HELMINGAS" name="The Helmingas" category="Rohan" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Rohan_West_Helmingas_CurrentTier" currentReputationProperty="Reputation_Faction_Rohan_West_Helmingas_EarnedReputation" description="key:620921730:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="Known_to_the_Helmingas"/>
+<level tier="5" key="FRIEND" name="key:620879993:74285333" lotroPoints="10" requiredReputation="50000" deedKey="Friend_to_the_Helmingas"/>
+<level tier="6" key="ALLY" name="key:620879993:74285334" lotroPoints="15" requiredReputation="75000" deedKey="Ally_to_the_Helmingas"/>
+<level tier="7" key="KINDRED" name="key:620879993:74285335" lotroPoints="20" requiredReputation="105000" deedKey="Kindred_to_the_Helmingas"/>
+</faction>
+<faction id="1879303012" key="FANGORN" name="The Ents of Fangorn Forest" category="Rohan" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Rohan_West_Fangorn_CurrentTier" currentReputationProperty="Reputation_Faction_Rohan_West_Fangorn_EarnedReputation" description="key:620946592:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="Known_to_the_Ents_of_Fangorn"/>
+<level tier="5" key="FRIEND" name="key:620879993:74285333" lotroPoints="10" requiredReputation="50000" deedKey="Friend_to_the_Ents_of_Fangorn"/>
+<level tier="6" key="ALLY" name="key:620879993:74285334" lotroPoints="15" requiredReputation="75000" deedKey="Ally_to_the_Ents_of_Fangorn"/>
+<level tier="7" key="KINDRED" name="key:620879993:74285335" lotroPoints="20" requiredReputation="105000" deedKey="Kindred_with_the_Ents_of_Fangorn"/>
+</faction>
+<faction id="1879400830" name="Townsfolk of the Kingstead" category="Rohan" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Housing_Rohan_Plains_CurrentTier" currentReputationProperty="Reputation_Faction_Housing_Rohan_Plains_EarnedReputation" description="key:621029312:54354734">
+<level tier="1" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" name="key:620879993:74285330" lotroPoints="0" requiredReputation="0"/>
+<level tier="3" name="key:620879993:74285331" lotroPoints="0" requiredReputation="4000"/>
+<level tier="4" name="key:620879993:74285332" lotroPoints="0" requiredReputation="8000" deedKey="1879400835"/>
+<level tier="5" name="key:620879993:74285333" lotroPoints="0" requiredReputation="12000" deedKey="1879400837"/>
+<level tier="6" name="key:620879993:74285334" lotroPoints="0" requiredReputation="20000" deedKey="1879400838"/>
+<level tier="7" name="key:620879993:74285335" lotroPoints="0" requiredReputation="30000" deedKey="1879400839"/>
+</faction>
+<faction id="1879400827" name="Townsfolk of the Eastfold" category="Rohan" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Housing_Rohan_Foothills_CurrentTier" currentReputationProperty="Reputation_Faction_Housing_Rohan_Foothills_EarnedReputation" description="key:621029313:54354734">
+<level tier="1" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" name="key:620879993:74285330" lotroPoints="0" requiredReputation="0"/>
+<level tier="3" name="key:620879993:74285331" lotroPoints="0" requiredReputation="4000"/>
+<level tier="4" name="key:620879993:74285332" lotroPoints="0" requiredReputation="8000" deedKey="1879400833"/>
+<level tier="5" name="key:620879993:74285333" lotroPoints="0" requiredReputation="12000" deedKey="1879400832"/>
+<level tier="6" name="key:620879993:74285334" lotroPoints="0" requiredReputation="20000" deedKey="1879400836"/>
+<level tier="7" name="key:620879993:74285335" lotroPoints="0" requiredReputation="30000" deedKey="1879400834"/>
+</faction>
+<faction id="1879306071" key="DOL_AMROTH" name="Dol Amroth" category="Dol Amroth" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Gondor_West_Amroth_CurrentTier" currentReputationProperty="Reputation_Faction_Gondor_West_Amroth_EarnedReputation" description="key:620948363:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="Known_to_Dol_Amroth"/>
+<level tier="5" key="FRIEND" name="key:620879993:74285333" lotroPoints="10" requiredReputation="50000" deedKey="Friend_to_Dol_Amroth"/>
+<level tier="6" key="ALLY" name="key:620879993:74285334" lotroPoints="15" requiredReputation="75000" deedKey="Ally_to_Dol_Amroth"/>
+<level tier="7" key="KINDRED" name="key:620879993:74285335" lotroPoints="20" requiredReputation="105000" deedKey="Kindred_to_Dol_Amroth"/>
+</faction>
+<faction id="1879308442" key="DA_ARMOURY" name="Dol Amroth - Armoury" category="Dol Amroth" lowestTier="1" initialTier="3" highestTier="4" currentTierProperty="Reputation_Faction_Gondor_West_Endgame_Armory_CurrentTier" currentReputationProperty="Reputation_Faction_Gondor_West_Endgame_Armory_EarnedReputation" description="key:620948525:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="0" requiredReputation="30000" deedKey="1879309582"/>
+</faction>
+<faction id="1879308438" key="DA_BANK" name="Dol Amroth - Bank" category="Dol Amroth" lowestTier="1" initialTier="3" highestTier="4" currentTierProperty="Reputation_Faction_Gondor_West_Endgame_Bank_CurrentTier" currentReputationProperty="Reputation_Faction_Gondor_West_Endgame_Bank_EarnedReputation" description="key:620948521:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="0" requiredReputation="30000" deedKey="1879309579"/>
+</faction>
+<faction id="1879308441" key="DA_DOCKS" name="Dol Amroth - Docks" category="Dol Amroth" lowestTier="1" initialTier="3" highestTier="4" currentTierProperty="Reputation_Faction_Gondor_West_Endgame_Docks_CurrentTier" currentReputationProperty="Reputation_Faction_Gondor_West_Endgame_Docks_EarnedReputation" description="key:620948526:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="0" requiredReputation="30000" deedKey="1879309580"/>
+</faction>
+<faction id="1879308436" key="DA_GREAT_HALL" name="Dol Amroth - Great Hall" category="Dol Amroth" lowestTier="1" initialTier="3" highestTier="4" currentTierProperty="Reputation_Faction_Gondor_West_Endgame_MainHall_CurrentTier" currentReputationProperty="Reputation_Faction_Gondor_West_Endgame_MainHall_EarnedReputation" description="key:620948524:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="0" requiredReputation="30000" deedKey="1879309581"/>
+</faction>
+<faction id="1879308443" key="DA_LIBRARY" name="Dol Amroth - Library" category="Dol Amroth" lowestTier="1" initialTier="3" highestTier="4" currentTierProperty="Reputation_Faction_Gondor_West_Endgame_Library_CurrentTier" currentReputationProperty="Reputation_Faction_Gondor_West_Endgame_Library_EarnedReputation" description="key:620948522:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="0" requiredReputation="30000" deedKey="1879309583"/>
+</faction>
+<faction id="1879308440" key="DA_MASON" name="Dol Amroth - Mason" category="Dol Amroth" lowestTier="1" initialTier="3" highestTier="4" currentTierProperty="Reputation_Faction_Gondor_West_Endgame_Market_CurrentTier" currentReputationProperty="Reputation_Faction_Gondor_West_Endgame_Market_EarnedReputation" description="key:620948523:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="0" requiredReputation="30000" deedKey="1879309585"/>
+</faction>
+<faction id="1879308439" key="DA_SWAN_KNIGHTS" name="Dol Amroth - Swan-knights" category="Dol Amroth" lowestTier="1" initialTier="3" highestTier="4" currentTierProperty="Reputation_Faction_Gondor_West_Endgame_Swan_CurrentTier" currentReputationProperty="Reputation_Faction_Gondor_West_Endgame_Swan_EarnedReputation" description="key:620948528:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="0" requiredReputation="30000" deedKey="1879309586"/>
+</faction>
+<faction id="1879308437" key="DA_WAREHOUSE" name="Dol Amroth - Warehouse" category="Dol Amroth" lowestTier="1" initialTier="3" highestTier="4" currentTierProperty="Reputation_Faction_Gondor_West_Endgame_Warehouse_CurrentTier" currentReputationProperty="Reputation_Faction_Gondor_West_Endgame_Warehouse_EarnedReputation" description="key:620948527:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="0" requiredReputation="30000" deedKey="1879309584"/>
+</faction>
+<faction id="1879315479" key="RINGLO_VALE" name="Men of Ringló Vale" category="Gondor" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Gondor_Central_Ringlo_CurrentTier" currentReputationProperty="Reputation_Faction_Gondor_Central_Ringlo_EarnedReputation" description="key:620953570:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="0" requiredReputation="30000" deedKey="Known_to_Ringl%C3%B3_Vale"/>
+<level tier="5" key="FRIEND" name="key:620879993:74285333" lotroPoints="0" requiredReputation="50000" deedKey="Friend_to_Ringl%C3%B3_Vale"/>
+<level tier="6" key="ALLY" name="key:620879993:74285334" lotroPoints="0" requiredReputation="75000" deedKey="Ally_to_Ringl%C3%B3_Vale"/>
+<level tier="7" key="KINDRED" name="key:620879993:74285335" lotroPoints="0" requiredReputation="105000" deedKey="Kindred_to_Ringl%C3%B3_Vale"/>
+</faction>
+<faction id="1879315480" key="DOR_EN_ERNIL" name="Men of Dor-en-Ernil" category="Gondor" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Gondor_Central_DorenErnil_CurrentTier" currentReputationProperty="Reputation_Faction_Gondor_Central_DorenErnil_EarnedReputation" description="key:620953572:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="0" requiredReputation="30000" deedKey="Known_to_Dor-en-Ernil"/>
+<level tier="5" key="FRIEND" name="key:620879993:74285333" lotroPoints="0" requiredReputation="50000" deedKey="Friend_to_Dor-en-Ernil"/>
+<level tier="6" key="ALLY" name="key:620879993:74285334" lotroPoints="0" requiredReputation="75000" deedKey="Ally_to_Dor-en-Ernil"/>
+<level tier="7" key="KINDRED" name="key:620879993:74285335" lotroPoints="0" requiredReputation="105000" deedKey="Kindred_to_Dor-en-Ernil"/>
+</faction>
+<faction id="1879315481" key="LEBENNIN" name="Men of Lebennin" category="Gondor" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Gondor_Central_Lebennin_CurrentTier" currentReputationProperty="Reputation_Faction_Gondor_Central_Lebennin_EarnedReputation" description="key:620953571:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="0" requiredReputation="30000" deedKey="Known_to_Lebennin"/>
+<level tier="5" key="FRIEND" name="key:620879993:74285333" lotroPoints="0" requiredReputation="50000" deedKey="Friend_to_Lebennin"/>
+<level tier="6" key="ALLY" name="key:620879993:74285334" lotroPoints="0" requiredReputation="75000" deedKey="Ally_to_Lebennin"/>
+<level tier="7" key="KINDRED" name="key:620879993:74285335" lotroPoints="0" requiredReputation="105000" deedKey="Kindred_to_Lebennin"/>
+</faction>
+<faction id="1879314940" key="PELARGIR" name="Pelargir" category="Gondor" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Gondor_Central_Pelargir_CurrentTier" currentReputationProperty="Reputation_Faction_Gondor_Central_Pelargir_EarnedReputation" description="key:620953061:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="Known_to_Pelargir"/>
+<level tier="5" key="FRIEND" name="key:620879993:74285333" lotroPoints="10" requiredReputation="50000" deedKey="Friend_to_Pelargir"/>
+<level tier="6" key="ALLY" name="key:620879993:74285334" lotroPoints="15" requiredReputation="75000" deedKey="Ally_to_Pelargir"/>
+<level tier="7" key="KINDRED" name="key:620879993:74285335" lotroPoints="20" requiredReputation="105000" deedKey="Kindred_to_Pelargir"/>
+</faction>
+<faction id="1879322612" key="RANGERS_ITHILIEN" name="Rangers of Ithilien" category="Gondor" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Gondor_East_Rangers_CurrentTier" currentReputationProperty="Reputation_Faction_Gondor_East_Rangers_EarnedReputation" description="key:620958821:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="Known_to_the_Rangers_of_Ithilien"/>
+<level tier="5" key="FRIEND" name="key:620879993:74285333" lotroPoints="10" requiredReputation="50000" deedKey="Friend_to_the_Rangers_of_Ithilien"/>
+<level tier="6" key="ALLY" name="key:620879993:74285334" lotroPoints="15" requiredReputation="75000" deedKey="Ally_to_the_Rangers_of_Ithilien"/>
+<level tier="7" key="KINDRED" name="key:620879993:74285335" lotroPoints="20" requiredReputation="105000" deedKey="Kindred_to_the_Rangers_of_Ithilien"/>
+</faction>
+<faction id="1879326961" key="MINAS_TIRITH" name="Defenders of Minas Tirith" category="Gondor" lowestTier="1" initialTier="3" highestTier="10" currentTierProperty="Reputation_Faction_Gondor_Minas_Tirith_CurrentTier" currentReputationProperty="Reputation_Faction_Gondor_Minas_Tirith_EarnedReputation" description="key:620961769:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="Known_to_Minas_Tirith"/>
+<level tier="5" key="FRIEND" name="key:620879993:74285333" lotroPoints="10" requiredReputation="50000" deedKey="Friend_to_Minas_Tirith"/>
+<level tier="6" key="ALLY" name="key:620879993:74285334" lotroPoints="15" requiredReputation="75000" deedKey="Ally_to_Minas_Tirith"/>
+<level tier="7" key="KINDRED" name="key:620879993:74285335" lotroPoints="20" requiredReputation="105000" deedKey="Kindred_to_Minas_Tirith"/>
+<level tier="8" key="RESPECTED" name="key:620879993:74285336" lotroPoints="20" requiredReputation="150000" deedKey="Respected_in_Minas_Tirith"/>
+<level tier="9" key="HONOURED" name="key:620879993:74285337" lotroPoints="20" requiredReputation="210000" deedKey="Honoured_in_Minas_Tirith"/>
+<level tier="10" key="CELEBRATED" name="key:620879993:114823424" lotroPoints="50" requiredReputation="300000" deedKey="Celebrated_in_Minas_Tirith"/>
+</faction>
+<faction id="1879330539" key="RIDERS_ROHAN" name="Riders of Rohan" category="Gondor" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Gondor_Riders_Rohan_CurrentTier" currentReputationProperty="Reputation_Faction_Gondor_Riders_Rohan_EarnedReputation" description="key:620964882:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="Known_to_the_Riders_of_Rohan"/>
+<level tier="5" key="FRIEND" name="key:620879993:74285333" lotroPoints="10" requiredReputation="50000" deedKey="Friend_to_the_Riders_of_Rohan"/>
+<level tier="6" key="ALLY" name="key:620879993:74285334" lotroPoints="15" requiredReputation="75000" deedKey="Ally_to_the_Riders_of_Rohan"/>
+<level tier="7" key="KINDRED" name="key:620879993:74285335" lotroPoints="20" requiredReputation="105000" deedKey="Kindred_to_the_Riders_of_Rohan"/>
+</faction>
+<faction id="1879463136" name="The Renewal of Gondor" category="Gondor" lowestTier="1" initialTier="3" highestTier="8" currentTierProperty="Reputation_Faction_KingsGondorEast_CurrentTier" currentReputationProperty="Reputation_Faction_KingsGondorEast_EarnedReputation" description="key:621075061:54354734">
+<level tier="1" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="1879463120"/>
+<level tier="5" name="key:620879993:74285333" lotroPoints="10" requiredReputation="50000" deedKey="1879463119"/>
+<level tier="6" name="key:620879993:74285334" lotroPoints="15" requiredReputation="75000" deedKey="1879463125"/>
+<level tier="7" name="key:620879993:74285335" lotroPoints="20" requiredReputation="105000" deedKey="1879463122"/>
+<level tier="8" name="key:620879993:74285336" lotroPoints="20" requiredReputation="150000" deedKey="1879476790"/>
+</faction>
+<faction id="1879334719" key="HOST_OF_THE_WEST" name="Host of the West" category="Mordor" lowestTier="1" initialTier="3" highestTier="10" currentTierProperty="Reputation_Faction_Mountains_Shadow_Host_West_CurrentTier" currentReputationProperty="Reputation_Faction_Mountains_Shadow_Host_West_EarnedReputation" description="key:620967851:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="Known_to_the_Host_of_the_West_(Faction)(Deed)"/>
+<level tier="5" key="FRIEND" name="key:620879993:74285333" lotroPoints="10" requiredReputation="50000" deedKey="Friend_to_the_Host_of_the_West_(Faction)(Deed)"/>
+<level tier="6" key="ALLY" name="key:620879993:74285334" lotroPoints="15" requiredReputation="75000" deedKey="Ally_to_the_Host_of_the_West_(Faction)(Deed)"/>
+<level tier="7" key="KINDRED" name="key:620879993:74285335" lotroPoints="20" requiredReputation="105000" deedKey="Kindred_to_the_Host_of_the_West_(Faction)(Deed)"/>
+<level tier="8" key="RESPECTED" name="key:620879993:74285336" lotroPoints="20" requiredReputation="150000" deedKey="Respected_by_the_Host_of_the_West_(Faction)(Deed)"/>
+<level tier="9" key="HONOURED" name="key:620879993:74285337" lotroPoints="20" requiredReputation="210000" deedKey="Esteemed_in_the_Host_of_the_West_(Faction)(Deed)"/>
+<level tier="10" key="CELEBRATED" name="key:620879993:114823424" lotroPoints="50" requiredReputation="300000" deedKey="Celebrated_by_the_Host_of_the_West_(Faction)(Deed)"/>
+</faction>
+<faction id="1879341949" key="HOW_ARMOUR" name="Host of the West: Armour" category="Mordor" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Wastes_Host_West_Armour_CurrentTier" currentReputationProperty="Reputation_Faction_Wastes_Host_West_Armour_EarnedReputation" description="key:620994736:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NONE" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="INITIAL" name="key:620879993:74285332" lotroPoints="0" requiredReputation="30000" deedKey="Host_of_the_West_Armourer_(Faction)_(Deed)"/>
+<level tier="5" key="INTERMEDIATE" name="key:620879993:74285333" lotroPoints="5" requiredReputation="50000" deedKey="Host_of_the_West_Armourer_(Intermediate)_(Faction)_(Deed)"/>
+<level tier="6" key="ADVANCED" name="key:620879993:74285334" lotroPoints="10" requiredReputation="75000" deedKey="Host_of_the_West_Armourer_(Advanced)(Faction)_(Deed)"/>
+<level tier="7" key="FINAL" name="key:620879993:74285335" lotroPoints="15" requiredReputation="105000" deedKey="Host_of_the_West_Armourer_(Final)(Faction)_(Deed)"/>
+</faction>
+<faction id="1879341953" key="HOW_PROVISIONS" name="Host of the West: Provisions" category="Mordor" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Wastes_Host_West_Provisions_CurrentTier" currentReputationProperty="Reputation_Faction_Wastes_Host_West_Provisions_EarnedReputation" description="key:620994730:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NONE" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="INITIAL" name="key:620879993:74285332" lotroPoints="0" requiredReputation="30000" deedKey="Host_of_the_West_Provisioner_(Faction)_(Deed)"/>
+<level tier="5" key="INTERMEDIATE" name="key:620879993:74285333" lotroPoints="5" requiredReputation="50000" deedKey="Host_of_the_West_Provisioner_(Intermediate)_(Faction)_(Deed)"/>
+<level tier="6" key="ADVANCED" name="key:620879993:74285334" lotroPoints="10" requiredReputation="75000" deedKey="Host_of_the_West_Provisioner_(Advanced)(Faction)_(Deed)"/>
+<level tier="7" key="FINAL" name="key:620879993:74285335" lotroPoints="15" requiredReputation="105000" deedKey="Host_of_the_West_Provisioner_(Final)(Faction)_(Deed)"/>
+</faction>
+<faction id="1879341952" key="HOW_WEAPONS" name="Host of the West: Weapons" category="Mordor" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Wastes_Host_West_Weapons_CurrentTier" currentReputationProperty="Reputation_Faction_Wastes_Host_West_Weapons_EarnedReputation" description="key:620994738:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NONE" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="INITIAL" name="key:620879993:74285332" lotroPoints="0" requiredReputation="30000" deedKey="Host_of_the_West_Weaponist_(Faction)_(Deed)"/>
+<level tier="5" key="INTERMEDIATE" name="key:620879993:74285333" lotroPoints="5" requiredReputation="50000" deedKey="Host_of_the_West_Weaponist_(Intermediate)_(Faction)_(Deed)"/>
+<level tier="6" key="ADVANCED" name="key:620879993:74285334" lotroPoints="10" requiredReputation="75000" deedKey="Host_of_the_West_Weaponist_(Advanced)_(Faction)_(Deed)"/>
+<level tier="7" key="FINAL" name="key:620879993:74285335" lotroPoints="15" requiredReputation="105000" deedKey="Host_of_the_West_Weaponist_(Final)_(Faction)_(Deed)"/>
+</faction>
+<faction id="1879345136" key="GORGOROTH" name="Conquest of Gorgoroth" category="Mordor" lowestTier="1" initialTier="3" highestTier="10" currentTierProperty="Reputation_Faction_Mordor_Gorgoroth_CurrentTier" currentReputationProperty="Reputation_Faction_Mordor_Gorgoroth_EarnedReputation" description="key:620996138:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="Known_in_the_Conquest_of_Gorgoroth"/>
+<level tier="5" key="FRIEND" name="key:620879993:74285333" lotroPoints="10" requiredReputation="50000" deedKey="Friend_in_the_Conquest_of_Gorgoroth"/>
+<level tier="6" key="ALLY" name="key:620879993:74285334" lotroPoints="15" requiredReputation="75000" deedKey="Ally_in_the_Conquest_of_Gorgoroth"/>
+<level tier="7" key="KINDRED" name="key:620879993:74285335" lotroPoints="20" requiredReputation="105000" deedKey="Kindred_in_the_Conquest_of_Gorgoroth"/>
+<level tier="8" key="RESPECTED" name="key:620879993:74285336" lotroPoints="20" requiredReputation="150000" deedKey="Respected_in_the_Conquest_of_Gorgoroth"/>
+<level tier="9" key="HONOURED" name="key:620879993:74285337" lotroPoints="20" requiredReputation="210000" deedKey="Honoured_in_the_Conquest_of_Gorgoroth"/>
+<level tier="10" key="CELEBRATED_GORGOROTH" name="key:620879993:114823424" lotroPoints="50" requiredReputation="300000" deedKey="Celebrated_in_the_Conquest_of_Gorgoroth"/>
+</faction>
+<faction id="1879345134" name="Enmity of Fushaum Bal south" category="Mordor" lowestTier="1" initialTier="2" highestTier="3" currentTierProperty="Reputation_Faction_Mordor_Fushaum_Bal_CurrentTier" currentReputationProperty="Reputation_Faction_Mordor_Fushaum_Bal_EarnedReputation" description="key:620996139:54354734">
+<level tier="1" name="key:620879993:74285329" lotroPoints="5" requiredReputation="0" deedKey="Enemy_to_Fushaum_Bal_south"/>
+<level tier="2" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+</faction>
+<faction id="1879345135" name="Enmity of Fushaum Bal north" category="Mordor" lowestTier="1" initialTier="2" highestTier="3" currentTierProperty="Reputation_Faction_Mordor_Fushaum_Tum_CurrentTier" currentReputationProperty="Reputation_Faction_Mordor_Fushaum_Tum_EarnedReputation" description="key:620996141:54354734">
+<level tier="1" name="key:620879993:74285329" lotroPoints="5" requiredReputation="0" deedKey="Enemy_to_Fushaum_Bal_north"/>
+<level tier="2" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+</faction>
+<faction id="1879345132" name="Red Sky Clan" category="Mordor" lowestTier="1" initialTier="2" highestTier="5" currentTierProperty="Reputation_Faction_Mordor_Agarnaith_Druedain_CurrentTier" currentReputationProperty="Reputation_Faction_Mordor_Agarnaith_Druedain_EarnedReputation" description="key:620996140:54354734">
+<level tier="1" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" name="key:620879993:74285332" lotroPoints="0" requiredReputation="30000"/>
+<level tier="5" name="key:620879993:74285333" lotroPoints="5" requiredReputation="50000" deedKey="Known_to_the_Red_Sky_Clan"/>
+</faction>
+<faction id="1879389871" name="The Great Alliance" category="Mordor" lowestTier="1" initialTier="7" highestTier="10" currentTierProperty="Reputation_Faction_Mordor_Besieged_CurrentTier" currentReputationProperty="Reputation_Faction_Mordor_Besieged_EarnedReputation" description="key:621021790:54354734">
+<level tier="1" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" name="key:620879993:74285330" lotroPoints="0" requiredReputation="0"/>
+<level tier="3" name="key:620879993:74285331" lotroPoints="0" requiredReputation="0"/>
+<level tier="4" name="key:620879993:74285332" lotroPoints="0" requiredReputation="0"/>
+<level tier="5" name="key:620879993:74285333" lotroPoints="0" requiredReputation="0"/>
+<level tier="6" name="key:620879993:74285334" lotroPoints="0" requiredReputation="0"/>
+<level tier="7" name="key:620879993:74285335" lotroPoints="0" requiredReputation="30000"/>
+<level tier="8" name="key:620879993:74285336" lotroPoints="5" requiredReputation="40000" deedKey="1879390724"/>
+<level tier="9" name="key:620879993:74285337" lotroPoints="5" requiredReputation="60000" deedKey="1879390722"/>
+<level tier="10" name="key:620879993:114823424" lotroPoints="5" requiredReputation="80000" deedKey="1879390727"/>
+</faction>
+<faction id="1879389868" name="The White Company" category="Mordor" lowestTier="1" initialTier="4" highestTier="10" currentTierProperty="Reputation_Faction_Minas_Morgul_CurrentTier" currentReputationProperty="Reputation_Faction_Minas_Morgul_EarnedReputation" description="key:621021795:54354734">
+<level tier="1" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" name="key:620879993:74285330" lotroPoints="0" requiredReputation="0"/>
+<level tier="3" name="key:620879993:74285331" lotroPoints="0" requiredReputation="0"/>
+<level tier="4" name="key:620879993:74285332" lotroPoints="0" requiredReputation="20000"/>
+<level tier="5" name="key:620879993:74285333" lotroPoints="5" requiredReputation="40000" deedKey="1879390730"/>
+<level tier="6" name="key:620879993:74285334" lotroPoints="5" requiredReputation="60000" deedKey="1879390726"/>
+<level tier="7" name="key:620879993:74285335" lotroPoints="5" requiredReputation="80000" deedKey="1879390728"/>
+<level tier="8" name="key:620879993:74285336" lotroPoints="5" requiredReputation="100000" deedKey="1879390729"/>
+<level tier="9" name="key:620879993:74285337" lotroPoints="5" requiredReputation="120000" deedKey="1879390731"/>
+<level tier="10" name="key:620879993:114823424" lotroPoints="5" requiredReputation="150000" deedKey="1879390723"/>
+</faction>
+<faction id="1879389872" name="Reclamation of Minas Ithil" category="Mordor" lowestTier="1" initialTier="1" highestTier="10" currentTierProperty="Reputation_Faction_Minas_Morgul_Endgame_CurrentTier" currentReputationProperty="Reputation_Faction_Minas_Morgul_Endgame_EarnedReputation" description="key:621021793:54354734">
+<level tier="1" name="key:621021796:74285329" lotroPoints="0" requiredReputation="2000"/>
+<level tier="2" name="key:621021796:74285330" lotroPoints="5" requiredReputation="6000" deedKey="1879390725"/>
+<level tier="3" name="key:621021796:74285331" lotroPoints="5" requiredReputation="12000" deedKey="1879395391"/>
+<level tier="4" name="key:621021796:74285332" lotroPoints="5" requiredReputation="20000" deedKey="1879395394"/>
+<level tier="5" name="key:621021796:74285333" lotroPoints="5" requiredReputation="30000" deedKey="1879395382"/>
+<level tier="6" name="key:621021796:74285334" lotroPoints="5" requiredReputation="42000" deedKey="1879395387"/>
+<level tier="7" name="key:621021796:74285335" lotroPoints="5" requiredReputation="56000" deedKey="1879395388"/>
+<level tier="8" name="key:621021796:74285336" lotroPoints="5" requiredReputation="72000" deedKey="1879395390"/>
+<level tier="9" name="key:621021796:74285337" lotroPoints="5" requiredReputation="90000" deedKey="1879395392"/>
+<level tier="10" name="key:621021796:114823424" lotroPoints="5" requiredReputation="110000" deedKey="1879395389"/>
+</faction>
+<faction id="1879124448" key="GUILD_COOK" name="Cook's Guild" category="Guild" guild="true" lowestTier="1" initialTier="3" highestTier="12" currentTierProperty="Reputation_Faction_CraftGuild_Cook_CurrentTier" currentReputationProperty="Reputation_Faction_CraftGuild_Cook_EarnedReputation" description="key:620817375:54354734">
+<level tier="1" name="key:620879992:108939137" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" name="key:620879992:108939138" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="INITIATE" name="key:620879992:108939139" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="APPRENTICE" name="key:620879992:108939140" lotroPoints="0" requiredReputation="30000"/>
+<level tier="5" key="JOURNEYMAN" name="key:620879992:108939141" lotroPoints="0" requiredReputation="50000"/>
+<level tier="6" key="EXPERT" name="key:620879992:108939142" lotroPoints="0" requiredReputation="75000"/>
+<level tier="7" key="ARTISAN" name="key:620879992:108939143" lotroPoints="0" requiredReputation="105000"/>
+<level tier="8" key="MASTER" name="key:620879992:108939144" lotroPoints="0" requiredReputation="150000"/>
+<level tier="9" key="EASTEMNET MASTER" name="key:620879992:108939145" lotroPoints="0" requiredReputation="210000"/>
+<level tier="10" key="WESTEMNET MASTER" name="key:620879992:132413472" lotroPoints="0" requiredReputation="300000"/>
+<level tier="11" key="MINAS ITHIL MASTER" name="key:620879992:132413473" lotroPoints="0" requiredReputation="500000"/>
+<level tier="12" key="UMBAR" name="key:620879992:132413474" lotroPoints="0" requiredReputation="510000"/>
+</faction>
+<faction id="1879124449" key="GUILD_JEWELLER" name="Jeweller's Guild" category="Guild" guild="true" lowestTier="1" initialTier="3" highestTier="12" currentTierProperty="Reputation_Faction_CraftGuild_Jeweller_CurrentTier" currentReputationProperty="Reputation_Faction_CraftGuild_Jeweller_EarnedReputation" description="key:620817377:54354734">
+<level tier="1" name="key:620879992:108939137" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" name="key:620879992:108939138" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="INITIATE" name="key:620879992:108939139" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="APPRENTICE" name="key:620879992:108939140" lotroPoints="0" requiredReputation="30000"/>
+<level tier="5" key="JOURNEYMAN" name="key:620879992:108939141" lotroPoints="0" requiredReputation="50000"/>
+<level tier="6" key="EXPERT" name="key:620879992:108939142" lotroPoints="0" requiredReputation="75000"/>
+<level tier="7" key="ARTISAN" name="key:620879992:108939143" lotroPoints="0" requiredReputation="105000"/>
+<level tier="8" key="MASTER" name="key:620879992:108939144" lotroPoints="0" requiredReputation="150000"/>
+<level tier="9" key="EASTEMNET MASTER" name="key:620879992:108939145" lotroPoints="0" requiredReputation="210000"/>
+<level tier="10" key="WESTEMNET MASTER" name="key:620879992:132413472" lotroPoints="0" requiredReputation="300000"/>
+<level tier="11" key="MINAS ITHIL MASTER" name="key:620879992:132413473" lotroPoints="0" requiredReputation="500000"/>
+<level tier="12" key="UMBAR" name="key:620879992:132413474" lotroPoints="0" requiredReputation="510000"/>
+</faction>
+<faction id="1879124450" key="GUILD_METALSMITH" name="Metalsmith's Guild" category="Guild" guild="true" lowestTier="1" initialTier="3" highestTier="12" currentTierProperty="Reputation_Faction_CraftGuild_Metalsmith_CurrentTier" currentReputationProperty="Reputation_Faction_CraftGuild_Metalsmith_EarnedReputation" description="key:620817379:54354734">
+<level tier="1" name="key:620879992:108939137" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" name="key:620879992:108939138" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="INITIATE" name="key:620879992:108939139" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="APPRENTICE" name="key:620879992:108939140" lotroPoints="0" requiredReputation="30000"/>
+<level tier="5" key="JOURNEYMAN" name="key:620879992:108939141" lotroPoints="0" requiredReputation="50000"/>
+<level tier="6" key="EXPERT" name="key:620879992:108939142" lotroPoints="0" requiredReputation="75000"/>
+<level tier="7" key="ARTISAN" name="key:620879992:108939143" lotroPoints="0" requiredReputation="105000"/>
+<level tier="8" key="MASTER" name="key:620879992:108939144" lotroPoints="0" requiredReputation="150000"/>
+<level tier="9" key="EASTEMNET MASTER" name="key:620879992:108939145" lotroPoints="0" requiredReputation="210000"/>
+<level tier="10" key="WESTEMNET MASTER" name="key:620879992:132413472" lotroPoints="0" requiredReputation="300000"/>
+<level tier="11" key="MINAS ITHIL MASTER" name="key:620879992:132413473" lotroPoints="0" requiredReputation="500000"/>
+<level tier="12" key="UMBAR" name="key:620879992:132413474" lotroPoints="0" requiredReputation="510000"/>
+</faction>
+<faction id="1879124451" key="GUILD_SCHOLAR" name="Scholar's Guild" category="Guild" guild="true" lowestTier="1" initialTier="3" highestTier="12" currentTierProperty="Reputation_Faction_CraftGuild_Scholar_CurrentTier" currentReputationProperty="Reputation_Faction_CraftGuild_Scholar_EarnedReputation" description="key:620817381:54354734">
+<level tier="1" name="key:620879992:108939137" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" name="key:620879992:108939138" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="INITIATE" name="key:620879992:108939139" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="APPRENTICE" name="key:620879992:108939140" lotroPoints="0" requiredReputation="30000"/>
+<level tier="5" key="JOURNEYMAN" name="key:620879992:108939141" lotroPoints="0" requiredReputation="50000"/>
+<level tier="6" key="EXPERT" name="key:620879992:108939142" lotroPoints="0" requiredReputation="75000"/>
+<level tier="7" key="ARTISAN" name="key:620879992:108939143" lotroPoints="0" requiredReputation="105000"/>
+<level tier="8" key="MASTER" name="key:620879992:108939144" lotroPoints="0" requiredReputation="150000"/>
+<level tier="9" key="EASTEMNET MASTER" name="key:620879992:108939145" lotroPoints="0" requiredReputation="210000"/>
+<level tier="10" key="WESTEMNET MASTER" name="key:620879992:132413472" lotroPoints="0" requiredReputation="300000"/>
+<level tier="11" key="MINAS ITHIL MASTER" name="key:620879992:132413473" lotroPoints="0" requiredReputation="500000"/>
+<level tier="12" key="UMBAR" name="key:620879992:132413474" lotroPoints="0" requiredReputation="510000"/>
+</faction>
+<faction id="1879124452" key="GUILD_TAILOR" name="Tailor's Guild" category="Guild" guild="true" lowestTier="1" initialTier="3" highestTier="12" currentTierProperty="Reputation_Faction_CraftGuild_Tailor_CurrentTier" currentReputationProperty="Reputation_Faction_CraftGuild_Tailor_EarnedReputation" description="key:620817383:54354734">
+<level tier="1" name="key:620879992:108939137" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" name="key:620879992:108939138" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="INITIATE" name="key:620879992:108939139" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="APPRENTICE" name="key:620879992:108939140" lotroPoints="0" requiredReputation="30000"/>
+<level tier="5" key="JOURNEYMAN" name="key:620879992:108939141" lotroPoints="0" requiredReputation="50000"/>
+<level tier="6" key="EXPERT" name="key:620879992:108939142" lotroPoints="0" requiredReputation="75000"/>
+<level tier="7" key="ARTISAN" name="key:620879992:108939143" lotroPoints="0" requiredReputation="105000"/>
+<level tier="8" key="MASTER" name="key:620879992:108939144" lotroPoints="0" requiredReputation="150000"/>
+<level tier="9" key="EASTEMNET MASTER" name="key:620879992:108939145" lotroPoints="0" requiredReputation="210000"/>
+<level tier="10" key="WESTEMNET MASTER" name="key:620879992:132413472" lotroPoints="0" requiredReputation="300000"/>
+<level tier="11" key="MINAS ITHIL MASTER" name="key:620879992:132413473" lotroPoints="0" requiredReputation="500000"/>
+<level tier="12" key="UMBAR" name="key:620879992:132413474" lotroPoints="0" requiredReputation="510000"/>
+</faction>
+<faction id="1879124453" key="GUILD_WEAPONSMITH" name="Weaponsmith's Guild" category="Guild" guild="true" lowestTier="1" initialTier="3" highestTier="12" currentTierProperty="Reputation_Faction_CraftGuild_Weaponsmith_CurrentTier" currentReputationProperty="Reputation_Faction_CraftGuild_Weaponsmith_EarnedReputation" description="key:620817385:54354734">
+<level tier="1" name="key:620879992:108939137" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" name="key:620879992:108939138" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="INITIATE" name="key:620879992:108939139" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="APPRENTICE" name="key:620879992:108939140" lotroPoints="0" requiredReputation="30000"/>
+<level tier="5" key="JOURNEYMAN" name="key:620879992:108939141" lotroPoints="0" requiredReputation="50000"/>
+<level tier="6" key="EXPERT" name="key:620879992:108939142" lotroPoints="0" requiredReputation="75000"/>
+<level tier="7" key="ARTISAN" name="key:620879992:108939143" lotroPoints="0" requiredReputation="105000"/>
+<level tier="8" key="MASTER" name="key:620879992:108939144" lotroPoints="0" requiredReputation="150000"/>
+<level tier="9" key="EASTEMNET MASTER" name="key:620879992:108939145" lotroPoints="0" requiredReputation="210000"/>
+<level tier="10" key="WESTEMNET MASTER" name="key:620879992:132413472" lotroPoints="0" requiredReputation="300000"/>
+<level tier="11" key="MINAS ITHIL MASTER" name="key:620879992:132413473" lotroPoints="0" requiredReputation="500000"/>
+<level tier="12" key="UMBAR" name="key:620879992:132413474" lotroPoints="0" requiredReputation="510000"/>
+</faction>
+<faction id="1879124454" key="GUILD_WOODWORKER" name="Woodworker's Guild" category="Guild" guild="true" lowestTier="1" initialTier="3" highestTier="12" currentTierProperty="Reputation_Faction_CraftGuild_Woodworker_CurrentTier" currentReputationProperty="Reputation_Faction_CraftGuild_Woodworker_EarnedReputation" description="key:620817387:54354734">
+<level tier="1" name="key:620879992:108939137" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" name="key:620879992:108939138" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="INITIATE" name="key:620879992:108939139" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="APPRENTICE" name="key:620879992:108939140" lotroPoints="0" requiredReputation="30000"/>
+<level tier="5" key="JOURNEYMAN" name="key:620879992:108939141" lotroPoints="0" requiredReputation="50000"/>
+<level tier="6" key="EXPERT" name="key:620879992:108939142" lotroPoints="0" requiredReputation="75000"/>
+<level tier="7" key="ARTISAN" name="key:620879992:108939143" lotroPoints="0" requiredReputation="105000"/>
+<level tier="8" key="MASTER" name="key:620879992:108939144" lotroPoints="0" requiredReputation="150000"/>
+<level tier="9" key="EASTEMNET MASTER" name="key:620879992:108939145" lotroPoints="0" requiredReputation="210000"/>
+<level tier="10" key="WESTEMNET MASTER" name="key:620879992:132413472" lotroPoints="0" requiredReputation="300000"/>
+<level tier="11" key="MINAS ITHIL MASTER" name="key:620879992:132413473" lotroPoints="0" requiredReputation="500000"/>
+<level tier="12" key="UMBAR" name="key:620879992:132413474" lotroPoints="0" requiredReputation="510000"/>
+</faction>
+<faction id="1879479489" name="Umbar Cook's Guild" category="Umbar" lowestTier="1" initialTier="3" highestTier="5" currentTierProperty="Reputation_Faction_CraftGuild_Umbar_Cook_CurrentTier" currentReputationProperty="Reputation_Faction_CraftGuild_Umbar_Cook_EarnedReputation" description="key:621087915:54354734">
+<level tier="1" name="key:620879992:108939137" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" name="key:620879992:108939138" lotroPoints="0" requiredReputation="0"/>
+<level tier="3" name="key:620879992:108939139" lotroPoints="0" requiredReputation="5000"/>
+<level tier="4" name="key:620879992:108939140" lotroPoints="0" requiredReputation="15000"/>
+<level tier="5" name="key:620879992:108939141" lotroPoints="0" requiredReputation="35000"/>
+</faction>
+<faction id="1879479494" name="Umbar Jeweller's Guild" category="Umbar" lowestTier="1" initialTier="3" highestTier="5" currentTierProperty="Reputation_Faction_CraftGuild_Umbar_Jeweller_CurrentTier" currentReputationProperty="Reputation_Faction_CraftGuild_Umbar_Jeweller_EarnedReputation" description="key:621087913:54354734">
+<level tier="1" name="key:620879992:108939137" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" name="key:620879992:108939138" lotroPoints="0" requiredReputation="0"/>
+<level tier="3" name="key:620879992:108939139" lotroPoints="0" requiredReputation="5000"/>
+<level tier="4" name="key:620879992:108939140" lotroPoints="0" requiredReputation="15000"/>
+<level tier="5" name="key:620879992:108939141" lotroPoints="0" requiredReputation="35000"/>
+</faction>
+<faction id="1879479492" name="Umbar Metalsmith's Guild" category="Umbar" lowestTier="1" initialTier="3" highestTier="5" currentTierProperty="Reputation_Faction_CraftGuild_Umbar_Metalsmith_CurrentTier" currentReputationProperty="Reputation_Faction_CraftGuild_Umbar_Metalsmith_EarnedReputation" description="key:621087914:54354734">
+<level tier="1" name="key:620879992:108939137" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" name="key:620879992:108939138" lotroPoints="0" requiredReputation="0"/>
+<level tier="3" name="key:620879992:108939139" lotroPoints="0" requiredReputation="5000"/>
+<level tier="4" name="key:620879992:108939140" lotroPoints="0" requiredReputation="15000"/>
+<level tier="5" name="key:620879992:108939141" lotroPoints="0" requiredReputation="35000"/>
+</faction>
+<faction id="1879479491" name="Umbar Scholar's Guild" category="Umbar" lowestTier="1" initialTier="3" highestTier="5" currentTierProperty="Reputation_Faction_CraftGuild_Umbar_Scholar_CurrentTier" currentReputationProperty="Reputation_Faction_CraftGuild_Umbar_Scholar_EarnedReputation" description="key:621087916:54354734">
+<level tier="1" name="key:620879992:108939137" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" name="key:620879992:108939138" lotroPoints="0" requiredReputation="0"/>
+<level tier="3" name="key:620879992:108939139" lotroPoints="0" requiredReputation="5000"/>
+<level tier="4" name="key:620879992:108939140" lotroPoints="0" requiredReputation="15000"/>
+<level tier="5" name="key:620879992:108939141" lotroPoints="0" requiredReputation="35000"/>
+</faction>
+<faction id="1879479493" name="Umbar Tailor's Guild" category="Umbar" lowestTier="1" initialTier="3" highestTier="5" currentTierProperty="Reputation_Faction_CraftGuild_Umbar_Tailor_CurrentTier" currentReputationProperty="Reputation_Faction_CraftGuild_Umbar_Tailor_EarnedReputation" description="key:621087917:54354734">
+<level tier="1" name="key:620879992:108939137" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" name="key:620879992:108939138" lotroPoints="0" requiredReputation="0"/>
+<level tier="3" name="key:620879992:108939139" lotroPoints="0" requiredReputation="5000"/>
+<level tier="4" name="key:620879992:108939140" lotroPoints="0" requiredReputation="15000"/>
+<level tier="5" name="key:620879992:108939141" lotroPoints="0" requiredReputation="35000"/>
+</faction>
+<faction id="1879479490" name="Umbar Weaponsmith's Guild" category="Umbar" lowestTier="1" initialTier="3" highestTier="5" currentTierProperty="Reputation_Faction_CraftGuild_Umbar_Weaponsmith_CurrentTier" currentReputationProperty="Reputation_Faction_CraftGuild_Umbar_Weaponsmith_EarnedReputation" description="key:621087919:54354734">
+<level tier="1" name="key:620879992:108939137" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" name="key:620879992:108939138" lotroPoints="0" requiredReputation="0"/>
+<level tier="3" name="key:620879992:108939139" lotroPoints="0" requiredReputation="5000"/>
+<level tier="4" name="key:620879992:108939140" lotroPoints="0" requiredReputation="15000"/>
+<level tier="5" name="key:620879992:108939141" lotroPoints="0" requiredReputation="35000"/>
+</faction>
+<faction id="1879479487" name="Umbar Woodworker's Guild" category="Umbar" lowestTier="1" initialTier="3" highestTier="5" currentTierProperty="Reputation_Faction_CraftGuild_Umbar_Woodworker_CurrentTier" currentReputationProperty="Reputation_Faction_CraftGuild_Umbar_Woodworker_EarnedReputation" description="key:621087918:54354734">
+<level tier="1" name="key:620879992:108939137" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" name="key:620879992:108939138" lotroPoints="0" requiredReputation="0"/>
+<level tier="3" name="key:620879992:108939139" lotroPoints="0" requiredReputation="5000"/>
+<level tier="4" name="key:620879992:108939140" lotroPoints="0" requiredReputation="15000"/>
+<level tier="5" name="key:620879992:108939141" lotroPoints="0" requiredReputation="35000"/>
+</faction>
+<faction id="1879465745" name="Citizens of Umbar Baharbêl" category="Umbar" lowestTier="1" initialTier="2" highestTier="7" currentTierProperty="Reputation_Faction_Umbar_CurrentTier" currentReputationProperty="Reputation_Faction_Umbar_EarnedReputation" description="key:621077398:54354734">
+<level tier="1" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" name="key:620879993:74285331" lotroPoints="5" requiredReputation="25000" deedKey="1879469614"/>
+<level tier="4" name="key:620879993:74285332" lotroPoints="5" requiredReputation="45000" deedKey="1879465761"/>
+<level tier="5" name="key:620879993:74285333" lotroPoints="10" requiredReputation="70000" deedKey="1879465758"/>
+<level tier="6" name="key:620879993:74285334" lotroPoints="15" requiredReputation="100000" deedKey="1879465759"/>
+<level tier="7" name="key:620879993:74285335" lotroPoints="20" requiredReputation="135000" deedKey="1879465760"/>
+</faction>
+<faction id="1879489735" name="Phetekâri of Umbar" category="Haradwaith" lowestTier="1" initialTier="3" highestTier="8" currentTierProperty="Reputation_Faction_Umbar_Tale_Warden_CurrentTier" currentReputationProperty="Reputation_Faction_Umbar_Tale_Warden_EarnedReputation" description="key:621095727:54354734">
+<level tier="1" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="1879492973"/>
+<level tier="5" name="key:620879993:74285333" lotroPoints="5" requiredReputation="50000" deedKey="1879492965"/>
+<level tier="6" name="key:620879993:74285334" lotroPoints="5" requiredReputation="75000" deedKey="1879492945"/>
+<level tier="7" name="key:620879993:74285335" lotroPoints="5" requiredReputation="105000" deedKey="1879492981"/>
+<level tier="8" name="key:620879993:74285336" lotroPoints="5" requiredReputation="150000" deedKey="1879492959"/>
+</faction>
+<faction id="1879489736" name="The Ikorbâni" category="Haradwaith" lowestTier="1" initialTier="2" highestTier="7" currentTierProperty="Reputation_Faction_Ikorban_CurrentTier" currentReputationProperty="Reputation_Faction_Ikorban_EarnedReputation" description="key:621095728:54354734">
+<level tier="1" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" name="key:620879993:74285331" lotroPoints="5" requiredReputation="20000" deedKey="1879492962"/>
+<level tier="4" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="1879492966"/>
+<level tier="5" name="key:620879993:74285333" lotroPoints="5" requiredReputation="50000" deedKey="1879492974"/>
+<level tier="6" name="key:620879993:74285334" lotroPoints="5" requiredReputation="75000" deedKey="1879492948"/>
+<level tier="7" name="key:620879993:74285335" lotroPoints="5" requiredReputation="105000" deedKey="1879492955"/>
+</faction>
+<faction id="1879489734" name="The Adúrhid" category="Haradwaith" lowestTier="1" initialTier="2" highestTier="7" currentTierProperty="Reputation_Faction_Kintai_CurrentTier" currentReputationProperty="Reputation_Faction_Kintai_EarnedReputation" description="key:621095726:54354734">
+<level tier="1" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" name="key:620879993:74285331" lotroPoints="5" requiredReputation="20000" deedKey="1879492958"/>
+<level tier="4" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="1879492980"/>
+<level tier="5" name="key:620879993:74285333" lotroPoints="5" requiredReputation="50000" deedKey="1879492946"/>
+<level tier="6" name="key:620879993:74285334" lotroPoints="5" requiredReputation="75000" deedKey="1879492976"/>
+<level tier="7" name="key:620879993:74285335" lotroPoints="5" requiredReputation="105000" deedKey="1879492983"/>
+</faction>
+<faction id="1879506198" name="Temámir of Jiret-menêsh" category="Haradwaith" lowestTier="1" initialTier="2" highestTier="6" currentTierProperty="Reputation_Faction_Temamir_CurrentTier" currentReputationProperty="Reputation_Faction_Temamir_EarnedReputation" description="key:621106863:54354734">
+<level tier="1" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" name="key:620879993:74285331" lotroPoints="5" requiredReputation="20000" deedKey="1879506227"/>
+<level tier="4" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="1879506225"/>
+<level tier="5" name="key:620879993:74285333" lotroPoints="5" requiredReputation="50000" deedKey="1879506223"/>
+<level tier="6" name="key:620879993:74285334" lotroPoints="5" requiredReputation="75000" deedKey="1879506229"/>
+</faction>
+<faction id="1879506206" name="City of Zajâna" category="Haradwaith" lowestTier="1" initialTier="2" highestTier="6" currentTierProperty="Reputation_Faction_Zajana_CurrentTier" currentReputationProperty="Reputation_Faction_Zajana_EarnedReputation" description="key:621106864:54354734">
+<level tier="1" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" name="key:620879993:74285331" lotroPoints="5" requiredReputation="20000" deedKey="1879506232"/>
+<level tier="4" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="1879506230"/>
+<level tier="5" name="key:620879993:74285333" lotroPoints="5" requiredReputation="50000" deedKey="1879506231"/>
+<level tier="6" name="key:620879993:74285334" lotroPoints="5" requiredReputation="75000" deedKey="1879506224"/>
+</faction>
+<faction id="1879506212" name="Kintai of Sul Madásh" category="Haradwaith" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Kintai_Sul_Madash_CurrentTier" currentReputationProperty="Reputation_Faction_Kintai_Sul_Madash_EarnedReputation" description="key:621106860:54354734">
+<level tier="1" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" name="key:620879993:74285331" lotroPoints="5" requiredReputation="20000" deedKey="1879506192"/>
+<level tier="4" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="1879506221"/>
+<level tier="5" name="key:620879993:74285333" lotroPoints="5" requiredReputation="50000" deedKey="1879506222"/>
+<level tier="6" name="key:620879993:74285334" lotroPoints="5" requiredReputation="75000" deedKey="1879506219"/>
+<level tier="7" name="key:620879993:74285335" lotroPoints="5" requiredReputation="105000" deedKey="1879506220"/>
+</faction>
+<faction id="1879508769" name="Hamât Renewed" category="Haradwaith" lowestTier="1" initialTier="4" highestTier="8" currentTierProperty="Reputation_Faction_Hamat_CurrentTier" currentReputationProperty="Reputation_Faction_Hamat_EarnedReputation" description="key:621109086:54354734">
+<level tier="1" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" name="key:620879993:74285331" lotroPoints="5" requiredReputation="20000" deedKey="1879520523"/>
+<level tier="4" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="1879520524"/>
+<level tier="5" name="key:620879993:74285333" lotroPoints="5" requiredReputation="50000" deedKey="1879520525"/>
+<level tier="6" name="key:620879993:74285334" lotroPoints="5" requiredReputation="75000" deedKey="1879520526"/>
+<level tier="7" name="key:620879993:74285335" lotroPoints="5" requiredReputation="105000" deedKey="1879520527"/>
+<level tier="8" name="key:620879993:74285336" lotroPoints="5" requiredReputation="150000" deedKey="1879520645"/>
+</faction>
+<faction id="1879519543" name="Hunter's Guild of Mûr Ghala" category="Haradwaith" lowestTier="1" initialTier="2" highestTier="5" currentTierProperty="Reputation_Faction_murghala_elite_hunters_CurrentTier" currentReputationProperty="Reputation_Faction_murghala_elite_hunters_EarnedReputation" description="key:621118094:54354734">
+<level tier="1" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" name="key:620879993:74285331" lotroPoints="5" requiredReputation="20000" deedKey="1879520518"/>
+<level tier="4" name="key:620879993:74285332" lotroPoints="5" requiredReputation="30000" deedKey="1879520522"/>
+<level tier="5" name="key:620879993:74285333" lotroPoints="5" requiredReputation="50000" deedKey="1879520521"/>
+</faction>
+<faction id="1879182957" key="ALE_ASSOCIATION" name="The Ale Association" category="Misc" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Ale_Association_CurrentTier" currentReputationProperty="Reputation_Faction_Ale_Association_EarnedReputation" description="key:620860150:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="0" requiredReputation="30000" deedKey="Ale_Association_Acquaintance"/>
+<level tier="5" key="FRIEND" name="key:620879993:74285333" lotroPoints="0" requiredReputation="50000" deedKey="Ale_Association_Friend"/>
+<level tier="6" key="ALLY" name="key:620879993:74285334" lotroPoints="0" requiredReputation="75000" deedKey="Ale_Association_Ally"/>
+<level tier="7" key="KINDRED" name="key:620879993:74285335" lotroPoints="0" requiredReputation="105000" deedKey="Kindred_of_Malevolence"/>
+</faction>
+<faction id="1879103953" key="INN_LEAGUE" name="The Inn League" category="Misc" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Tavern_League_CurrentTier" currentReputationProperty="Reputation_Faction_Tavern_League_EarnedReputation" description="key:620801681:54354734">
+<level tier="1" key="ENEMY" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" key="OUTSIDER" name="key:620879993:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="NEUTRAL" name="key:620879993:74285331" lotroPoints="0" requiredReputation="20000"/>
+<level tier="4" key="ACQUAINTANCE" name="key:620879993:74285332" lotroPoints="0" requiredReputation="30000"/>
+<level tier="5" key="FRIEND" name="key:620879993:74285333" lotroPoints="0" requiredReputation="50000"/>
+<level tier="6" key="ALLY" name="key:620879993:74285334" lotroPoints="0" requiredReputation="75000"/>
+<level tier="7" key="KINDRED" name="key:620879993:74285335" lotroPoints="0" requiredReputation="105000"/>
+</faction>
+<faction id="1879305436" key="HOBNANIGANS" name="Chicken Chasing League of Eriador" category="Misc" lowestTier="1" initialTier="3" highestTier="7" currentTierProperty="Reputation_Faction_Festival_Hobnanigans_CurrentTier" currentReputationProperty="Reputation_Faction_Festival_Hobnanigans_EarnedReputation" description="key:620947911:54354734">
+<level tier="1" name="key:620947916:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" name="key:620947916:74285330" lotroPoints="0" requiredReputation="10000"/>
+<level tier="3" key="ROOKIE" name="key:620947916:74285331" lotroPoints="0" requiredReputation="20000" deedKey="1879305449"/>
+<level tier="4" key="LEAGUER" name="key:620947916:74285332" lotroPoints="0" requiredReputation="30000" deedKey="1879305450"/>
+<level tier="5" key="MAJOR_LEAGUER" name="key:620947916:74285333" lotroPoints="0" requiredReputation="50000" deedKey="1879305451"/>
+<level tier="6" key="ALL_STAR" name="key:620947916:74285334" lotroPoints="0" requiredReputation="75000" deedKey="1879305452"/>
+<level tier="7" key="HALL_OF_FAMER" name="key:620947916:74285335" lotroPoints="0" requiredReputation="105000" deedKey="1879305453"/>
+</faction>
+<faction id="1879464285" name="The Path of Valour" category="Misc" lowestTier="1" initialTier="1" highestTier="6" currentTierProperty="Reputation_Faction_Landscape_Difficulty_CurrentTier" currentReputationProperty="Reputation_Faction_Landscape_Difficulty_EarnedReputation" description="key:621076038:54354734">
+<level tier="1" name="key:621077096:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" name="key:621077096:74285330" lotroPoints="0" requiredReputation="1500"/>
+<level tier="3" name="key:621077096:74285331" lotroPoints="0" requiredReputation="6000"/>
+<level tier="4" name="key:621077096:74285332" lotroPoints="0" requiredReputation="15000"/>
+<level tier="5" name="key:621077096:74285333" lotroPoints="0" requiredReputation="28500"/>
+<level tier="6" name="key:621077096:74285334" lotroPoints="0" requiredReputation="46500"/>
+</faction>
+<faction id="1879490383" name="Amelia's Studies" category="Misc" lowestTier="1" initialTier="3" highestTier="8" currentTierProperty="Reputation_Faction_Ringwraith_event_CurrentTier" currentReputationProperty="Reputation_Faction_Ringwraith_event_EarnedReputation" description="key:621096325:54354734">
+<level tier="1" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" name="key:620879993:74285330" lotroPoints="0" requiredReputation="0"/>
+<level tier="3" name="key:620879993:74285331" lotroPoints="0" requiredReputation="0"/>
+<level tier="4" name="key:620879993:74285332" lotroPoints="0" requiredReputation="2500" deedKey="1879490437"/>
+<level tier="5" name="key:620879993:74285333" lotroPoints="0" requiredReputation="5000" deedKey="1879490435"/>
+<level tier="6" name="key:620879993:74285334" lotroPoints="0" requiredReputation="7500" deedKey="1879490439"/>
+<level tier="7" name="key:620879993:74285335" lotroPoints="0" requiredReputation="10000" deedKey="1879490438"/>
+<level tier="8" name="key:620879993:74285336" lotroPoints="0" requiredReputation="15000" deedKey="1879490436"/>
+</faction>
+<faction id="1879496954" name="Moria Bounty Hunters" category="Misc" lowestTier="1" initialTier="3" highestTier="5" currentTierProperty="Reputation_Faction_Ringwraith_event_moria_CurrentTier" currentReputationProperty="Reputation_Faction_Ringwraith_event_moria_EarnedReputation" description="key:621101107:54354734">
+<level tier="1" name="key:620879993:74285329" lotroPoints="0" requiredReputation="0"/>
+<level tier="2" name="key:620879993:74285330" lotroPoints="0" requiredReputation="0"/>
+<level tier="3" name="key:620879993:74285331" lotroPoints="0" requiredReputation="0"/>
+<level tier="4" name="key:620879993:74285332" lotroPoints="0" requiredReputation="2500"/>
+<level tier="5" name="key:620879993:74285333" lotroPoints="0" requiredReputation="5000"/>
+</faction>
+<deed name="World Renowned" lotroPoints="50">
+<deedFaction id="1879091345"/>
+<deedFaction id="1879091340"/>
+<deedFaction id="1879091408"/>
+<deedFaction id="1879161272"/>
+<deedFaction id="1879091344"/>
+<deedFaction id="1879091346"/>
+<deedFaction id="1879091343"/>
+<deedFaction id="1879103954"/>
+<deedFaction id="1879091341"/>
+<deedFaction id="1879181920"/>
+<deedFaction id="1879181919"/>
+</deed>
+<deed name="Ambassador of the Elves" lotroPoints="20">
+<deedFaction id="1879091346"/>
+<deedFaction id="1879150133"/>
+<deedFaction id="1879154438"/>
+</deed>
+</factions>

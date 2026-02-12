@@ -80,6 +80,20 @@ public:
         return m_propertiesById.size();
     }
     
+    /**
+     * @brief Search for properties containing a substring (case-insensitive)
+     */
+    QList<PropertyDefinitionPtr> searchProperties(const QString& substring, int maxResults = 20) const {
+        QList<PropertyDefinitionPtr> results;
+        QString lowerSub = substring.toLower();
+        for (auto it = m_propertiesByName.begin(); it != m_propertiesByName.end() && results.size() < maxResults; ++it) {
+            if (it.key().toLower().contains(lowerSub)) {
+                results.append(it.value());
+            }
+        }
+        return results;
+    }
+    
 private:
     QMap<int, PropertyDefinitionPtr> m_propertiesById;
     QMap<QString, PropertyDefinitionPtr> m_propertiesByName;

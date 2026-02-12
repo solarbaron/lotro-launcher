@@ -14,6 +14,7 @@
 
 #include <QString>
 
+#include <map>
 #include <memory>
 #include <optional>
 #include <vector>
@@ -78,6 +79,81 @@ struct CharacterInfo {
 };
 
 /**
+ * Single virtue status
+ */
+struct VirtueStatus {
+    QString key;       // e.g., "CHARITY", "COMPASSION"
+    QString name;      // Display name
+    int rank = 0;      // Current rank (0-80+)
+    int xp = 0;        // Current XP
+};
+
+/**
+ * Faction standing
+ */
+struct FactionStatus {
+    int factionId = 0;
+    QString key;       // e.g., "BREE", "ELVES"
+    QString name;      // Display name
+    QString category;  // e.g., "Eriador", "Rhovanion"
+    int tier = 0;      // Current tier (1-7 typically: Enemy to Kindred)
+    int reputation = 0; // Total earned reputation
+};
+
+/**
+ * Crafting profession status
+ */
+struct CraftingProfessionStatus {
+    QString name;
+    int tier = 0;         // Current tier (1-15)
+    int proficiency = 0;  // Proficiency points in current tier
+    int mastery = 0;      // Mastery points in current tier
+    bool hasMastered = false;
+};
+
+/**
+ * Crafting vocation status
+ */
+struct CraftingStatus {
+    QString vocation;
+    std::vector<CraftingProfessionStatus> professions;
+};
+
+/**
+ * Extended character data with all extractable elements
+ */
+struct CharacterData {
+    CharacterInfo basic;
+    
+    // Virtues (20 virtues)
+    std::vector<VirtueStatus> virtues;
+    
+    // Reputation
+    std::vector<FactionStatus> factions;
+    
+    // Crafting
+    CraftingStatus crafting;
+    
+    // Equipped gear slot -> item ID
+    std::map<QString, int> equippedGear;
+    
+    // Wallet currencies (currency ID -> amount)
+    std::map<int, int> wallet;
+    
+    // Known skills (skill IDs)
+    std::vector<int> skills;
+    
+    // Acquired titles (title IDs)
+    std::vector<int> titles;
+    
+    // Known emotes (emote IDs)
+    std::vector<int> emotes;
+    
+    // Trait points spent (spec ID -> points)
+    std::map<int, int> traitPoints;
+};
+
+/**
  * Character data extractor
  * 
  * Reads character information from LOTRO client process memory.
@@ -115,6 +191,12 @@ public:
      * @return Character info or nullopt if extraction failed
      */
     std::optional<CharacterInfo> extractCharacter();
+    
+    /**
+     * Extract full character data including virtues, reputation, crafting
+     * @return Complete character data or nullopt if extraction failed
+     */
+    std::optional<CharacterData> extractFullData();
     
     /**
      * Get server name

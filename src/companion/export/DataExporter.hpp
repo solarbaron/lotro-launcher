@@ -5,12 +5,14 @@
 #include <QJsonObject>
 #include <vector>
 #include <map>
+#include <optional>
 
 namespace lotro {
 
 namespace dat { class DataFacade; }
 class ProcessMemory;
 struct CharacterInfo;
+struct CharacterData;
 
 enum class ExtractableElement {
     BasicInfo,
@@ -65,7 +67,7 @@ private:
     ProcessMemory* m_memory;
     QString m_outputPath;
     
-    void extractElement(ExtractableElement element, const CharacterInfo& info, QJsonObject& exportData);
+    void extractElement(ExtractableElement element, const CharacterInfo& info, const std::optional<CharacterData>& fullData, QJsonObject& exportData);
     void saveExportToFile(const QJsonObject& data, const CharacterInfo& info);
 };
 

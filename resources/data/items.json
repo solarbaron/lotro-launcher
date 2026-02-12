@@ -1,0 +1,279 @@
+[
+    {
+        "id": "helm_defenders_resolve",
+        "name": "Helm of the Defender's Resolve",
+        "description": "A sturdy helmet crafted for defenders of Middle-earth.",
+        "slot": "Head",
+        "quality": "Incomparable",
+        "itemLevel": 480,
+        "requiredLevel": 150,
+        "stats": {
+            "Vitality": 1250,
+            "Might": 650,
+            "Critical Defence": 8500,
+            "Physical Mitigation": 12000
+        },
+        "setName": "Defender's Resolve"
+    },
+    {
+        "id": "shoulders_defenders_resolve",
+        "name": "Shoulders of the Defender's Resolve",
+        "description": "Heavy pauldrons providing maximum protection.",
+        "slot": "Shoulders",
+        "quality": "Incomparable",
+        "itemLevel": 480,
+        "requiredLevel": 150,
+        "stats": {
+            "Vitality": 1100,
+            "Might": 580,
+            "Physical Mitigation": 10500,
+            "Tactical Mitigation": 8000
+        },
+        "setName": "Defender's Resolve"
+    },
+    {
+        "id": "chest_fiery_wrath",
+        "name": "Breastplate of Fiery Wrath",
+        "description": "A breastplate imbued with the fury of battle.",
+        "slot": "Chest",
+        "quality": "Epic",
+        "itemLevel": 485,
+        "requiredLevel": 150,
+        "stats": {
+            "Might": 1450,
+            "Vitality": 980,
+            "Physical Mastery": 18500,
+            "Critical Rating": 7200
+        }
+    },
+    {
+        "id": "gloves_shadow_striker",
+        "name": "Gloves of the Shadow Striker",
+        "description": "Light gauntlets favored by skilled combatants.",
+        "slot": "Hands",
+        "quality": "Rare",
+        "itemLevel": 475,
+        "requiredLevel": 150,
+        "stats": {
+            "Agility": 1150,
+            "Might": 420,
+            "Critical Rating": 8800,
+            "Finesse": 6500
+        }
+    },
+    {
+        "id": "legs_moria_guardian",
+        "name": "Leggings of the Moria Guardian",
+        "description": "Leg armor forged in the depths of Khazad-dûm.",
+        "slot": "Legs",
+        "quality": "Incomparable",
+        "itemLevel": 480,
+        "requiredLevel": 150,
+        "stats": {
+            "Vitality": 1320,
+            "Might": 700,
+            "Physical Mitigation": 11000,
+            "Block Rating": 5500
+        }
+    },
+    {
+        "id": "boots_swift_stride",
+        "name": "Boots of Swift Stride",
+        "description": "Lightweight boots enhancing mobility.",
+        "slot": "Feet",
+        "quality": "Uncommon",
+        "itemLevel": 460,
+        "requiredLevel": 145,
+        "stats": {
+            "Agility": 950,
+            "Vitality": 380,
+            "Evade Rating": 4800
+        }
+    },
+    {
+        "id": "cloak_loth_healer",
+        "name": "Cloak of the Lothlórien Healer",
+        "description": "A shimmering cloak blessed by the Elves.",
+        "slot": "Back",
+        "quality": "Epic",
+        "itemLevel": 485,
+        "requiredLevel": 150,
+        "stats": {
+            "Will": 1380,
+            "Vitality": 620,
+            "Tactical Mastery": 16000,
+            "Outgoing Healing": 4500
+        }
+    },
+    {
+        "id": "sword_anduril",
+        "name": "Andúril, Flame of the West",
+        "description": "The sword reforged from the shards of Narsil.",
+        "slot": "MainHand",
+        "quality": "Legendary",
+        "itemLevel": 500,
+        "requiredLevel": 150,
+        "stats": {
+            "Might": 1800,
+            "Agility": 650,
+            "Physical Mastery": 22000,
+            "Critical Rating": 9500,
+            "Light of Eärendil": 12000
+        }
+    },
+    {
+        "id": "shield_kings_guard",
+        "name": "Shield of the King's Guard",
+        "description": "A massive tower shield of Gondorian make.",
+        "slot": "OffHand",
+        "quality": "Incomparable",
+        "itemLevel": 480,
+        "requiredLevel": 150,
+        "stats": {
+            "Vitality": 1500,
+            "Block Rating": 12000,
+            "Critical Defence": 9000,
+            "Physical Mitigation": 8500
+        }
+    },
+    {
+        "id": "bow_galadriel",
+        "name": "Bow of Galadriel's Gift",
+        "description": "An Elven bow of incredible craftsmanship.",
+        "slot": "Ranged",
+        "quality": "Epic",
+        "itemLevel": 485,
+        "requiredLevel": 150,
+        "requiredClass": "Hunter",
+        "stats": {
+            "Agility": 1650,
+            "Physical Mastery": 20000,
+            "Critical Rating": 8000,
+            "Finesse": 5500
+        }
+    },
+    {
+        "id": "necklace_adamant",
+        "name": "Necklace of Adamant Will",
+        "description": "A pendant radiating protective energy.",
+        "slot": "Necklace",
+        "quality": "Rare",
+        "itemLevel": 475,
+        "requiredLevel": 150,
+        "stats": {
+            "Will": 980,
+            "Vitality": 450,
+            "Resistance": 8500,
+            "Tactical Mitigation": 6000
+        }
+    },
+    {
+        "id": "earring_twilight",
+        "name": "Earring of Twilight Grace",
+        "description": "An Elven earring shimmering with starlight.",
+        "slot": "Earring",
+        "quality": "Uncommon",
+        "itemLevel": 465,
+        "requiredLevel": 148,
+        "stats": {
+            "Fate": 720,
+            "Will": 380,
+            "Critical Rating": 4500,
+            "Incoming Healing": 2800
+        }
+    },
+    {
+        "id": "bracelet_iron_will",
+        "name": "Bracelet of Iron Will",
+        "description": "A Dwarven bracelet granting fortitude.",
+        "slot": "Bracelet",
+        "quality": "Rare",
+        "itemLevel": 475,
+        "requiredLevel": 150,
+        "stats": {
+            "Might": 850,
+            "Vitality": 620,
+            "Critical Defence": 6500,
+            "Parry Rating": 4800
+        }
+    },
+    {
+        "id": "ring_narya",
+        "name": "Narya, the Ring of Fire",
+        "description": "One of the Three Rings of the Elves.",
+        "slot": "Ring",
+        "quality": "Legendary",
+        "itemLevel": 500,
+        "requiredLevel": 150,
+        "stats": {
+            "Will": 1600,
+            "Fate": 1200,
+            "Tactical Mastery": 18000,
+            "Morale": 25000,
+            "Resistance": 12000
+        }
+    },
+    {
+        "id": "pocket_phial_galadriel",
+        "name": "Phial of Galadriel",
+        "description": "A crystal phial containing the light of Eärendil.",
+        "slot": "Pocket",
+        "quality": "Epic",
+        "itemLevel": 485,
+        "requiredLevel": 150,
+        "stats": {
+            "Light of Eärendil": 15000,
+            "Will": 950,
+            "Fate": 680,
+            "Resistance": 7500
+        }
+    },
+    {
+        "id": "chest_defenders_resolve",
+        "name": "Chestplate of the Defender's Resolve",
+        "description": "A massive breastplate for those who stand firm.",
+        "slot": "Chest",
+        "quality": "Incomparable",
+        "itemLevel": 480,
+        "requiredLevel": 150,
+        "stats": {
+            "Vitality": 1450,
+            "Might": 780,
+            "Physical Mitigation": 14000,
+            "Tactical Mitigation": 10000
+        },
+        "setName": "Defender's Resolve"
+    },
+    {
+        "id": "staff_istari",
+        "name": "Staff of the Istari",
+        "description": "A wizard's staff of tremendous power.",
+        "slot": "MainHand",
+        "quality": "Epic",
+        "itemLevel": 485,
+        "requiredLevel": 150,
+        "requiredClass": "Lore-master",
+        "stats": {
+            "Will": 1750,
+            "Fate": 850,
+            "Tactical Mastery": 21000,
+            "Critical Rating": 8200
+        }
+    },
+    {
+        "id": "rune_stone_healer",
+        "name": "Rune-stone of Mending",
+        "description": "A healing rune-stone for Rune-keepers.",
+        "slot": "MainHand",
+        "quality": "Rare",
+        "itemLevel": 475,
+        "requiredLevel": 150,
+        "requiredClass": "Rune-keeper",
+        "stats": {
+            "Will": 1480,
+            "Tactical Mastery": 17500,
+            "Outgoing Healing": 6500,
+            "Critical Rating": 5800
+        }
+    }
+]

@@ -1,0 +1,256 @@
+[
+    {
+        "id": "recipe_cook_travel_ration",
+        "name": "Travel Ration",
+        "profession": "Cook",
+        "tier": 1,
+        "category": "Food",
+        "outputItemId": "item_travel_ration",
+        "outputItemName": "Travel Ration",
+        "outputQuantity": 5,
+        "ingredients": [
+            {
+                "itemId": "item_flour",
+                "name": "Flour",
+                "quantity": 2
+            },
+            {
+                "itemId": "item_water",
+                "name": "Water",
+                "quantity": 1
+            }
+        ]
+    },
+    {
+        "id": "recipe_cook_honey_bread",
+        "name": "Honey Bread",
+        "profession": "Cook",
+        "tier": 2,
+        "category": "Food",
+        "outputItemId": "item_honey_bread",
+        "outputItemName": "Honey Bread",
+        "outputQuantity": 3,
+        "ingredients": [
+            {
+                "itemId": "item_flour",
+                "name": "Flour",
+                "quantity": 2
+            },
+            {
+                "itemId": "item_honey",
+                "name": "Honey",
+                "quantity": 1
+            },
+            {
+                "itemId": "item_water",
+                "name": "Water",
+                "quantity": 1
+            }
+        ]
+    },
+    {
+        "id": "recipe_jeweller_bronze_ring",
+        "name": "Bronze Ring",
+        "profession": "Jeweller",
+        "tier": 1,
+        "category": "Rings",
+        "outputItemId": "item_bronze_ring",
+        "outputItemName": "Bronze Ring",
+        "outputQuantity": 1,
+        "ingredients": [
+            {
+                "itemId": "item_bronze_ingot",
+                "name": "Bronze Ingot",
+                "quantity": 1
+            }
+        ]
+    },
+    {
+        "id": "recipe_jeweller_silver_bracelet",
+        "name": "Silver Bracelet",
+        "profession": "Jeweller",
+        "tier": 2,
+        "category": "Bracelets",
+        "outputItemId": "item_silver_bracelet",
+        "outputItemName": "Silver Bracelet",
+        "outputQuantity": 1,
+        "ingredients": [
+            {
+                "itemId": "item_silver_ingot",
+                "name": "Silver Ingot",
+                "quantity": 2
+            },
+            {
+                "itemId": "item_gem",
+                "name": "Amethyst",
+                "quantity": 1
+            }
+        ]
+    },
+    {
+        "id": "recipe_metalsmith_bronze_dagger",
+        "name": "Bronze Dagger",
+        "profession": "Metalsmith",
+        "tier": 1,
+        "category": "Daggers",
+        "outputItemId": "item_bronze_dagger",
+        "outputItemName": "Bronze Dagger",
+        "outputQuantity": 1,
+        "ingredients": [
+            {
+                "itemId": "item_bronze_ingot",
+                "name": "Bronze Ingot",
+                "quantity": 2
+            }
+        ]
+    },
+    {
+        "id": "recipe_metalsmith_iron_chainmail",
+        "name": "Iron Chainmail",
+        "profession": "Metalsmith",
+        "tier": 2,
+        "category": "Heavy Armour",
+        "outputItemId": "item_iron_chainmail",
+        "outputItemName": "Iron Chainmail",
+        "outputQuantity": 1,
+        "ingredients": [
+            {
+                "itemId": "item_iron_ingot",
+                "name": "Iron Ingot",
+                "quantity": 3
+            },
+            {
+                "itemId": "item_leather",
+                "name": "Leather",
+                "quantity": 1
+            }
+        ]
+    },
+    {
+        "id": "recipe_tailor_light_robe",
+        "name": "Light Robe",
+        "profession": "Tailor",
+        "tier": 1,
+        "category": "Light Armour",
+        "outputItemId": "item_light_robe",
+        "outputItemName": "Light Robe",
+        "outputQuantity": 1,
+        "ingredients": [
+            {
+                "itemId": "item_cloth",
+                "name": "Cloth",
+                "quantity": 3
+            }
+        ]
+    },
+    {
+        "id": "recipe_tailor_leather_boots",
+        "name": "Leather Boots",
+        "profession": "Tailor",
+        "tier": 2,
+        "category": "Medium Armour",
+        "outputItemId": "item_leather_boots",
+        "outputItemName": "Leather Boots",
+        "outputQuantity": 1,
+        "ingredients": [
+            {
+                "itemId": "item_leather",
+                "name": "Leather",
+                "quantity": 2
+            },
+            {
+                "itemId": "item_thread",
+                "name": "Thread",
+                "quantity": 1
+            }
+        ]
+    },
+    {
+        "id": "recipe_weaponsmith_steel_sword",
+        "name": "Steel Sword",
+        "profession": "Weaponsmith",
+        "tier": 3,
+        "category": "Swords",
+        "outputItemId": "item_steel_sword",
+        "outputItemName": "Steel Sword",
+        "outputQuantity": 1,
+        "ingredients": [
+            {
+                "itemId": "item_steel_ingot",
+                "name": "Steel Ingot",
+                "quantity": 2
+            },
+            {
+                "itemId": "item_leather",
+                "name": "Leather",
+                "quantity": 1
+            }
+        ]
+    },
+    {
+        "id": "recipe_woodworker_oak_bow",
+        "name": "Oak Bow",
+        "profession": "Woodworker",
+        "tier": 2,
+        "category": "Bows",
+        "outputItemId": "item_oak_bow",
+        "outputItemName": "Oak Bow",
+        "outputQuantity": 1,
+        "ingredients": [
+            {
+                "itemId": "item_oak_plank",
+                "name": "Oak Plank",
+                "quantity": 2
+            },
+            {
+                "itemId": "item_string",
+                "name": "Bowstring",
+                "quantity": 1
+            }
+        ]
+    },
+    {
+        "id": "recipe_scholar_lore_scroll",
+        "name": "Scroll of Lore",
+        "profession": "Scholar",
+        "tier": 1,
+        "category": "Scrolls",
+        "outputItemId": "item_lore_scroll",
+        "outputItemName": "Scroll of Lore",
+        "outputQuantity": 1,
+        "ingredients": [
+            {
+                "itemId": "item_parchment",
+                "name": "Parchment",
+                "quantity": 1
+            },
+            {
+                "itemId": "item_ink",
+                "name": "Ink",
+                "quantity": 1
+            }
+        ]
+    },
+    {
+        "id": "recipe_scholar_battle_potion",
+        "name": "Battle Tonic",
+        "profession": "Scholar",
+        "tier": 2,
+        "category": "Potions",
+        "outputItemId": "item_battle_tonic",
+        "outputItemName": "Battle Tonic",
+        "outputQuantity": 3,
+        "ingredients": [
+            {
+                "itemId": "item_athelas",
+                "name": "Athelas",
+                "quantity": 2
+            },
+            {
+                "itemId": "item_water",
+                "name": "Water",
+                "quantity": 1
+            }
+        ]
+    }
+]
