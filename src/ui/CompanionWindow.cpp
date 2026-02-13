@@ -73,19 +73,11 @@ void CompanionWindow::setupUi() {
     // Create tab widget
     m_tabWidget = new QTabWidget();
     
-    // === TAB 1: Character Tracker ===
+    // === TAB 1: Character Tracker (embedded) ===
     auto* trackerWidget = new QWidget();
     auto* trackerLayout = new QVBoxLayout(trackerWidget);
-    trackerLayout->setContentsMargins(16, 16, 16, 16);
-    
-    auto* infoLabel = new QLabel(
-        tr("<b>Character Tracker</b><br>"
-           "Connect to the running game to view live character data. "
-           "The game must be running for this feature to work.")
-    );
-    infoLabel->setWordWrap(true);
-    infoLabel->setStyleSheet("color: #aaa; margin-bottom: 10px;");
-    trackerLayout->addWidget(infoLabel);
+    trackerLayout->setContentsMargins(8, 8, 8, 8);
+    trackerLayout->setSpacing(6);
     
     // Real-time sync status widget
     auto* syncGroup = new QGroupBox(tr("Real-Time Sync"));
@@ -96,27 +88,19 @@ void CompanionWindow::setupUi() {
         m_syncStatus = nullptr;
     });
     syncLayout->addWidget(m_syncStatus);
+    
+    m_syncButton = new QPushButton(tr("Start Background Sync"));
+    m_syncButton->setMinimumHeight(32);
+    connect(m_syncButton, &QPushButton::clicked, this, &CompanionWindow::onSyncToggled);
+    syncLayout->addWidget(m_syncButton);
+    
     trackerLayout->addWidget(syncGroup);
     
-    // Start sync button - use member or capture-safe approach
-    m_syncButton = new QPushButton(tr("Start Background Sync"));
-    m_syncButton->setMinimumHeight(36);
-    connect(m_syncButton, &QPushButton::clicked, this, &CompanionWindow::onSyncToggled);
-    trackerLayout->addWidget(m_syncButton);
+    // Embedded character tracker (full tabbed interface)
+    m_trackerWindow = new CharacterTrackerWindow(m_gamePath, trackerWidget);
+    m_trackerWindow->setWindowFlags(Qt::Widget);  // Make it a normal widget
+    trackerLayout->addWidget(m_trackerWindow, 1);
     
-    auto* openTrackerBtn = new QPushButton(tr("Open Advanced Tracker"));
-    openTrackerBtn->setMinimumHeight(36);
-    connect(openTrackerBtn, &QPushButton::clicked, this, [this]() {
-        CharacterTrackerWindow tracker(m_gamePath, this);
-        tracker.exec();
-        // After tracker closes, refresh saved characters list
-        if (m_characterList) {
-            m_characterList->refresh();
-        }
-    });
-    trackerLayout->addWidget(openTrackerBtn);
-    
-    trackerLayout->addStretch();
     m_tabWidget->addTab(trackerWidget, tr("Character"));
     
     // === TAB 2: Saved Characters ===

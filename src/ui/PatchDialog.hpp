@@ -10,6 +10,7 @@
 #pragma once
 
 #include "game/PatchClient.hpp"
+#include "game/NativePatcher.hpp"
 
 #include <QDialog>
 #include <QLabel>
@@ -26,6 +27,12 @@ namespace lotro {
  * 
  * Shows progress of the patching operation with cancel support.
  * Features a detailed log view and precise progress tracking.
+ * 
+ * Patching phases (matching OneLauncher):
+ *   Phase 1: Akamai CDN - download missing game files and splashscreens
+ *   Phase 2: FilesOnly (1st pass) - patchclient.dll file check
+ *   Phase 3: FilesOnly (2nd pass) - patchclient.dll self-patch handling
+ *   Phase 4: DataOnly - patchclient.dll data patching
  */
 class PatchDialog : public QDialog {
     Q_OBJECT
@@ -33,6 +40,9 @@ class PatchDialog : public QDialog {
 public:
     explicit PatchDialog(const std::filesystem::path& gameDirectory, 
                         const QString& patchServerUrl,
+                        const QString& launcherConfigUrl = QString(),
+                        bool highResEnabled = true,
+                        const QString& locale = "en",
                         QWidget* parent = nullptr);
     ~PatchDialog();
     
@@ -62,12 +72,17 @@ private slots:
 private:
     void setupUi();
     void runPatch();
+    void runAkamaiPhase();
     void appendLog(const QString& message, const QString& color = "#aaaaaa");
     void updatePhaseDisplay(int currentPhase, int totalPhases);
     
     std::filesystem::path m_gameDirectory;
     QString m_patchServerUrl;
+    QString m_launcherConfigUrl;
+    bool m_highResEnabled;
+    QString m_locale;
     std::unique_ptr<PatchClient> m_patchClient;
+    std::unique_ptr<NativePatcher> m_nativePatcher;
     
     // UI elements
     QLabel* m_titleLabel = nullptr;
@@ -83,7 +98,7 @@ private:
     bool m_patching = false;
     QString m_lastError;
     int m_currentPhase = 0;
-    int m_totalPhases = 3;  // FilesOnly, FilesOnly, DataOnly
+    int m_totalPhases = 4;  // Akamai, FilesOnly, FilesOnly, DataOnly
 };
 
 } // namespace lotro

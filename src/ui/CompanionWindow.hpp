@@ -17,6 +17,7 @@ namespace lotro {
 
 class CharacterExtractor;
 class CharacterTracker;
+class CharacterTrackerWindow;
 class CharacterListWidget;
 class DeedBrowserWidget;
 class RecipeBrowserWidget;
@@ -63,6 +64,7 @@ private:
     RecipeBrowserWidget* m_recipeBrowser = nullptr;
     GearSimulatorWidget* m_gearSimulator = nullptr;
     SyncStatusWidget* m_syncStatus = nullptr;
+    CharacterTrackerWindow* m_trackerWindow = nullptr;
     QPushButton* m_syncButton = nullptr;
 };
 

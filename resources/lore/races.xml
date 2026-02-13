@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?><races>
+<race id="23" code="23" key="Man" name="Man" iconId="1090519171"/>
+<race id="65" code="65" key="Elf" name="Elf" iconId="1090519168"/>
+<race id="73" code="73" key="Dwarf" name="Dwarf" iconId="1090519165"/>
+<race id="81" code="81" key="Hobbit" name="Hobbit" iconId="1090519174"/>
+<race id="151" code="151" key="HighElf" name="High Elf" iconId="1092391957"/>
+<race id="152" code="152" key="StoutAxe" name="Stout-axe" iconId="1092679938"/>
+<race id="153" code="153" key="RiverHobbit" name="River Hobbit" iconId="1092819068"/>
+</races>

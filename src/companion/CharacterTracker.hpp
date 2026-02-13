@@ -10,6 +10,7 @@
 
 #include <chrono>
 #include <filesystem>
+#include <map>
 #include <memory>
 #include <optional>
 #include <string>
@@ -31,6 +32,7 @@ enum class CharacterClass {
     Guardian,
     Hunter,
     LoreMaster,
+    Mariner,
     Minstrel,
     RuneKeeper,
     Warden,
@@ -55,6 +57,50 @@ enum class CharacterRace {
 /**
  * Character information
  */
+/**
+ * Saved virtue snapshot
+ */
+struct SavedVirtue {
+    QString key;
+    QString name;
+    int rank = 0;
+    int xp = 0;
+};
+
+/**
+ * Saved faction standing snapshot
+ */
+struct SavedFaction {
+    int factionId = 0;
+    QString key;
+    QString name;
+    QString category;
+    int tier = 0;
+    int reputation = 0;
+};
+
+/**
+ * Saved crafting profession snapshot
+ */
+struct SavedCraftingProfession {
+    QString name;
+    int tier = 0;
+    int proficiency = 0;
+    int mastery = 0;
+    bool hasMastered = false;
+};
+
+/**
+ * Saved crafting status
+ */
+struct SavedCraftingStatus {
+    QString vocation;
+    std::vector<SavedCraftingProfession> professions;
+};
+
+/**
+ * Character information with full companion data
+ */
 struct Character {
     // Basic info
     QString name;
@@ -67,6 +113,14 @@ struct Character {
     QString currentArea;
     int virtueXP = 0;
     int destinyPoints = 0;
+    int morale = 0;
+    int maxMorale = 0;
+    int power = 0;
+    int maxPower = 0;
+    int gold = 0;
+    int silver = 0;
+    int copper = 0;
+    int lotroPoints = 0;
     
     // Timestamps
     std::chrono::system_clock::time_point lastPlayed;
@@ -75,14 +129,19 @@ struct Character {
     // Account association
     QString accountName;
     
-    /**
-     * Get display string for class
-     */
-    QString classString() const;
+    // Extended data (populated from full extraction)
+    std::vector<SavedVirtue> virtues;
+    std::vector<SavedFaction> factions;
+    SavedCraftingStatus crafting;
+    std::map<QString, int> equippedGear;
+    std::vector<int> titles;
+    std::vector<int> emotes;
+    std::vector<int> skills;
+    std::map<int, int> traitPoints;
     
-    /**
-     * Get display string for race
-     */
+    bool hasExtendedData = false;  // true if virtues/factions/etc are populated
+    
+    QString classString() const;
     QString raceString() const;
 };
 
@@ -90,9 +149,7 @@ struct Character {
  * Character tracker
  * 
  * Tracks character information across sessions.
- * Data is persisted to local storage.
- * 
- * Future: May integrate with LOTRO Companion-style client data import.
+ * Data is persisted to local storage with full companion data support.
  */
 class CharacterTracker {
 public:

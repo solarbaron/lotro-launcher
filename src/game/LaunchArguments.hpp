@@ -83,6 +83,11 @@ public:
     LaunchArgumentBuilder& setHighResEnabled(bool enabled);
     
     /**
+     * Set GLS ticket lifetime in seconds
+     */
+    LaunchArgumentBuilder& setGlsTicketLifetime(const QString& lifetime);
+    
+    /**
      * Set custom game settings directory
      */
     LaunchArgumentBuilder& setUserDir(const std::filesystem::path& path);
@@ -112,9 +117,10 @@ private:
     QString m_loginServer;
     QString m_ticket;
     QString m_chatServer;
-    QString m_language = "en";
+    QString m_language = "English";
     QString m_product = "LOTRO";
     QString m_authServer;
+    QString m_glsTicketLifetime;
     bool m_highResEnabled = true;
     std::optional<std::filesystem::path> m_userDir;
     QStringList m_extraArgs;
@@ -123,10 +129,14 @@ private:
 /**
  * Default argument template for LOTRO
  * 
- * This is used if the launcher config doesn't provide one.
+ * This matches the server-provided template from
+ * gls.lotro.com/launcher/lotro/lotrolauncher.server.config.xml
+ * (GameClient.WIN32.ArgTemplate)
  */
 constexpr const char* DEFAULT_LOTRO_ARG_TEMPLATE = 
     "-a {SUBSCRIPTION} -h {LOGIN} --glsticketdirect {GLS} "
-    "--chatserver {CHAT} --language {LANGUAGE} --highres {HIGHRES}";
+    "--chatserver {CHAT} --rodat on --language {LANGUAGE} "
+    "--gametype {PRODUCT} --authserverurl {AUTHSERVERURL} "
+    "--glsticketlifetime {GLSTICKETLIFETIME}";
 
 } // namespace lotro

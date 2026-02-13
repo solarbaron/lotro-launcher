@@ -64,6 +64,7 @@ private:
     QListWidget* m_listWidget = nullptr;
     QLabel* m_emptyLabel = nullptr;
     QPushButton* m_deleteButton = nullptr;
+    QPushButton* m_viewDetailsButton = nullptr;
     QPushButton* m_refreshButton = nullptr;
 };
 

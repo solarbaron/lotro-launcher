@@ -57,6 +57,11 @@ LaunchArgumentBuilder& LaunchArgumentBuilder::setHighResEnabled(bool enabled) {
     return *this;
 }
 
+LaunchArgumentBuilder& LaunchArgumentBuilder::setGlsTicketLifetime(const QString& lifetime) {
+    m_glsTicketLifetime = lifetime;
+    return *this;
+}
+
 LaunchArgumentBuilder& LaunchArgumentBuilder::setUserDir(const std::filesystem::path& path) {
     m_userDir = path;
     return *this;
@@ -76,9 +81,12 @@ QString LaunchArgumentBuilder::substituteTemplate() const {
     result.replace("{GLS}", m_ticket);
     result.replace("{CHAT}", m_chatServer);
     result.replace("{LANGUAGE}", m_language);
+    // Support both {LANG} (server template) and {LANGUAGE} (our template)
+    result.replace("{LANG}", m_language);
     result.replace("{PRODUCT}", m_product);
+    result.replace("{AUTHSERVERURL}", m_authServer);
     result.replace("{AUTHSERVER}", m_authServer);
-    result.replace("{HIGHRES}", m_highResEnabled ? "1" : "0");
+    result.replace("{GLSTICKETLIFETIME}", m_glsTicketLifetime);
     
     // Handle user directory
     if (m_userDir) {
@@ -115,6 +123,13 @@ QStringList LaunchArgumentBuilder::build() const {
     
     // Add extra arguments
     args.append(m_extraArgs);
+    
+    // When high-res is disabled, tell the client the high-res dat file
+    // was not updated. This matches OneLauncher's behavior and prevents
+    // the client from detecting a mismatch in texture data state.
+    if (!m_highResEnabled) {
+        args << "--HighResOutOfDate";
+    }
     
     return args;
 }

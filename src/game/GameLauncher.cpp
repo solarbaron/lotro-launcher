@@ -221,13 +221,30 @@ public:
             }
             
             LaunchArgumentBuilder argBuilder;
-            // TODO: Get template from launcher config
+            // Map locale code to game language name expected by the LOTRO client
+            // (e.g. "en" -> "English", "de" -> "DE", "fr" -> "FR")
+            QString gameLanguage;
+            auto locale = QString::fromStdString(m_gameConfig.locale).toLower();
+            if (locale == "en" || locale == "english") {
+                gameLanguage = "English";
+            } else if (locale == "de" || locale == "german") {
+                gameLanguage = "DE";
+            } else if (locale == "fr" || locale == "french") {
+                gameLanguage = "FR";
+            } else {
+                gameLanguage = "English";  // default fallback
+            }
+            
             argBuilder.setTemplate(DEFAULT_LOTRO_ARG_TEMPLATE)
                       .setSubscription(accountNumber)
                       .setLoginServer(loginServer)
                       .setTicket(ticket)
-                      .setLanguage(QString::fromStdString(m_gameConfig.locale))
-                      .setHighResEnabled(m_gameConfig.highResEnabled);
+                      .setLanguage(gameLanguage)
+                      .setHighResEnabled(m_gameConfig.highResEnabled)
+                      // Auth server URL and ticket lifetime from launcher config XML
+                      // (gls.lotro.com/launcher/lotro/lotrolauncher.server.config.xml)
+                      .setAuthServer("https://gls.lotro.com/gls.authserver/service.asmx")
+                      .setGlsTicketLifetime("21600");
             
             QStringList args = argBuilder.build();
             

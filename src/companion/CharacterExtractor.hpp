@@ -276,6 +276,12 @@ private:
     std::optional<uint64_t> readAccountPropertyValue(uint32_t propId);
     std::optional<QString> readAccountStringProperty(uint32_t propId);
     std::optional<int> readAccountIntProperty(uint32_t propId);
+    
+    // Helper to read storage property (character-level data like race)
+    std::optional<uint64_t> readStoragePropertyValue(uint32_t propId);
+    
+    // Entity instance ID → DataID mapping (populated during entity scan)
+    std::map<uint64_t, uint32_t> m_entityDataIds;
 };
 
 } // namespace lotro

@@ -130,6 +130,7 @@ set(UI_SOURCES
     src/ui/SetupWizard.cpp
     src/ui/CharacterTrackerWindow.cpp
     src/ui/CharacterListWidget.cpp
+    src/ui/CharacterDetailWidget.cpp
     src/ui/DeedBrowserWidget.cpp
     src/ui/RecipeBrowserWidget.cpp
     src/ui/GearSimulatorWidget.cpp

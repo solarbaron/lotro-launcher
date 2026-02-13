@@ -149,6 +149,112 @@ struct Cosmetic {
 };
 
 /**
+ * Reputation faction tier
+ */
+struct FactionTier {
+    int tier = 0;
+    QString key;          // e.g. ACQUAINTANCE, FRIEND, ALLY, KINDRED
+    int requiredReputation = 0;
+    int lotroPoints = 0;
+    QString deedKey;
+};
+
+/**
+ * Reputation faction
+ */
+struct Faction {
+    QString id;
+    QString key;
+    QString name;
+    QString category;     // e.g. Eriador, Rhovanion, Gondor
+    int lowestTier = 1;
+    int initialTier = 3;
+    int highestTier = 7;
+    QString currentTierProperty;
+    QString currentReputationProperty;
+    std::vector<FactionTier> tiers;
+};
+
+/**
+ * Map landmark
+ */
+struct Landmark {
+    QString id;
+    QString name;
+};
+
+/**
+ * Geographic area (region, territory, area, dungeon)
+ */
+enum class GeoAreaType {
+    Region,
+    Territory,
+    Area,
+    Dungeon,
+    Unknown
+};
+
+struct GeoArea {
+    QString id;
+    QString name;
+    GeoAreaType type = GeoAreaType::Unknown;
+    QString parentId;     // Parent region/territory
+};
+
+/**
+ * Crafting profession tier
+ */
+struct CraftingTier {
+    int identifier = 0;
+    QString name;         // e.g. Apprentice, Journeyman, Expert
+    int proficiencyXp = 0;
+    int masteryXp = 0;
+};
+
+/**
+ * Crafting profession
+ */
+struct CraftingProfession {
+    QString identifier;
+    QString key;          // e.g. SCHOLAR, COOK, METALSMITH
+    QString name;
+    std::vector<CraftingTier> tiers;
+};
+
+/**
+ * Virtue definition
+ */
+struct VirtueDef {
+    QString id;
+    QString key;
+    QString name;
+    int maxRank = 0;
+};
+
+/**
+ * Character class definition
+ */
+struct GameClass {
+    QString id;
+    int code = 0;  // Internal game code (from Agent_Class property)
+    QString key;
+    QString name;
+    QString abbreviation;
+    int iconId = 0;
+};
+
+/**
+ * Race definition
+ */
+struct Race {
+    QString id;
+    int code = 0;  // Internal game code (from AdvTable_Race property)
+    QString key;
+    QString name;
+    int iconId = 0;
+};
+
+/**
  * Game database
  * 
  * Provides lookup for game data similar to LOTRO Companion.
@@ -218,6 +324,54 @@ public:
     std::optional<Trait> getTrait(const QString& id) const;
     
     // =================
+    // Faction lookups
+    // =================
+    
+    std::vector<Faction> getAllFactions() const;
+    std::vector<Faction> getFactionsByCategory(const QString& category) const;
+    std::optional<Faction> getFaction(const QString& id) const;
+    
+    // =================
+    // Landmark lookups
+    // =================
+    
+    std::vector<Landmark> searchLandmarks(const QString& query) const;
+    std::optional<Landmark> getLandmark(const QString& id) const;
+    
+    // =================
+    // GeoArea lookups
+    // =================
+    
+    std::vector<GeoArea> getAllRegions() const;
+    std::vector<GeoArea> getTerritoriesForRegion(const QString& regionId) const;
+    std::optional<GeoArea> getGeoArea(const QString& id) const;
+    
+    // =================
+    // Crafting lookups
+    // =================
+    
+    std::vector<CraftingProfession> getAllProfessions() const;
+    std::optional<CraftingProfession> getProfession(const QString& key) const;
+    
+    // =================
+    // Virtue lookups
+    // =================
+    
+    std::vector<VirtueDef> getAllVirtues() const;
+    std::optional<VirtueDef> getVirtue(const QString& id) const;
+    
+    // =================
+    // Class/Race lookups
+    // =================
+    
+    std::vector<GameClass> getAllClasses() const;
+    std::optional<GameClass> getGameClass(const QString& key) const;
+    std::optional<GameClass> getClassByCode(int code) const;
+    std::vector<Race> getAllRaces() const;
+    std::optional<Race> getRace(const QString& key) const;
+    std::optional<Race> getRaceByCode(int code) const;
+    
+    // =================
     // Statistics
     // =================
     
@@ -230,6 +384,13 @@ public:
     int questCount() const;
     int collectionCount() const;
     int cosmeticCount() const;
+    int factionCount() const;
+    int landmarkCount() const;
+    int geoAreaCount() const;
+    int professionCount() const;
+    int virtueCount() const;
+    int classCount() const;
+    int raceCount() const;
     
 private:
     GameDatabase() = default;
@@ -248,6 +409,13 @@ private:
     bool loadQuests(const std::filesystem::path& path);
     bool loadCollections(const std::filesystem::path& path);
     bool loadCosmetics(const std::filesystem::path& path);
+    bool loadFactions(const std::filesystem::path& path);
+    bool loadLandmarks(const std::filesystem::path& path);
+    bool loadGeoAreas(const std::filesystem::path& path);
+    bool loadCrafting(const std::filesystem::path& path);
+    bool loadVirtues(const std::filesystem::path& path);
+    bool loadClasses(const std::filesystem::path& path);
+    bool loadRaces(const std::filesystem::path& path);
     
     bool m_loaded = false;
     
@@ -260,6 +428,13 @@ private:
     std::vector<Quest> m_quests;
     std::vector<CollectionItem> m_collections;
     std::vector<Cosmetic> m_cosmetics;
+    std::vector<Faction> m_factions;
+    std::vector<Landmark> m_landmarks;
+    std::vector<GeoArea> m_geoAreas;
+    std::vector<CraftingProfession> m_professions;
+    std::vector<VirtueDef> m_virtues;
+    std::vector<GameClass> m_classes;
+    std::vector<Race> m_races;
 };
 
 } // namespace lotro

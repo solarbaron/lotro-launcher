@@ -9,8 +9,12 @@
 #include "PatchDialog.hpp"
 
 #include <QApplication>
+#include <QDomDocument>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
 #include <QScrollBar>
 #include <QDateTime>
+#include <QEventLoop>
 
 #include <spdlog/spdlog.h>
 
@@ -18,15 +22,22 @@ namespace lotro {
 
 PatchDialog::PatchDialog(const std::filesystem::path& gameDirectory,
                          const QString& patchServerUrl,
+                         const QString& launcherConfigUrl,
+                         bool highResEnabled,
+                         const QString& locale,
                          QWidget* parent)
     : QDialog(parent)
     , m_gameDirectory(gameDirectory)
     , m_patchServerUrl(patchServerUrl)
+    , m_launcherConfigUrl(launcherConfigUrl)
+    , m_highResEnabled(highResEnabled)
+    , m_locale(locale)
 {
     setupUi();
     
-    // Create patch client
+    // Create patch client and native patcher
     m_patchClient = std::make_unique<PatchClient>(m_gameDirectory);
+    m_nativePatcher = std::make_unique<NativePatcher>(m_gameDirectory);
 }
 
 PatchDialog::~PatchDialog() {
@@ -86,8 +97,8 @@ void PatchDialog::setupUi() {
     progressLayout->setContentsMargins(0, 10, 0, 10);
     progressLayout->setSpacing(8);
     
-    // Phase indicator (Phase 1/3)
-    m_phaseLabel = new QLabel("Phase 1/3");
+    // Phase indicator (Phase 1/4)
+    m_phaseLabel = new QLabel("Phase 1/4");
     m_phaseLabel->setStyleSheet(R"(
         font-size: 12px;
         font-weight: bold;
@@ -209,32 +220,50 @@ void PatchDialog::runPatch() {
     appendLog("Patch server: " + m_patchServerUrl, "#aaaaaa");
     appendLog("Game directory: " + QString::fromStdString(m_gameDirectory.string()), "#aaaaaa");
     
+    m_statusLabel->setText("Downloading game files...");
+    QApplication::processEvents();
+    
+    // Phase 1: Akamai CDN downloads (splashscreens + missing game files)
+    updatePhaseDisplay(1, 4);
+    appendLog("Starting Akamai CDN download (Phase 1)...", "#c9a227");
+    QApplication::processEvents();
+    runAkamaiPhase();
+    
+    // Phase 2-4: PatchClient.dll phases (FilesOnly, FilesOnly, DataOnly)
     m_statusLabel->setText("Connecting to patch server...");
     QApplication::processEvents();
     
-    int phaseNum = 0;
+    int phaseNum = 1;  // Start at 1 since akamai is phase 1
+    
+    // Map locale code to game language name for patchclient.dll
+    QString patchLanguage = "English";
+    if (m_locale.toLower() == "de" || m_locale.toLower() == "german") {
+        patchLanguage = "DE";
+    } else if (m_locale.toLower() == "fr" || m_locale.toLower() == "french") {
+        patchLanguage = "FR";
+    }
     
     // Run patching with progress callback
-    m_success = m_patchClient->patch(m_patchServerUrl, 
+    m_success = m_patchClient->patch(m_patchServerUrl, m_highResEnabled, patchLanguage,
         [this, &phaseNum](const PatchProgress& progress) {
             // Track phase changes
             if (progress.phase == PatchPhase::FilesOnly) {
                 if (progress.status.contains("Initializing")) {
                     phaseNum++;
                     QMetaObject::invokeMethod(this, [this, phaseNum]() {
-                        updatePhaseDisplay(phaseNum, 3);
-                        if (phaseNum == 1) {
-                            appendLog("Starting file check (Phase 1)...", "#c9a227");
-                        } else {
+                        updatePhaseDisplay(phaseNum, 4);
+                        if (phaseNum == 2) {
                             appendLog("Starting file check (Phase 2)...", "#c9a227");
+                        } else {
+                            appendLog("Starting file re-check (Phase 3)...", "#c9a227");
                         }
                     }, Qt::QueuedConnection);
                 }
             } else if (progress.phase == PatchPhase::DataOnly) {
                 if (progress.status.contains("Initializing") || progress.status.contains("Checking")) {
                     QMetaObject::invokeMethod(this, [this]() {
-                        updatePhaseDisplay(3, 3);
-                        appendLog("Starting data patch (Phase 3)...", "#c9a227");
+                        updatePhaseDisplay(4, 4);
+                        appendLog("Starting data patch (Phase 4)...", "#c9a227");
                     }, Qt::QueuedConnection);
                 }
             }
@@ -324,14 +353,183 @@ void PatchDialog::updateProgress(const PatchProgress& progress) {
 }
 
 void PatchDialog::onCancelClicked() {
-    if (m_patching && m_patchClient && m_patchClient->isPatching()) {
-        m_patchClient->cancel();
+    if (m_patching) {
+        if (m_patchClient && m_patchClient->isPatching()) {
+            m_patchClient->cancel();
+        }
+        if (m_nativePatcher && m_nativePatcher->isPatching()) {
+            m_nativePatcher->cancel();
+        }
         m_statusLabel->setText("Aborting...");
         m_actionButton->setEnabled(false);
         appendLog("*** Aborted by user ***", "#ff6b6b");
     } else {
         accept();
     }
+}
+
+void PatchDialog::runAkamaiPhase() {
+    if (m_launcherConfigUrl.isEmpty()) {
+        appendLog("No launcher config URL, skipping Akamai phase", "#c9a227");
+        return;
+    }
+    
+    spdlog::info("Fetching launcher config from: {}", m_launcherConfigUrl.toStdString());
+    appendLog("Fetching launcher configuration...", "#aaaaaa");
+    
+    // Fetch launcher config XML
+    QNetworkAccessManager networkManager;
+    QNetworkRequest request{QUrl{m_launcherConfigUrl}};
+    request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, 
+                         QNetworkRequest::NoLessSafeRedirectPolicy);
+    
+    QNetworkReply* reply = networkManager.get(request);
+    
+    QEventLoop loop;
+    QTimer timer;
+    timer.setSingleShot(true);
+    connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+    connect(&timer, &QTimer::timeout, &loop, &QEventLoop::quit);
+    timer.start(30000);
+    loop.exec();
+    
+    if (!timer.isActive()) {
+        appendLog("Launcher config fetch timeout, skipping Akamai phase", "#c9a227");
+        reply->abort();
+        reply->deleteLater();
+        return;
+    }
+    timer.stop();
+    
+    if (reply->error() != QNetworkReply::NoError) {
+        appendLog("Failed to fetch launcher config: " + reply->errorString(), "#c9a227");
+        reply->deleteLater();
+        return;
+    }
+    
+    QString configXml = QString::fromUtf8(reply->readAll());
+    reply->deleteLater();
+    
+    // Parse appSettings XML to extract akamai URLs
+    // Format: <appSettings><add key="..." value="..."/></appSettings>
+    QDomDocument doc;
+    if (!doc.setContent(configXml)) {
+        appendLog("Failed to parse launcher config XML, skipping Akamai phase", "#c9a227");
+        return;
+    }
+    
+    // Extract key-value pairs from appSettings
+    QMap<QString, QString> configValues;
+    QDomNodeList addNodes = doc.elementsByTagName("add");
+    for (int i = 0; i < addNodes.count(); i++) {
+        QDomElement elem = addNodes.at(i).toElement();
+        QString key = elem.attribute("key");
+        QString value = elem.attribute("value");
+        if (!key.isEmpty()) {
+            configValues[key] = value;
+        }
+    }
+    
+    QString downloadFilesListUrl = configValues.value("URL.DownloadFilesList");
+    QString akamaiDownloadUrl = configValues.value("URL.AkamaiDownloadURL");
+    QString gameVersion = configValues.value("Game.Version");
+    
+    spdlog::info("Launcher config: downloadFilesList={}, akamaiUrl={}, version={}",
+        downloadFilesListUrl.toStdString(),
+        akamaiDownloadUrl.toStdString(),
+        gameVersion.toStdString());
+    
+    // Download splashscreens/loading screen files
+    if (!downloadFilesListUrl.isEmpty()) {
+        appendLog("Downloading splashscreens and loading images...", "#aaaaaa");
+        m_statusLabel->setText("Downloading game files from CDN...");
+        QApplication::processEvents();
+        
+        bool splashResult = m_nativePatcher->downloadSplashscreens(
+            downloadFilesListUrl,
+            [this](const NativePatchProgress& progress) {
+                QMetaObject::invokeMethod(this, [this, progress]() {
+                    m_statusLabel->setText(progress.status);
+                    if (!progress.currentFileName.isEmpty()) {
+                        m_detailLabel->setText(progress.currentFileName);
+                    }
+                    if (progress.totalFiles > 0) {
+                        int pct = (progress.currentFile * 100) / progress.totalFiles;
+                        m_progressBar->setValue(pct);
+                        m_progressBar->setFormat(QString("%1/%2 files (%p%)")
+                            .arg(progress.currentFile)
+                            .arg(progress.totalFiles));
+                    }
+                }, Qt::QueuedConnection);
+                QApplication::processEvents();
+            }
+        );
+        
+        if (splashResult) {
+            appendLog("Splashscreen download complete", "#2a9d8f");
+        } else {
+            appendLog("Splashscreen download failed (non-fatal): " + m_nativePatcher->lastError(), "#c9a227");
+        }
+    }
+    
+    // Download missing game files from Akamai CDN
+    if (!akamaiDownloadUrl.isEmpty() && !gameVersion.isEmpty()) {
+        // Build the game files manifest URL
+        // OneLauncher constructs it from akamaiDownloadUrl + gameVersion
+        QString manifestUrl = akamaiDownloadUrl;
+        if (!manifestUrl.endsWith('/')) manifestUrl += '/';
+        manifestUrl += gameVersion + "/" + m_locale + "/companyfilelist.txt";
+        
+        appendLog("Checking for missing game files...", "#aaaaaa");
+        m_statusLabel->setText("Checking game files...");
+        QApplication::processEvents();
+        
+        bool filesResult = m_nativePatcher->downloadGameFiles(
+            manifestUrl,
+            akamaiDownloadUrl,
+            [this](const NativePatchProgress& progress) {
+                QMetaObject::invokeMethod(this, [this, progress]() {
+                    m_statusLabel->setText(progress.status);
+                    if (!progress.currentFileName.isEmpty()) {
+                        m_detailLabel->setText(progress.currentFileName);
+                    }
+                    int pct = progress.percentage();
+                    if (pct > 0) {
+                        m_progressBar->setValue(pct);
+                    }
+                    if (progress.totalBytes > 0) {
+                        QString bytesStr;
+                        if (progress.totalBytes > 1024 * 1024) {
+                            bytesStr = QString("%1 / %2 MB")
+                                .arg(progress.bytesDownloaded / (1024 * 1024))
+                                .arg(progress.totalBytes / (1024 * 1024));
+                        } else {
+                            bytesStr = QString("%1 / %2 KB")
+                                .arg(progress.bytesDownloaded / 1024)
+                                .arg(progress.totalBytes / 1024);
+                        }
+                        m_progressBar->setFormat(QString("%1 (%p%)").arg(bytesStr));
+                    } else if (progress.totalFiles > 0) {
+                        m_progressBar->setFormat(QString("%1/%2 files (%p%)")
+                            .arg(progress.currentFile)
+                            .arg(progress.totalFiles));
+                    }
+                }, Qt::QueuedConnection);
+                QApplication::processEvents();
+            }
+        );
+        
+        if (filesResult) {
+            appendLog("Game file check complete", "#2a9d8f");
+        } else {
+            appendLog("Game file download failed (non-fatal): " + m_nativePatcher->lastError(), "#c9a227");
+        }
+    } else {
+        appendLog("No Akamai download URL or game version in config, skipping file download", "#c9a227");
+    }
+    
+    appendLog("Akamai CDN phase complete", "#2a9d8f");
+    m_progressBar->setValue(0);
 }
 
 } // namespace lotro

@@ -159,7 +159,6 @@ void DataExporter::extractElement(ExtractableElement element, const CharacterInf
                 currency["copper"] = info.copper;
                 currency["totalCopper"] = info.totalCopper();
                 currency["destinyPoints"] = info.destinyPoints;
-                currency["lotroPoints"] = info.lotroPoints;
                 
                 // Extended wallet currencies
                 if (fullData && !fullData->wallet.empty()) {
@@ -184,7 +183,6 @@ void DataExporter::extractElement(ExtractableElement element, const CharacterInf
                 emit logMessage(QString("  Money: %1").arg(info.formattedMoney()));
                 emit logMessage(QString("  Total Copper: %1").arg(info.totalCopper()));
                 emit logMessage(QString("  Destiny Points: %1").arg(info.destinyPoints));
-                emit logMessage(QString("  LOTRO Points: %1").arg(info.lotroPoints));
                 emit logMessage("  [OK] Currency extracted.");
             }
             break;

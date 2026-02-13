@@ -36,12 +36,13 @@ public:
         }
     }
     
-    bool patch(const QString& patchServerUrl, PatchProgressCallback progress) {
+    bool patch(const QString& patchServerUrl, bool highResEnabled, const QString& language, PatchProgressCallback progress) {
         m_patching = true;
         m_cancelled = false;
         m_lastError.clear();
         
-        spdlog::info("Starting patching from: {}", patchServerUrl.toStdString());
+        spdlog::info("Starting patching from: {} (highres={}, lang={})", 
+            patchServerUrl.toStdString(), highResEnabled, language.toStdString());
         
         // Find patchclient.dll
         auto patchClientPath = m_gameDirectory / m_patchClientFilename.toStdString();
@@ -66,7 +67,7 @@ public:
                 return false;
             }
             
-            if (!runPatchPhase(phase, patchServerUrl, progress)) {
+            if (!runPatchPhase(phase, patchServerUrl, highResEnabled, language, progress)) {
                 m_patching = false;
                 return false;
             }
@@ -125,7 +126,8 @@ private:
         return QString("%1:6015").arg(url);
     }
     
-    bool runPatchPhase(PatchPhase phase, const QString& patchServerUrl, 
+    bool runPatchPhase(PatchPhase phase, const QString& patchServerUrl,
+                       bool highResEnabled, const QString& language,
                        PatchProgressCallback progress) {
         QString phaseStr = (phase == PatchPhase::FilesOnly) ? "filesonly" : "dataonly";
         spdlog::info("Running patch phase: {}", phaseStr.toStdString());
@@ -147,10 +149,18 @@ private:
         
         // Build arguments for run_patch_client.exe wrapper
         // OneLauncher joins all patchclient args into a single string as the second argument
-        // Format: run_patch_client.exe "full/path/to/PatchClient.dll" "server:port --language English --filesonly"
-        QString patchArgs = QString("%1 --language English --%2")
+        // Format: run_patch_client.exe "full/path/to/PatchClient.dll" "server:port --language English --highres --filesonly"
+        QString patchArgs = QString("%1 --language %2")
             .arg(patchServer)
-            .arg(phaseStr);
+            .arg(language);
+        
+        // Add --highres flag when high-res textures are enabled
+        // This tells patchclient.dll to also update the high-res texture dat file
+        if (highResEnabled) {
+            patchArgs += " --highres";
+        }
+        
+        patchArgs += QString(" --%1").arg(phaseStr);
         
         spdlog::info("Patch client: {}", patchClientFullPath.toStdString());
         spdlog::info("Patch args: {}", patchArgs.toStdString());
@@ -355,8 +365,8 @@ PatchClient::PatchClient(
 
 PatchClient::~PatchClient() = default;
 
-bool PatchClient::patch(const QString& patchServerUrl, PatchProgressCallback progress) {
-    return m_impl->patch(patchServerUrl, progress);
+bool PatchClient::patch(const QString& patchServerUrl, bool highResEnabled, const QString& language, PatchProgressCallback progress) {
+    return m_impl->patch(patchServerUrl, highResEnabled, language, progress);
 }
 
 bool PatchClient::isPatching() const {

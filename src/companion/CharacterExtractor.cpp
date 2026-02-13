@@ -24,62 +24,120 @@ CharacterExtractor::CharacterExtractor(const QString& gamePath)
         if (m_datFacade->initialize()) {
             // Resolve property IDs
             if (auto* registry = m_datFacade->getPropertiesRegistry()) {
-                m_namePropertyId = registry->getPropertyId("Name");
-                m_levelPropertyId = registry->getPropertyId("Advancement_Level");
-                m_accountNamePropertyId = registry->getPropertyId("Account_BillingName");
-                m_subscriptionKeyPropertyId = registry->getPropertyId("Account_GameAccountName");
-                m_accountTypePropertyId = registry->getPropertyId("Billing@Player.AccountType");
+                // Helper: try multiple candidate names, return first resolved ID
+                auto resolveProperty = [registry](const std::vector<QString>& candidates, const QString& description) -> int {
+                    for (const auto& name : candidates) {
+                        int id = registry->getPropertyId(name);
+                        if (id != -1) {
+                            spdlog::info("  {} resolved: '{}' = {}", description.toStdString(), name.toStdString(), id);
+                            return id;
+                        }
+                    }
+                    // Log all candidates that were tried
+                    spdlog::warn("  {} NOT resolved. Tried:", description.toStdString());
+                    for (const auto& name : candidates) {
+                        spdlog::warn("    - '{}'", name.toStdString());
+                    }
+                    return -1;
+                };
                 
-                m_classPropertyId = registry->getPropertyId("AdvTable_Class");
-                m_racePropertyId = registry->getPropertyId("AdvTable_Race");
+                // Helper: search registry for properties matching a keyword and log them
+                auto searchAndLog = [registry](const QString& keyword, int maxResults = 20) {
+                    auto props = registry->searchProperties(keyword, maxResults);
+                    if (!props.isEmpty()) {
+                        spdlog::info("  Search '{}': {} results", keyword.toStdString(), props.size());
+                        for (const auto& p : props) {
+                            spdlog::info("    {} (ID={}, type={})", p->name().toStdString(), p->propertyId(), static_cast<int>(p->type()));
+                        }
+                    }
+                };
                 
-                m_maxMoralePropertyId = registry->getPropertyId("Vital_MaxMorale");
-                m_currentMoralePropertyId = registry->getPropertyId("Vital_CurrentMorale");
-                m_maxPowerPropertyId = registry->getPropertyId("Vital_MaxPower");
-                m_currentPowerPropertyId = registry->getPropertyId("Vital_CurrentPower");
+                spdlog::info("=== Resolving Property IDs ===");
                 
-                m_moneyPropertyId = registry->getPropertyId("Inventory_Money");
-                m_destinyPointsPropertyId = registry->getPropertyId("MonsterPlay_SessionPoints");
-                m_lotroPointsPropertyId = registry->getPropertyId("Account_LotroPoints");
+                m_namePropertyId = resolveProperty({"Name"}, "Name");
+                m_levelPropertyId = resolveProperty({"Advancement_Level", "Level", "AdvTable_Level"}, "Level");
+                m_accountNamePropertyId = resolveProperty({"Account_BillingName", "Account_Name"}, "AccountName");
+                m_subscriptionKeyPropertyId = resolveProperty({"Account_GameAccountName"}, "SubscriptionKey");
+                m_accountTypePropertyId = resolveProperty({"Billing@Player.AccountType", "Account_Type"}, "AccountType");
                 
-                spdlog::info("Resolved property IDs:");
+                // Class: Agent_Class is the correct property in most DAT versions
+                m_classPropertyId = resolveProperty({
+                    "Agent_Class", "AdvTable_Class", "Class", "CharacterClass"
+                }, "Class");
+                
+                // Race: Agent_Species is the correct property for race (confirmed from entity property discovery).
+                // AdvTable_Race resolves from DAT but is NOT present on the player entity.
+                m_racePropertyId = resolveProperty({
+                    "Agent_Species", "Agent_Race", "AdvTable_Race",
+                    "AdvTable_Species", "Race", "Species",
+                    "CharacterRace", "AdvTable_Genus", "Agent_Genus", "Genus"
+                }, "Race");
+                
+                // Morale (health vitals)
+                m_maxMoralePropertyId = resolveProperty({
+                    "Health_MaxLevel", "Vital_MaxMorale", "Morale_Max",
+                    "MaxMorale", "Vital_MaxHealth"
+                }, "MaxMorale");
+                m_currentMoralePropertyId = resolveProperty({
+                    "Health_CurrentLevel", "Vital_CurrentMorale", "Morale_Current",
+                    "CurrentMorale", "Vital_CurrentHealth"
+                }, "CurrentMorale");
+                
+                // Power
+                m_maxPowerPropertyId = resolveProperty({
+                    "Power_MaxLevel", "Vital_MaxPower", "Power_Max", "MaxPower"
+                }, "MaxPower");
+                m_currentPowerPropertyId = resolveProperty({
+                    "Power_CurrentLevel", "Vital_CurrentPower", "Power_Current", "CurrentPower"
+                }, "CurrentPower");
+                
+                // Money
+                m_moneyPropertyId = resolveProperty({
+                    "Currency_Amount", "Inventory_Money", "Money", "Gold_Amount",
+                    "Wallet_Money", "Currency_Total"
+                }, "Money");
+                
+                // Destiny Points
+                m_destinyPointsPropertyId = resolveProperty({
+                    "MonsterPlay_SessionPoints", "DestinyPoints", "Destiny_Points",
+                    "Account_DestinyPoints"
+                }, "DestinyPoints");
+                
+                spdlog::info("=== Property Resolution Summary ===");
                 spdlog::info("  Name={}, Level={}, Class={}, Race={}", 
                              m_namePropertyId, m_levelPropertyId, m_classPropertyId, m_racePropertyId);
-                spdlog::info("  MaxMorale={}, CurrentMorale={}, MaxPower={}, CurrentPower={}",
-                             m_maxMoralePropertyId, m_currentMoralePropertyId, 
-                             m_maxPowerPropertyId, m_currentPowerPropertyId);
-                spdlog::info("  Money={}, DestinyPoints={}, LotroPoints={}",
-                             m_moneyPropertyId, m_destinyPointsPropertyId, m_lotroPointsPropertyId);
+                spdlog::info("  CurrentMorale={}, CurrentPower={}",
+                             m_currentMoralePropertyId, m_currentPowerPropertyId);
+                spdlog::info("  Money={}, DestinyPoints={}",
+                             m_moneyPropertyId, m_destinyPointsPropertyId);
                 
-                // Debug: Search for properties if not found
-                if (m_classPropertyId == -1) {
-                    spdlog::info("Searching for 'AdvTable' properties (first 15):");
-                    auto props = registry->searchProperties("AdvTable", 15);
-                    for (const auto& p : props) {
-                        spdlog::info("  Found: {} (ID={})", p->name().toStdString(), p->propertyId());
-                    }
-                }
+                // If any critical properties failed, do broad searches to discover names
                 if (m_racePropertyId == -1) {
-                    spdlog::info("Searching for 'Race' properties:");
-                    auto props = registry->searchProperties("Race", 10);
-                    for (const auto& p : props) {
-                        spdlog::info("  Found: {} (ID={})", p->name().toStdString(), p->propertyId());
-                    }
+                    spdlog::info("=== Race Property Discovery ===");
+                    searchAndLog("Race", 30);
+                    searchAndLog("Species", 20);
+                    searchAndLog("Genus", 20);
+                    searchAndLog("Agent_", 30);
                 }
-                if (m_currentMoralePropertyId == -1) {
-                    spdlog::info("Searching for 'Vital' properties:");
-                    auto props = registry->searchProperties("Vital", 15);
-                    for (const auto& p : props) {
-                        spdlog::info("  Found: {} (ID={})", p->name().toStdString(), p->propertyId());
-                    }
+                
+                if (m_maxMoralePropertyId == -1 || m_currentMoralePropertyId == -1) {
+                    spdlog::info("=== Morale Property Discovery ===");
+                    searchAndLog("Morale", 30);
+                    searchAndLog("Health", 30);
+                    searchAndLog("Vital", 30);
+                }
+                if (m_maxPowerPropertyId == -1 || m_currentPowerPropertyId == -1) {
+                    spdlog::info("=== Power Property Discovery ===");
+                    searchAndLog("Power", 30);
                 }
                 if (m_moneyPropertyId == -1) {
-                    spdlog::info("Searching for 'Inventory' properties:");
-                    auto props = registry->searchProperties("Inventory", 15);
-                    for (const auto& p : props) {
-                        spdlog::info("  Found: {} (ID={})", p->name().toStdString(), p->propertyId());
-                    }
+                    spdlog::info("=== Money Property Discovery ===");
+                    searchAndLog("Money", 20);
+                    searchAndLog("Currency", 20);
+                    searchAndLog("Gold", 20);
+                    searchAndLog("Wallet", 20);
                 }
+
             }
         } else {
             spdlog::warn("Failed to initialize DAT file access");
@@ -258,7 +316,7 @@ std::optional<uint64_t> CharacterExtractor::readHashtableValue(uint64_t hashtabl
     
     uint64_t nodePtr = *bucketHeadPtrBuf;
     
-    // Traverse bucket
+    // Traverse bucket (hashed lookup)
     int iterations = 0;
     while (nodePtr != 0 && iterations++ < 50) {
         auto nodeBuf = m_memory->readMemory(nodePtr, 32);
@@ -273,6 +331,30 @@ std::optional<uint64_t> CharacterExtractor::readHashtableValue(uint64_t hashtabl
         
         // Next pointer at offset 8
         nodePtr = nodeBuf->readPointer(8, true);
+    }
+    
+    // Hashed bucket failed — try linear scan of ALL buckets 
+    // This handles cases where the hash function differs from simple modulo
+    for (uint32_t i = 0; i < nbBuckets && i < 2048; i++) {
+        if (i == bucketIdx) continue; // Already checked
+        
+        auto bpBuf = m_memory->readPointer(bucketsPtr + i * 8);
+        if (!bpBuf) continue;
+        
+        uint64_t np = *bpBuf;
+        int iter2 = 0;
+        while (np != 0 && iter2++ < 50) {
+            auto nb = m_memory->readMemory(np, 32);
+            if (!nb) break;
+            
+            uint32_t id = nb->read<uint32_t>(0);
+            if (id == propId) {
+                spdlog::info("Property {} found in bucket {} (expected bucket {} with {} total buckets)",
+                             propId, i, bucketIdx, nbBuckets);
+                return nb->read<uint64_t>(24);
+            }
+            np = nb->readPointer(8, true);
+        }
     }
     
     return std::nullopt;
@@ -330,6 +412,41 @@ std::optional<int> CharacterExtractor::readAccountIntProperty(uint32_t propId) {
     return static_cast<int>(*val);
 }
 
+std::optional<uint64_t> CharacterExtractor::readStoragePropertyValue(uint32_t propId) {
+    uint64_t storageAddr = m_config.storageDataAddress();
+    auto storagePtr = m_memory->readPointer(storageAddr);
+    if (!storagePtr || *storagePtr == 0) return std::nullopt;
+    
+    uint64_t dataStructAddr = *storagePtr;
+    
+    // The storage data has a property provider similar to account data
+    // Try the same layout as entity EPP (hashtable at offset 56 from provider)
+    // The storage data structure may have its own provider at various offsets
+    
+    // Try reading as entity-style EPP
+    // Storage data -> property provider -> hashtable
+    uint64_t eppOffset = m_config.is64Bit ? 192 : 108;
+    auto storeBuf = m_memory->readMemory(dataStructAddr, 256);
+    if (!storeBuf) return std::nullopt;
+    
+    uint64_t eppPtr = storeBuf->readPointer(eppOffset, true);
+    if (eppPtr != 0) {
+        uint64_t hashTableOffset = m_config.is64Bit ? 56 : 32;
+        auto val = readHashtableValue(eppPtr + hashTableOffset, propId);
+        if (val) return val;
+    }
+    
+    // Try direct hashtable at common offsets
+    for (uint64_t offset : {56UL, 72UL, 184UL, 192UL, 208UL}) {
+        auto val = readHashtableValue(dataStructAddr + offset, propId);
+        if (val) {
+            spdlog::info("Found storage property {} at structure offset {}", propId, offset);
+            return val;
+        }
+    }
+    
+    return std::nullopt;
+}
 std::optional<uint64_t> CharacterExtractor::findPlayerEntity() {
     // The entities table contains all game entities including the player
     // We need to traverse the table to find the player entity
@@ -425,31 +542,33 @@ std::optional<uint64_t> CharacterExtractor::findPlayerEntity() {
             uint64_t worldEntityPtr = nodeBuf->readPointer(16, true); // Assuming Offset 16
             
             if (worldEntityPtr != 0) {
-                // Process World Entity
-                // EntityTableController line 123: size = 332 (64-bit)
-                // line 139: entityPropertyProviderPointer = entityBuffer.getPointer(192) (64-bit)
-                
-                auto entBuf = m_memory->readMemory(worldEntityPtr, 256); // Read enough for EPP
-                if (entBuf) {
-                    uint64_t eppPtr = entBuf->readPointer(192, true);
+                // Read ConstructionInfo DataID for ALL entities (for equipment lookup)
+                // ConstructionInfo pointer at offset 288 (64-bit) / 152 (32-bit)
+                auto entityBuf = m_memory->readMemory(worldEntityPtr, 300);
+                if (entityBuf) {
+                    uint64_t ciOffset = m_config.is64Bit ? 288 : 152;
+                    uint64_t ciPtr = entityBuf->readPointer(ciOffset, true);
+                    if (ciPtr != 0) {
+                        int ptrSize = m_config.is64Bit ? 8 : 4;
+                        auto ciBuf = m_memory->readMemory(ciPtr, ptrSize + 8);
+                        if (ciBuf) {
+                            uint32_t dataId = ciBuf->read<uint32_t>(ptrSize + 4);
+                            if (dataId != 0) {
+                                m_entityDataIds[instanceId] = dataId;
+                            }
+                        }
+                    }
+                    
+                    // Also check if this entity has many properties (player candidate)
+                    uint64_t eppPtr = entityBuf->readPointer(192, true);
                     if (eppPtr != 0) {
-                        // Process Properties (EntityPropertyProvider)
-                        // line 188: offset = 48 (64-bit)
-                        // properties = handleProperties(buffer, offset + ptrSize) -> 48 + 8 = 56
-                        
                         auto eppBuf = m_memory->readMemory(eppPtr, 256);
                         if (eppBuf) {
-                             // PropertiesSet handleProperties(buffer, hashTableOffset)
-                             // hashTableOffset = 56
-                             // handleProperties:
-                             // bucketsPointer = buffer.getPointer(offset + 2*8) = 56 + 16 = 72
-                             // nbBuckets = buffer.getInt(offset + 4*8) = 56 + 32 = 88
-                             
                              uint64_t propBucketsPtr = eppBuf->readPointer(72, true);
                              uint32_t propNbBuckets = eppBuf->read<uint32_t>(88);
                              uint32_t propNbElements = eppBuf->read<uint32_t>(88 + 4);
                              
-                             if (propNbElements > 10) { // Filter interesting entities
+                             if (propNbElements > 10) {
                                  EntityCandidate candidate;
                                  candidate.address = worldEntityPtr;
                                  candidate.instanceId = instanceId;
@@ -468,7 +587,8 @@ std::optional<uint64_t> CharacterExtractor::findPlayerEntity() {
     }
     
 
-    spdlog::info("Scanned {} entities, found {} candidates with props > 10", scannedCount, candidates.size());
+    spdlog::info("Scanned {} entities, found {} candidates with props > 10, {} entity DataIDs collected", 
+                 scannedCount, candidates.size(), m_entityDataIds.size());
     
     // Sort by property count desc
     std::sort(candidates.begin(), candidates.end(), [](const auto& a, const auto& b) {
@@ -489,34 +609,36 @@ std::optional<uint64_t> CharacterExtractor::findPlayerEntity() {
 
 // Helper to map Class IDs
 static QString mapClassId(int id) {
+    // Codes from classes.xml (Agent_Class property values)
     switch (id) {
-        case 162: return "Burglar";
-        case 166: return "Monster"; // ?
-        case 172: return "Captain";
-        case 179: return "Champion";
-        case 185: return "Guardian";
-        case 193: return "Hunter";
-        case 194: return "Lore-master";
-        case 188: return "Minstrel";
-        case 191: return "Rune-keeper";
-        case 214: return "Warden";
-        case 215: return "Beorning";
-        case 40: return "Brawler";
-        case 23: return "Mariner";
+        case 23: return "Guardian";
+        case 24: return "Captain";
+        case 31: return "Minstrel";
+        case 40: return "Burglar";
+        case 162: return "Hunter";
+        case 172: return "Champion";
+        case 185: return "Lore-master";
+        case 193: return "Rune-keeper";
+        case 194: return "Warden";
+        case 214: return "Beorning";
+        case 215: return "Brawler";
+        case 216: return "Mariner";
         default: return QString("Unknown (%1)").arg(id);
     }
 }
 
-// Helper to map Race IDs
+// Helper to map Race IDs (from Agent_Species property)
+// Source: LOTRO Companion lotro-data/races/races.xml + Lua plugin main.lua
 static QString mapRaceId(int id) {
     switch (id) {
         case 23: return "Man";
         case 65: return "Elf";
-        case 71: return "Dwarf";
-        case 73: return "Hobbit";
-        case 81: return "High Elf";
-        case 114: return "Stout-axe";
-        case 117: return "River Hobbit";
+        case 73: return "Dwarf";
+        case 81: return "Hobbit";
+        case 114: return "Beorning";
+        case 151: return "High Elf";
+        case 152: return "Stout-axe";
+        case 153: return "River Hobbit";
         default: return QString("Unknown (%1)").arg(id);
     }
 }
@@ -559,18 +681,110 @@ std::optional<CharacterInfo> CharacterExtractor::extractCharacter() {
     // Account Level Currencies (Destiny Points, LOTRO Points)
     if (m_destinyPointsPropertyId != -1) {
         auto val = readAccountIntProperty(m_destinyPointsPropertyId);
-        if (val) info.destinyPoints = *val;
+        if (val) {
+            info.destinyPoints = *val;
+            spdlog::info("Destiny Points: {}", *val);
+        } else {
+            spdlog::warn("Failed to read destiny points (propId={})", m_destinyPointsPropertyId);
+        }
+    } else {
+        spdlog::warn("Destiny points property ID not resolved from DAT");
     }
-    if (m_lotroPointsPropertyId != -1) {
-        auto val = readAccountIntProperty(m_lotroPointsPropertyId);
-        if (val) info.lotroPoints = *val;
-    }
+
     
     // Find player entity
     auto playerEntity = findPlayerEntity();
     if (!playerEntity) {
         m_lastError = "Player entity not found";
         return std::nullopt;
+    }
+    
+    // One-shot property discovery: scan ALL properties on the entity
+    // to find the actual property IDs for class, race, money, vitals
+    static bool propertyDiscoveryDone = false;
+    if (!propertyDiscoveryDone && m_datFacade) {
+        propertyDiscoveryDone = true;
+        spdlog::info("=== ENTITY PROPERTY DISCOVERY (Entity 0x{:X}) ===", *playerEntity);
+        
+        // Get EPP
+        uint64_t eppOffset = m_config.is64Bit ? 192 : 108;
+        auto entBuf = m_memory->readMemory(*playerEntity, 256);
+        if (entBuf) {
+            uint64_t eppPtr = entBuf->readPointer(eppOffset, true);
+            if (eppPtr != 0) {
+                auto eppBuf = m_memory->readMemory(eppPtr, 128);
+                if (eppBuf) {
+                    uint64_t bucketsPtr = eppBuf->readPointer(72, true);
+                    uint32_t nbBuckets = eppBuf->read<uint32_t>(88);
+                    
+                    spdlog::info("EPP hashtable: bucketsPtr=0x{:X}, nbBuckets={}", bucketsPtr, nbBuckets);
+                    
+                    if (bucketsPtr != 0 && nbBuckets > 0 && nbBuckets < 10000) {
+                        auto bucketsBuf = m_memory->readMemory(bucketsPtr, nbBuckets * 8);
+                        if (bucketsBuf) {
+                            int totalProps = 0;
+                            int matchedProps = 0;
+                            auto* registry = m_datFacade->getPropertiesRegistry();
+                            
+                            // Keywords to filter for 
+                            std::vector<std::string> keywords = {
+                                "class", "race", "species", "money", "currency", "gold", "silver", "copper",
+                                "vital", "morale", "power", "health", "mana",
+                                "level", "wallet", "inventory", "lotro", "mithril",
+                                "advancement", "advtable", "agent", "title", "rank", "surname"
+                            };
+                            
+                            for (uint32_t i = 0; i < nbBuckets; i++) {
+                                uint64_t nodePtr = bucketsBuf->readPointer(i * 8, true);
+                                
+                                while (nodePtr != 0) {
+                                    auto nodeBuf = m_memory->readMemory(nodePtr, 32);
+                                    if (!nodeBuf) break;
+                                    
+                                    uint32_t id = nodeBuf->read<uint32_t>(0);
+                                    uint64_t value = nodeBuf->read<uint64_t>(24);
+                                    uint64_t nextPtr = nodeBuf->readPointer(8, true);
+                                    totalProps++;
+                                    
+                                    // Resolve name from DAT registry
+                                    std::string propName = "UNKNOWN";
+                                    dat::PropertyType propType = dat::PropertyType::UNKNOWN;
+                                    if (registry) {
+                                        auto def = registry->getPropertyDef(id);
+                                        if (def) {
+                                            propName = def->name().toStdString();
+                                            propType = def->type();
+                                        }
+                                    }
+                                    
+                                    // Check if name matches any keyword
+                                    std::string lowerName = propName;
+                                    std::transform(lowerName.begin(), lowerName.end(), lowerName.begin(), ::tolower);
+                                    
+                                    bool matches = false;
+                                    for (const auto& kw : keywords) {
+                                        if (lowerName.find(kw) != std::string::npos) {
+                                            matches = true;
+                                            break;
+                                        }
+                                    }
+                                    
+                                    if (matches) {
+                                        spdlog::info("  MATCH: {} (ID={}, type={}, value=0x{:X}, int32={})",
+                                                     propName, id, static_cast<int>(propType), value, static_cast<int32_t>(value));
+                                        matchedProps++;
+                                    }
+                                    
+                                    nodePtr = nextPtr;
+                                }
+                            }
+                            spdlog::info("=== Discovery complete: {} total properties, {} keyword matches ===", 
+                                         totalProps, matchedProps);
+                        }
+                    }
+                }
+            }
+        }
     }
     
     // Read basic info via properties
@@ -596,28 +810,34 @@ std::optional<CharacterInfo> CharacterExtractor::extractCharacter() {
     
     // Read Class
     if (m_classPropertyId != -1) {
-        auto classId = readIntProperty(*playerEntity, m_classPropertyId);
-        if (classId) {
-            info.className = mapClassId(*classId);
-            spdlog::info("Class ID {} -> {}", *classId, info.className.toStdString());
+        // Try as raw value first for diagnostics
+        auto rawVal = readPropertyValue(*playerEntity, m_classPropertyId);
+        if (rawVal) {
+            spdlog::info("Class raw property value: 0x{:X} (int32={})", *rawVal, static_cast<int>(*rawVal));
+            int classId = static_cast<int>(*rawVal);
+            info.className = mapClassId(classId);
+            spdlog::info("Class ID {} -> {}", classId, info.className.toStdString());
         } else {
-            spdlog::info("Failed to read class property {} from entity", m_classPropertyId);
+            spdlog::warn("Failed to read class property {} from entity 0x{:X}", m_classPropertyId, *playerEntity);
         }
     } else {
-        spdlog::info("Class property ID not set");
+        spdlog::warn("Class property ID not resolved from DAT (name='Agent_Class')");
     }
     
-    // Read Race
+    // Read Race via Agent_Species property (confirmed working from entity property discovery)
+    // Known race codes: Man=23, Elf=65, Dwarf=73, Hobbit=81, Beorning=114, High Elf=151, Stout-axe=152, River Hobbit=153
     if (m_racePropertyId != -1) {
-        auto raceId = readIntProperty(*playerEntity, m_racePropertyId);
-        if (raceId) {
-            info.race = mapRaceId(*raceId);
-            spdlog::info("Race ID {} -> {}", *raceId, info.race.toStdString());
+        auto rawVal = readPropertyValue(*playerEntity, m_racePropertyId);
+        if (rawVal) {
+            spdlog::info("Race raw property value: 0x{:X} (int32={})", *rawVal, static_cast<int>(*rawVal));
+            int raceId = static_cast<int>(*rawVal);
+            info.race = mapRaceId(raceId);
+            spdlog::info("Race ID {} -> {}", raceId, info.race.toStdString());
         } else {
-            spdlog::info("Failed to read race property {} from entity", m_racePropertyId);
+            spdlog::warn("Failed to read race property {} from entity 0x{:X}", m_racePropertyId, *playerEntity);
         }
     } else {
-        spdlog::info("Race property ID not set");
+        spdlog::warn("Race property ID not resolved from DAT");
     }
     
     // Read Vitals (Morale/Power)
@@ -631,15 +851,6 @@ std::optional<CharacterInfo> CharacterExtractor::extractCharacter() {
             spdlog::debug("Failed to read current morale property {}", m_currentMoralePropertyId);
         }
     }
-    if (m_maxMoralePropertyId != -1) {
-        auto val = readFloatProperty(*playerEntity, m_maxMoralePropertyId);
-        if (val) {
-            info.maxMorale = static_cast<int>(*val);
-            spdlog::debug("Max Morale (float): {} -> {}", *val, info.maxMorale);
-        } else {
-            spdlog::debug("Failed to read max morale property {}", m_maxMoralePropertyId);
-        }
-    }
     if (m_currentPowerPropertyId != -1) {
         auto val = readFloatProperty(*playerEntity, m_currentPowerPropertyId);
         if (val) {
@@ -649,45 +860,46 @@ std::optional<CharacterInfo> CharacterExtractor::extractCharacter() {
             spdlog::debug("Failed to read current power property {}", m_currentPowerPropertyId);
         }
     }
-    if (m_maxPowerPropertyId != -1) {
-        auto val = readFloatProperty(*playerEntity, m_maxPowerPropertyId);
-        if (val) {
-            info.maxPower = static_cast<int>(*val);
-            spdlog::debug("Max Power (float): {} -> {}", *val, info.maxPower);
-        } else {
-            spdlog::debug("Failed to read max power property {}", m_maxPowerPropertyId);
-        }
-    }
     
     // Read Money (Copper) - stored as Long (INT64)
     // If Long fails, try Int (some versions store as 32-bit)
     if (m_moneyPropertyId != -1) {
-        auto val = readLongProperty(*playerEntity, m_moneyPropertyId);
-        if (val && *val > 0) {
-            int64_t copperTotal = *val;
-            info.gold = static_cast<int>(copperTotal / 100000);
-            info.silver = static_cast<int>((copperTotal / 100) % 1000);
-            info.copper = static_cast<int>(copperTotal % 100);
-            spdlog::debug("Money (long): {} copper = {}g {}s {}c", copperTotal, info.gold, info.silver, info.copper);
-        } else {
-            // Try as int
-            auto intVal = readIntProperty(*playerEntity, m_moneyPropertyId);
-            if (intVal && *intVal > 0) {
-                int copperTotal = *intVal;
-                info.gold = copperTotal / 100000;
-                info.silver = (copperTotal / 100) % 1000;
-                info.copper = copperTotal % 100;
-                spdlog::debug("Money (int): {} copper = {}g {}s {}c", copperTotal, info.gold, info.silver, info.copper);
+        auto rawVal = readPropertyValue(*playerEntity, m_moneyPropertyId);
+        if (rawVal) {
+            spdlog::info("Money raw property value: 0x{:X}", *rawVal);
+            // Try interpreting as signed 64-bit first
+            int64_t copperTotal = static_cast<int64_t>(*rawVal);
+            if (copperTotal > 0 && copperTotal < 100000000000LL) {
+                // LOTRO: 1 gold = 1000 silver, 1 silver = 100 copper  
+                // So 1 gold = 100,000 copper
+                info.gold = static_cast<int>(copperTotal / 100000);
+                info.silver = static_cast<int>((copperTotal / 100) % 1000);
+                info.copper = static_cast<int>(copperTotal % 100);
+                spdlog::info("Money: {} copper = {}g {}s {}c", copperTotal, info.gold, info.silver, info.copper);
             } else {
-                spdlog::debug("Failed to read money property {}", m_moneyPropertyId);
+                // Try as 32-bit int
+                int copperInt = static_cast<int>(*rawVal);
+                if (copperInt > 0) {
+                    info.gold = copperInt / 100000;
+                    info.silver = (copperInt / 100) % 1000;
+                    info.copper = copperInt % 100;
+                    spdlog::info("Money (32-bit): {} copper = {}g {}s {}c", copperInt, info.gold, info.silver, info.copper);
+                } else {
+                    spdlog::warn("Money value doesn't look valid: raw=0x{:X}, int64={}, int32={}",
+                                 *rawVal, copperTotal, copperInt);
+                }
             }
+        } else {
+            spdlog::warn("Failed to read money property {} from entity", m_moneyPropertyId);
         }
+    } else {
+        spdlog::warn("Money property ID not resolved from DAT (name='Currency_Amount')");
     }
 
     
-    spdlog::info("Extracted: {} Lvp{} {} {}, HP {}/{}", 
+    spdlog::info("Extracted: {} Lv{} {} {}, Morale {}, Power {}", 
                  info.name.toStdString(), info.level, info.race.toStdString(), info.className.toStdString(),
-                 info.morale, info.maxMorale);
+                 info.morale, info.power);
     
     return info;
 }
@@ -783,37 +995,63 @@ std::optional<CharacterData> CharacterExtractor::extractFullData() {
     
     // === Extract Reputation ===
     // Property names like "Reputation_Faction_Breeland_Men_CurrentTier"
-    const std::vector<std::tuple<QString, QString, QString>> factionKeys = {
-        {"BREE", "Men of Bree", "Reputation_Faction_Breeland_Men"},
-        {"SHIRE", "The Mathom Society", "Reputation_Faction_Shire_Mathoms"},
-        {"DWARVES", "Thorin's Hall", "Reputation_Faction_Eredluin_Dwarves"},
-        {"EGLAIN", "The Eglain", "Reputation_Faction_Lonelands_Eglain"},
-        {"ESTELDIN", "Rangers of Esteldín", "Reputation_Faction_Northdowns_Esteldin"},
-        {"RIVENDELL", "Elves of Rivendell", "Reputation_Faction_Rivendell_Elves"},
-        {"ANNUMINAS", "Wardens of Annúminas", "Reputation_Faction_Evendim_Wardens"},
-        {"ANGMAR", "Council of the North", "Reputation_Faction_Angmar_Council"},
-        {"FOROCHEL", "Lossoth of Forochel", "Reputation_Faction_Forochel_Lossoth"},
-        {"GALADHRIM", "Galadhrim", "Reputation_Faction_Lorien_Elves"},
-        {"MALLEDHRIM", "Malledhrim", "Reputation_Faction_Mirkwood_Elves"},
-        {"IRON_GARRISON", "Iron Garrison Guards", "Reputation_Faction_Moria_Guards"},
-        {"IRON_MINERS", "Iron Garrison Miners", "Reputation_Faction_Moria_Miners"},
-        {"ENEDWAITH", "The Grey Company", "Reputation_Faction_Enedwaith_GreyCompany"},
-        {"DUNLAND", "Men of Dunland", "Reputation_Faction_Dunland_Men"},
-        {"THEODRED", "Théodred's Riders", "Reputation_Faction_Rohan_Theodred"},
-        {"HELMINGAS", "The Helmingas", "Reputation_Faction_Rohan_Helmingas"},
-        {"ENTS", "The Ents of Fangorn Forest", "Reputation_Faction_Fangorn_Ents"},
-        {"WILDERMORE", "People of Wildermore", "Reputation_Faction_Wildermore_People"},
-        {"DALE", "Men of Dale", "Reputation_Faction_Dale_Men"},
-        {"EREBOR", "Dwarves of Erebor", "Reputation_Faction_Erebor_Dwarves"},
+    // Faction keys: {key, display_name, property_prefix, category}
+    // Property prefixes must exactly match factions.xml currentTierProperty/currentReputationProperty
+    struct FactionDef { QString key; QString name; QString propPrefix; QString category; };
+    const std::vector<FactionDef> factionKeys = {
+        // Eriador
+        {"BREE", "Men of Bree", "Reputation_Faction_Breeland_Men", "Eriador"},
+        {"SHIRE", "The Mathom Society", "Reputation_Faction_Shire_Mathoms", "Eriador"},
+        {"DWARVES", "Thorin's Hall", "Reputation_Faction_Eredluin_Dwarves", "Eriador"},
+        {"EGLAIN", "The Eglain", "Reputation_Faction_Lonelands_Eglain", "Eriador"},
+        {"ESTELDIN", "Rangers of Esteldín", "Reputation_Faction_Northdowns_Esteldin", "Eriador"},
+        {"RIVENDELL", "Elves of Rivendell", "Reputation_Faction_Rivendell_Elves", "Eriador"},
+        {"ANNUMINAS", "The Wardens of Annúminas", "Reputation_Faction_Evendim_Rangers", "Eriador"},
+        {"COUNCIL_OF_THE_NORTH", "Council of the North", "Reputation_Faction_Angmar_Free_People", "Eriador"},
+        {"LOSSOTH", "Lossoth of Forochel", "Reputation_Faction_Forochel_Lossoth", "Eriador"},
+        // Rhovanion
+        {"MORIA_GUARDS", "Iron Garrison Guards", "Reputation_Faction_Moria_Dwarves_Fast", "Rhovanion"},
+        {"MORIA_MINERS", "Iron Garrison Miners", "Reputation_Faction_Moria_Dwarves_Slow", "Rhovanion"},
+        {"GALADHRIM", "Galadhrim", "Reputation_Faction_Lorien_Elves", "Rhovanion"},
+        {"MALLEDHRIM", "Malledhrim", "Reputation_Faction_Mirkwood_Offensive", "Rhovanion"},
+        {"ELVES_OF_FELEGOTH", "Elves of Felegoth", "Reputation_Faction_Mirkwood_North_Elves", "Rhovanion"},
+        {"MEN_OF_DALE", "Men of Dale", "Reputation_Faction_Mirkwood_North_Men", "Rhovanion"},
+        {"DWARVES_OF_EREBOR", "Dwarves of Erebor", "Reputation_Faction_Mirkwood_North_Dwarves", "Rhovanion"},
+        {"GREY_MOUNTAINS_EXPEDITION", "Grey Mountains Expedition", "Reputation_Faction_Dwarfholds_Eredmithrin", "Rhovanion"},
+        {"WILDERFOLK", "Wilderfolk", "Reputation_Faction_Vales_Of_Anduin", "Rhovanion"},
+        // Dunland
+        {"ALGRAIG", "Algraig, Men of Enedwaith", "Reputation_Faction_Enedwaith_Dunlendings", "Dunland"},
+        {"GREY_COMPANY", "The Grey Company", "Reputation_Faction_Enedwaith_Grey_Company", "Dunland"},
+        {"DUNLAND", "Men of Dunland", "Reputation_Faction_Dunland_Dunlendings", "Dunland"},
+        {"THEODRED_RIDERS", "Théodred's Riders", "Reputation_Faction_Dunland_Theodred", "Dunland"},
+        // Rohan
+        {"STANGARD_RIDERS", "The Riders of Stangard", "Reputation_Faction_Greatriver_Stangard", "Rohan"},
+        {"WOLD", "Men of the Wold", "Reputation_Faction_Rohan_Wold", "Rohan"},
+        {"NORCROFTS", "Men of the Norcrofts", "Reputation_Faction_Rohan_Norcrofts", "Rohan"},
+        {"ENTWASH_VALE", "Men of the Entwash Vale", "Reputation_Faction_Rohan_Entwashvale", "Rohan"},
+        {"SUTCROFTS", "Men of the Sutcrofts", "Reputation_Faction_Rohan_Sutcrofts", "Rohan"},
+        {"EORLINGAS", "The Eorlingas", "Reputation_Faction_Rohan_West_Eorlingas", "Rohan"},
+        {"HELMINGAS", "The Helmingas", "Reputation_Faction_Rohan_West_Helmingas", "Rohan"},
+        {"FANGORN", "The Ents of Fangorn Forest", "Reputation_Faction_Rohan_West_Fangorn", "Rohan"},
+        {"PEOPLE_WILDERMORE", "People of Wildermore", "Reputation_Faction_Wildermore_Basic", "Rohan"},
+        // Gondor
+        {"DOL_AMROTH", "Dol Amroth", "Reputation_Faction_Gondor_West_Amroth", "Gondor"},
+        {"PELARGIR", "Pelargir", "Reputation_Faction_Gondor_Central_Pelargir", "Gondor"},
+        {"RANGERS_ITHILIEN", "Rangers of Ithilien", "Reputation_Faction_Gondor_East_Rangers", "Gondor"},
+        {"MINAS_TIRITH", "Defenders of Minas Tirith", "Reputation_Faction_Gondor_Minas_Tirith", "Gondor"},
+        // Mordor
+        {"HOST_OF_THE_WEST", "Host of the West", "Reputation_Faction_Mountains_Shadow_Host_West", "Mordor"},
+        {"GORGOROTH", "Conquest of Gorgoroth", "Reputation_Faction_Mordor_Gorgoroth", "Mordor"},
     };
     
-    for (const auto& [key, name, propPrefix] : factionKeys) {
+    for (const auto& fd : factionKeys) {
         FactionStatus fs;
-        fs.key = key;
-        fs.name = name;
+        fs.key = fd.key;
+        fs.name = fd.name;
+        fs.category = fd.category;
         
-        QString tierProp = QString("%1_CurrentTier").arg(propPrefix);
-        QString repProp = QString("%1_EarnedReputation").arg(propPrefix);
+        QString tierProp = QString("%1_CurrentTier").arg(fd.propPrefix);
+        QString repProp = QString("%1_EarnedReputation").arg(fd.propPrefix);
         
         int tierPropId = registry->getPropertyId(tierProp.toStdString().c_str());
         int repPropId = registry->getPropertyId(repProp.toStdString().c_str());
@@ -905,37 +1143,109 @@ std::optional<CharacterData> CharacterExtractor::extractFullData() {
     spdlog::info("Extracted {} crafting professions", data.crafting.professions.size());
     
     // === Extract Equipment ===
-    // Equipment slots and their property names
+    // Equipment slots use Inventory_SlotCache_Eq_* property names (type 7 = entity ID).
+    // The value is an entity ID pointing to the item entity in the entities table.
+    // To get the actual item DID, we follow the entity pointer and read its
+    // ConstructionInfo.DataID (offset 288+8=296 from entity base, 64-bit).
     const std::vector<std::pair<QString, QString>> equipmentSlots = {
-        {"HEAD",       "Inventory_EquippedHelmItem"},
-        {"SHOULDERS",  "Inventory_EquippedShoulderItem"},
-        {"CHEST",      "Inventory_EquippedChestItem"},
-        {"HANDS",      "Inventory_EquippedGlovesItem"},
-        {"LEGS",       "Inventory_EquippedLegsItem"},
-        {"FEET",       "Inventory_EquippedBootsItem"},
-        {"BACK",       "Inventory_EquippedBackItem"},
-        {"MAIN_HAND",  "Inventory_EquippedMainhandItem"},
-        {"OFF_HAND",   "Inventory_EquippedOffhandItem"},
-        {"RANGED",     "Inventory_EquippedRangedItem"},
-        {"POCKET",     "Inventory_EquippedPocketItem"},
-        {"EAR1",       "Inventory_EquippedEarring1Item"},
-        {"EAR2",       "Inventory_EquippedEarring2Item"},
-        {"NECK",       "Inventory_EquippedNecklaceItem"},
-        {"WRIST1",     "Inventory_EquippedBracelet1Item"},
-        {"WRIST2",     "Inventory_EquippedBracelet2Item"},
-        {"RING1",      "Inventory_EquippedRing1Item"},
-        {"RING2",      "Inventory_EquippedRing2Item"},
-        {"CLASS_SLOT", "Inventory_EquippedClassSlotItem"},
+        {"HEAD",       "Inventory_SlotCache_Eq_Head"},
+        {"SHOULDERS",  "Inventory_SlotCache_Eq_Shoulder"},
+        {"CHEST",      "Inventory_SlotCache_Eq_Chest"},
+        {"HANDS",      "Inventory_SlotCache_Eq_Gloves"},
+        {"LEGS",       "Inventory_SlotCache_Eq_Legs"},
+        {"FEET",       "Inventory_SlotCache_Eq_Boots"},
+        {"BACK",       "Inventory_SlotCache_Eq_Back"},
+        {"MAIN_HAND",  "Inventory_SlotCache_Eq_Weapon_Primary"},
+        {"OFF_HAND",   "Inventory_SlotCache_Eq_Weapon_Secondary"},
+        {"RANGED",     "Inventory_SlotCache_Eq_RangedWeapon"},
+        {"POCKET",     "Inventory_SlotCache_Eq_Pocket1"},
+        {"EAR1",       "Inventory_SlotCache_Eq_Earring1"},
+        {"EAR2",       "Inventory_SlotCache_Eq_Earring2"},
+        {"NECK",       "Inventory_SlotCache_Eq_Necklace"},
+        {"WRIST1",     "Inventory_SlotCache_Eq_Bracelet1"},
+        {"WRIST2",     "Inventory_SlotCache_Eq_Bracelet2"},
+        {"RING1",      "Inventory_SlotCache_Eq_Ring1"},
+        {"RING2",      "Inventory_SlotCache_Eq_Ring2"},
+        {"CLASS_SLOT", "Inventory_SlotCache_Eq_Class"},
+        {"CRAFT_TOOL", "Inventory_SlotCache_Eq_CraftTool"},
     };
     
     for (const auto& [slotName, propName] : equipmentSlots) {
-        int propId = registry->getPropertyId(propName.toStdString().c_str());
-        if (propId != -1) {
-            if (auto val = readIntProperty(*playerEntity, propId)) {
-                if (*val != 0) {
-                    data.equippedGear[slotName] = *val;
+        int propId = registry->getPropertyId(propName);
+        if (propId == -1) {
+            spdlog::debug("Equipment property '{}' not found in registry", propName.toStdString());
+            continue;
+        }
+        
+        // Read raw property value
+        auto rawVal = readPropertyValue(*playerEntity, propId);
+        if (!rawVal || *rawVal == 0) continue;
+        
+        uint64_t rawValue = *rawVal;
+        
+        // For the first slot, dump detailed diagnostics
+        if (slotName == "HEAD") {
+            spdlog::info("=== DIAGNOSTIC: {} slot (propId={}) ===", slotName.toStdString(), propId);
+            spdlog::info("  Raw 64-bit value: 0x{:016X}", rawValue);
+            spdlog::info("  Low 32 bits:  0x{:08X} ({})", static_cast<uint32_t>(rawValue), static_cast<uint32_t>(rawValue));
+            spdlog::info("  High 32 bits: 0x{:08X} ({})", static_cast<uint32_t>(rawValue >> 32), static_cast<uint32_t>(rawValue >> 32));
+            
+            // Try to read the item entity at this address
+            // Dump the first 400 bytes looking for the item DID (0x7000xxxx pattern)
+            auto entityDump = m_memory->readMemory(rawValue, 400);
+            if (entityDump) {
+                spdlog::info("  Memory dump at 0x{:X}:", rawValue);
+                for (int off = 0; off < 400; off += 8) {
+                    uint64_t val64 = entityDump->read<uint64_t>(off);
+                    uint32_t valLo = static_cast<uint32_t>(val64);
+                    uint32_t valHi = static_cast<uint32_t>(val64 >> 32);
+                    // Only log interesting values (non-zero, potential DIDs)
+                    if (valLo != 0 && (valLo >= 0x70000000 && valLo < 0x80000000)) {
+                        spdlog::info("    +{}: 0x{:08X} <-- potential DID!", off, valLo);
+                    }
+                    if (valHi != 0 && (valHi >= 0x70000000 && valHi < 0x80000000)) {
+                        spdlog::info("    +{}: 0x{:08X} <-- potential DID! (hi32 of +{})", off + 4, valHi, off);
+                    }
+                }
+                // Also dump all uint32 at common offsets
+                spdlog::info("  Key offsets (uint32):");
+                for (int off : {0, 4, 8, 12, 16, 20, 24, 28, 32, 36, 40, 48, 56, 64, 72, 80, 88, 96, 104, 112, 120, 128, 136, 144, 152, 160, 168, 176, 184, 192, 200, 208, 216, 224, 232, 240, 248, 256, 264, 272, 280, 288, 296, 304, 312, 320, 328, 336, 344, 352, 360, 368, 376, 384, 392}) {
+                    if (off >= 400) break;
+                    uint32_t val = entityDump->read<uint32_t>(off);
+                    if (val != 0) {
+                        spdlog::info("    +{}: 0x{:08X} ({})", off, val, val);
+                    }
+                }
+            } else {
+                spdlog::info("  Cannot read memory at 0x{:X} — may not be a valid pointer", rawValue);
+            }
+        }
+        
+        // The slot cache value is a pointer to an item entity in memory.
+        // Try to follow it and read the item's DataID from ConstructionInfo.
+        // ConstructionInfo pointer is at offset 288 (64-bit) / 152 (32-bit) from entity.
+        // DataID is at pointerSize + 4 within ConstructionInfo.
+        uint64_t ciOffset = m_config.is64Bit ? 288 : 152;
+        auto ciPtr = m_memory->readPointer(rawValue + ciOffset);
+        if (ciPtr && *ciPtr != 0) {
+            int ptrSize = m_config.is64Bit ? 8 : 4;
+            auto ciBuf = m_memory->readMemory(*ciPtr, ptrSize + 8);
+            if (ciBuf) {
+                uint32_t dataId = ciBuf->read<uint32_t>(ptrSize + 4);
+                if (dataId != 0 && dataId != 1) {
+                    data.equippedGear[slotName] = static_cast<int>(dataId);
+                    spdlog::info("Slot {}: entity 0x{:X} -> item DID 0x{:X} ({})", 
+                                 slotName.toStdString(), rawValue, dataId, dataId);
+                    continue;
                 }
             }
+        }
+        
+        // Fallback: store the raw value
+        if (rawValue < 0x100000000ULL) {
+            data.equippedGear[slotName] = static_cast<int>(rawValue);
+            spdlog::info("Slot {}: raw value 0x{:X} ({})", 
+                         slotName.toStdString(), rawValue, static_cast<int>(rawValue));
         }
     }
     
@@ -975,17 +1285,59 @@ std::optional<CharacterData> CharacterExtractor::extractFullData() {
     spdlog::info("Extracted {} wallet currencies", data.wallet.size());
     
     // === Extract Current Title ===
-    // Try to find current title property
-    int titlePropId = registry->getPropertyId("Advancement_CurrentTitle");
-    if (titlePropId != -1) {
-        if (auto val = readIntProperty(*playerEntity, titlePropId)) {
-            if (*val > 0) {
-                data.titles.push_back(*val);
+    // Title_ActiveTitleDID contains the DID reference to the active title (type 20 = DATA_FILE)
+    // Title_ActiveTitleString contains the display string (type 13 = STRING_INFO)
+    // Discovered via entity property dump: value 0x70020442 = 1879180354 = "Eglan-friend"
+    {
+        static const std::vector<std::string> titleCandidates = {
+            "Title_ActiveTitleDID",       // Confirmed working - contains title DID
+            "Advancement_CurrentTitle", "AdvTable_CurrentTitle", "Player_CurrentTitle",
+            "Agent_CurrentTitle", "CurrentTitle"
+        };
+        
+        int titlePropId = -1;
+        std::string resolvedName;
+        for (const auto& name : titleCandidates) {
+            int id = registry->getPropertyId(QString::fromStdString(name));
+            if (id != -1) {
+                titlePropId = id;
+                resolvedName = name;
+                spdlog::info("Title property '{}' resolved to ID {}", name, id);
+                break;
             }
+        }
+        
+        if (titlePropId != -1) {
+            // Read as raw property value (DATA_FILE type stores a DID reference)
+            auto rawVal = readPropertyValue(*playerEntity, titlePropId);
+            if (rawVal) {
+                int titleId = static_cast<int>(static_cast<uint32_t>(*rawVal));
+                if (titleId > 0) {
+                    data.titles.push_back(titleId);
+                    spdlog::info("Active title DID: {} (0x{:X}) from entity prop '{}'", titleId, titleId, resolvedName);
+                }
+            }
+            // Try storage if entity failed
+            if (data.titles.empty()) {
+                auto rawVal = readStoragePropertyValue(titlePropId);
+                if (rawVal && *rawVal > 0) {
+                    data.titles.push_back(static_cast<int>(static_cast<uint32_t>(*rawVal)));
+                    spdlog::info("Active title DID: {} (from storage, prop='{}')", *rawVal, resolvedName);
+                }
+            }
+        } else {
+            spdlog::warn("No title property name resolved from DAT. Tried: {}", 
+                        [&]() { std::string s; for (const auto& n : titleCandidates) { if (!s.empty()) s += ", "; s += n; } return s; }());
         }
     }
     
-    spdlog::info("Current title: {}", data.titles.empty() ? "none" : std::to_string(data.titles[0]));
+    // NOTE: Acquired titles are managed server-side and not stored in entity properties
+    // or the storage data area. Only the active title (Title_ActiveTitleDID) is accessible
+    // from memory. To track all titles, we rely on observing title changes over time.
+    
+    spdlog::info("Active title: DID {} (0x{:X})", 
+                 data.titles.empty() ? 0 : data.titles[0],
+                 data.titles.empty() ? 0u : static_cast<uint32_t>(data.titles[0]));
     
     return data;
 }

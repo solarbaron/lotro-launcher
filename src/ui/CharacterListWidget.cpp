@@ -5,6 +5,7 @@
  */
 
 #include "CharacterListWidget.hpp"
+#include "CharacterDetailWidget.hpp"
 #include "companion/CharacterTracker.hpp"
 
 #include <QVBoxLayout>
@@ -13,6 +14,8 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QDateTime>
+#include <QDialog>
+#include <QDialogButtonBox>
 
 #include <spdlog/spdlog.h>
 
@@ -38,6 +41,36 @@ void CharacterListWidget::setupUi() {
     m_refreshButton->setMinimumHeight(30);
     connect(m_refreshButton, &QPushButton::clicked, this, &CharacterListWidget::refresh);
     toolbar->addWidget(m_refreshButton);
+    
+    m_viewDetailsButton = new QPushButton(tr("View Details"));
+    m_viewDetailsButton->setMinimumHeight(30);
+    m_viewDetailsButton->setEnabled(false);
+    connect(m_viewDetailsButton, &QPushButton::clicked, this, [this]() {
+        auto* item = m_listWidget->currentItem();
+        if (!item || !m_tracker) return;
+        
+        QString name = item->data(Qt::UserRole).toString();
+        QString server = item->data(Qt::UserRole + 1).toString();
+        auto character = m_tracker->getCharacter(name, server);
+        if (!character) return;
+        
+        QDialog dialog(this);
+        dialog.setWindowTitle(tr("Character: %1").arg(name));
+        dialog.setMinimumSize(650, 550);
+        dialog.resize(700, 600);
+        
+        auto* layout = new QVBoxLayout(&dialog);
+        auto* detail = new CharacterDetailWidget(&dialog);
+        detail->setCharacter(*character);
+        layout->addWidget(detail, 1);
+        
+        auto* buttons = new QDialogButtonBox(QDialogButtonBox::Close);
+        connect(buttons, &QDialogButtonBox::rejected, &dialog, &QDialog::reject);
+        layout->addWidget(buttons);
+        
+        dialog.exec();
+    });
+    toolbar->addWidget(m_viewDetailsButton);
     
     toolbar->addStretch();
     
@@ -95,6 +128,7 @@ void CharacterListWidget::setCharacterTracker(CharacterTracker* tracker) {
 void CharacterListWidget::refresh() {
     m_listWidget->clear();
     m_deleteButton->setEnabled(false);
+    m_viewDetailsButton->setEnabled(false);
     
     if (!m_tracker) {
         m_emptyLabel->show();
@@ -156,6 +190,7 @@ void CharacterListWidget::addCharacterItem(const Character& character) {
         case CharacterClass::Guardian: classColor = QColor("#228B22"); break;
         case CharacterClass::Hunter: classColor = QColor("#32CD32"); break;
         case CharacterClass::LoreMaster: classColor = QColor("#9370DB"); break;
+        case CharacterClass::Mariner: classColor = QColor("#20B2AA"); break;
         case CharacterClass::Minstrel: classColor = QColor("#87CEEB"); break;
         case CharacterClass::RuneKeeper: classColor = QColor("#FF69B4"); break;
         case CharacterClass::Warden: classColor = QColor("#FFA500"); break;
@@ -168,6 +203,7 @@ void CharacterListWidget::addCharacterItem(const Character& character) {
 
 void CharacterListWidget::onItemClicked(QListWidgetItem* item) {
     m_deleteButton->setEnabled(true);
+    m_viewDetailsButton->setEnabled(true);
     
     QString name = item->data(Qt::UserRole).toString();
     QString server = item->data(Qt::UserRole + 1).toString();

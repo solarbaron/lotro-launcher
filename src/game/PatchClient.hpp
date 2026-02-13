@@ -87,6 +87,8 @@ public:
      */
     bool patch(
         const QString& patchServerUrl,
+        bool highResEnabled = true,
+        const QString& language = "English",
         PatchProgressCallback progress = nullptr
     );
     

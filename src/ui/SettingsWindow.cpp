@@ -236,7 +236,9 @@ void SettingsWindow::setupUi() {
             return;
         }
         
-        PatchDialog dialog(gameConfig->gameDirectory, servicesInfo->patchServer, this);
+        PatchDialog dialog(gameConfig->gameDirectory, servicesInfo->patchServer, 
+                           servicesInfo->launcherConfigUrl, gameConfig->highResEnabled,
+                           QString::fromStdString(gameConfig->locale), this);
         dialog.startPatching();
     });
     updateLayout->addWidget(checkUpdatesBtn);
@@ -293,7 +295,9 @@ void SettingsWindow::setupUi() {
             return;
         }
         
-        PatchDialog dialog(gameConfig->gameDirectory, servicesInfo->patchServer, this);
+        PatchDialog dialog(gameConfig->gameDirectory, servicesInfo->patchServer,
+                           servicesInfo->launcherConfigUrl, gameConfig->highResEnabled,
+                           QString::fromStdString(gameConfig->locale), this);
         if (dialog.startPatching()) {
             QMessageBox::information(this, "Repair Complete", "Game files have been repaired");
         }
