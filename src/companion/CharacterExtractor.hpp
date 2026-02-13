@@ -222,6 +222,7 @@ private:
     std::optional<int> readIntProperty(uint64_t entityAddress, uint32_t propId);
     std::optional<int64_t> readLongProperty(uint64_t entityAddress, uint32_t propId);
     std::optional<float> readFloatProperty(uint64_t entityAddress, uint32_t propId);
+    std::vector<int> readArrayProperty(uint64_t entityAddress, uint32_t propId);
     
     // Find player entity in entities table
     std::optional<uint64_t> findPlayerEntity();
@@ -282,6 +283,22 @@ private:
     
     // Entity instance ID → DataID mapping (populated during entity scan)
     std::map<uint64_t, uint32_t> m_entityDataIds;
+    
+    // WSL References Table helpers for title extraction
+    std::vector<int> extractTitlesFromWSL();
+    
+    struct WSLRefEntry {
+        int index;
+        int packageID;
+        int bitfield;
+        uint64_t factoryPtr;
+        uint64_t wslPtr;
+        uint64_t nativePtr;
+    };
+    
+    std::vector<WSLRefEntry> readReferencesTable();
+    std::vector<int> parseWSLReferences(uint64_t factoryPtr, uint64_t wslPtr);
+    std::map<int, int> decodeNativeIntIntHashtable(uint64_t nativePtr);
 };
 
 } // namespace lotro

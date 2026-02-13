@@ -9,6 +9,7 @@
 
 #include <spdlog/spdlog.h>
 #include <map>
+#include <set>
 #include <algorithm>
 #include <cstring>
 
@@ -1177,75 +1178,38 @@ std::optional<CharacterData> CharacterExtractor::extractFullData() {
             continue;
         }
         
-        // Read raw property value
+        // Slot cache properties are INSTANCE_ID type (type 7).
+        // The value at offset 24 in the hashtable entry is a POINTER to a
+        // ref-counted Long64 struct:
+        //   +0: vtable/refcount header (refCountTemplateSize = ptrSize + intSize = 16 for 64-bit)
+        //   +16: 64-bit entity instance ID
+        // We then look up this instance ID in the entities table DataID map.
+        
         auto rawVal = readPropertyValue(*playerEntity, propId);
         if (!rawVal || *rawVal == 0) continue;
         
-        uint64_t rawValue = *rawVal;
+        uint64_t instanceIdPtr = *rawVal;
         
-        // For the first slot, dump detailed diagnostics
-        if (slotName == "HEAD") {
-            spdlog::info("=== DIAGNOSTIC: {} slot (propId={}) ===", slotName.toStdString(), propId);
-            spdlog::info("  Raw 64-bit value: 0x{:016X}", rawValue);
-            spdlog::info("  Low 32 bits:  0x{:08X} ({})", static_cast<uint32_t>(rawValue), static_cast<uint32_t>(rawValue));
-            spdlog::info("  High 32 bits: 0x{:08X} ({})", static_cast<uint32_t>(rawValue >> 32), static_cast<uint32_t>(rawValue >> 32));
-            
-            // Try to read the item entity at this address
-            // Dump the first 400 bytes looking for the item DID (0x7000xxxx pattern)
-            auto entityDump = m_memory->readMemory(rawValue, 400);
-            if (entityDump) {
-                spdlog::info("  Memory dump at 0x{:X}:", rawValue);
-                for (int off = 0; off < 400; off += 8) {
-                    uint64_t val64 = entityDump->read<uint64_t>(off);
-                    uint32_t valLo = static_cast<uint32_t>(val64);
-                    uint32_t valHi = static_cast<uint32_t>(val64 >> 32);
-                    // Only log interesting values (non-zero, potential DIDs)
-                    if (valLo != 0 && (valLo >= 0x70000000 && valLo < 0x80000000)) {
-                        spdlog::info("    +{}: 0x{:08X} <-- potential DID!", off, valLo);
-                    }
-                    if (valHi != 0 && (valHi >= 0x70000000 && valHi < 0x80000000)) {
-                        spdlog::info("    +{}: 0x{:08X} <-- potential DID! (hi32 of +{})", off + 4, valHi, off);
-                    }
-                }
-                // Also dump all uint32 at common offsets
-                spdlog::info("  Key offsets (uint32):");
-                for (int off : {0, 4, 8, 12, 16, 20, 24, 28, 32, 36, 40, 48, 56, 64, 72, 80, 88, 96, 104, 112, 120, 128, 136, 144, 152, 160, 168, 176, 184, 192, 200, 208, 216, 224, 232, 240, 248, 256, 264, 272, 280, 288, 296, 304, 312, 320, 328, 336, 344, 352, 360, 368, 376, 384, 392}) {
-                    if (off >= 400) break;
-                    uint32_t val = entityDump->read<uint32_t>(off);
-                    if (val != 0) {
-                        spdlog::info("    +{}: 0x{:08X} ({})", off, val, val);
-                    }
-                }
-            } else {
-                spdlog::info("  Cannot read memory at 0x{:X} — may not be a valid pointer", rawValue);
-            }
-        }
+        // Read the entity instance ID from the ref-counted Long64 struct
+        // refCountTemplateSize = pointerSize + intSize (from Java Constants.CONFIG)
+        // For 64-bit: 8 + 8 = 16
+        int refCountSize = m_config.is64Bit ? 16 : 8;
+        auto instanceBuf = m_memory->readMemory(instanceIdPtr, refCountSize + 8);
+        if (!instanceBuf) continue;
         
-        // The slot cache value is a pointer to an item entity in memory.
-        // Try to follow it and read the item's DataID from ConstructionInfo.
-        // ConstructionInfo pointer is at offset 288 (64-bit) / 152 (32-bit) from entity.
-        // DataID is at pointerSize + 4 within ConstructionInfo.
-        uint64_t ciOffset = m_config.is64Bit ? 288 : 152;
-        auto ciPtr = m_memory->readPointer(rawValue + ciOffset);
-        if (ciPtr && *ciPtr != 0) {
-            int ptrSize = m_config.is64Bit ? 8 : 4;
-            auto ciBuf = m_memory->readMemory(*ciPtr, ptrSize + 8);
-            if (ciBuf) {
-                uint32_t dataId = ciBuf->read<uint32_t>(ptrSize + 4);
-                if (dataId != 0 && dataId != 1) {
-                    data.equippedGear[slotName] = static_cast<int>(dataId);
-                    spdlog::info("Slot {}: entity 0x{:X} -> item DID 0x{:X} ({})", 
-                                 slotName.toStdString(), rawValue, dataId, dataId);
-                    continue;
-                }
-            }
-        }
+        uint64_t entityInstanceId = instanceBuf->read<uint64_t>(refCountSize);
+        if (entityInstanceId == 0) continue;
         
-        // Fallback: store the raw value
-        if (rawValue < 0x100000000ULL) {
-            data.equippedGear[slotName] = static_cast<int>(rawValue);
-            spdlog::info("Slot {}: raw value 0x{:X} ({})", 
-                         slotName.toStdString(), rawValue, static_cast<int>(rawValue));
+        // Look up the entity instance ID in our DataID map (populated during entity scan)
+        auto it = m_entityDataIds.find(entityInstanceId);
+        if (it != m_entityDataIds.end()) {
+            uint32_t dataId = it->second;
+            data.equippedGear[slotName] = static_cast<int>(dataId);
+            spdlog::info("Slot {}: instanceId 0x{:X} -> item DID 0x{:X} ({})", 
+                         slotName.toStdString(), entityInstanceId, dataId, dataId);
+        } else {
+            spdlog::debug("Slot {}: instanceId 0x{:X} not found in entity DataID map ({} entries)", 
+                         slotName.toStdString(), entityInstanceId, m_entityDataIds.size());
         }
     }
     
@@ -1331,13 +1295,42 @@ std::optional<CharacterData> CharacterExtractor::extractFullData() {
         }
     }
     
-    // NOTE: Acquired titles are managed server-side and not stored in entity properties
-    // or the storage data area. Only the active title (Title_ActiveTitleDID) is accessible
-    // from memory. To track all titles, we rely on observing title changes over time.
+    // NOTE: Active title extracted above from entity properties.
+    // Now try to get ALL acquired titles from WSL References Table.
+    {
+        auto wslTitles = extractTitlesFromWSL();
+        if (!wslTitles.empty()) {
+            // Merge WSL titles with any active title already found
+            std::set<int> titleSet(data.titles.begin(), data.titles.end());
+            for (int tid : wslTitles) {
+                titleSet.insert(tid);
+            }
+            data.titles.assign(titleSet.begin(), titleSet.end());
+            spdlog::info("Total titles after WSL merge: {} (active + {} from WSL)", 
+                         data.titles.size(), wslTitles.size());
+        } else {
+            spdlog::info("Active title only: DID {} (0x{:X})", 
+                         data.titles.empty() ? 0 : data.titles[0],
+                         data.titles.empty() ? 0u : static_cast<uint32_t>(data.titles[0]));
+        }
+    }
     
-    spdlog::info("Active title: DID {} (0x{:X})", 
-                 data.titles.empty() ? 0 : data.titles[0],
-                 data.titles.empty() ? 0u : static_cast<uint32_t>(data.titles[0]));
+    // === Extract Emotes ===
+    // Emote_GrantedList is an ARRAY property containing emote IDs
+    {
+        int emotePropId = registry->getPropertyId("Emote_GrantedList");
+        if (emotePropId != -1) {
+            auto emoteIds = readArrayProperty(*playerEntity, emotePropId);
+            for (int emoteId : emoteIds) {
+                if (emoteId > 0) {
+                    data.emotes.push_back(emoteId);
+                }
+            }
+            spdlog::info("Extracted {} emotes from Emote_GrantedList", data.emotes.size());
+        } else {
+            spdlog::debug("Emote_GrantedList property not found in registry");
+        }
+    }
     
     return data;
 }
@@ -1517,6 +1510,374 @@ std::optional<float> CharacterExtractor::readFloatProperty(uint64_t entityAddres
     float result;
     std::memcpy(&result, &floatBits, sizeof(float));
     return result;
+}
+
+std::vector<int> CharacterExtractor::readArrayProperty(uint64_t entityAddress, uint32_t propId) {
+    std::vector<int> result;
+    
+    auto rawVal = readPropertyValue(entityAddress, propId);
+    if (!rawVal || *rawVal == 0) return result;
+    
+    uint64_t arrayPtr = *rawVal;
+    
+    // ARRAY property value is a pointer to a ref-counted smart array:
+    // +0..+15: refCountTemplateSize (ptrSize + intSize = 16 for 64-bit)
+    // +16:     data pointer (ptrSize bytes) → points to array elements
+    // +24:     capacity (4 bytes)
+    // +28:     nbItems (4 bytes)
+    int refCountSize = m_config.is64Bit ? 16 : 8;
+    int ptrSize = m_config.is64Bit ? 8 : 4;
+    int headerSize = refCountSize + ptrSize + 4 + 4;  // refcount + dataPtr + capacity + count
+    
+    auto headerBuf = m_memory->readMemory(arrayPtr, headerSize);
+    if (!headerBuf) return result;
+    
+    uint64_t dataPtr = headerBuf->readPointer(refCountSize, true);
+    uint32_t nbItems = headerBuf->read<uint32_t>(refCountSize + ptrSize + 4);
+    
+    if (dataPtr == 0 || nbItems == 0 || nbItems > 10000) return result;
+    
+    // Each element is 2 * ptrSize bytes:
+    //   +0: descriptor pointer (type info)
+    //   +ptrSize: value (for INT elements, read as uint32)
+    int elementSize = 2 * ptrSize;
+    auto dataBuf = m_memory->readMemory(dataPtr, nbItems * elementSize);
+    if (!dataBuf) return result;
+    
+    for (uint32_t i = 0; i < nbItems; i++) {
+        uint32_t value = dataBuf->read<uint32_t>(i * elementSize + ptrSize);
+        result.push_back(static_cast<int>(value));
+    }
+    
+    return result;
+}
+
+// ============================================================================
+// WSL References Table - Title Extraction
+// ============================================================================
+// Based on decompiled LOTRO Companion 6.4 (Java):
+//   ReferencesTableController.java, WSLDecoder.java, WslInspector.java,
+//   NativePackagesDecoder.java, ContainersDecoder.java, HashtableDecoder.java
+// ============================================================================
+
+std::vector<CharacterExtractor::WSLRefEntry> CharacterExtractor::readReferencesTable() {
+    std::vector<WSLRefEntry> entries;
+    if (!isConnected()) return entries;
+    
+    int ptrSize = m_config.is64Bit ? 8 : 4;
+    int intSize = m_config.is64Bit ? 8 : 4;  // intSize from Java config
+    
+    // referencesTableAddress is an offset from module base
+    uint64_t refTableOffset = m_config.is64Bit ? 0x1dd4138 : 0x1d2e5f4;
+    
+    std::string moduleName = m_config.is64Bit ? "lotroclient64.exe" : "lotroclient.exe";
+    auto modInfo = m_memory->getModuleEx(moduleName);
+    if (!modInfo) {
+        spdlog::warn("Failed to get module info for WSL references table");
+        return entries;
+    }
+    
+    uint64_t refTableAddr = modInfo->baseAddress + refTableOffset;
+    
+    // Read pointer at referencesTableAddress → table handle
+    auto ptrBuf = m_memory->readMemory(refTableAddr, ptrSize);
+    if (!ptrBuf) {
+        spdlog::warn("Failed to read references table pointer at 0x{:X}", refTableAddr);
+        return entries;
+    }
+    uint64_t tableHandle = ptrBuf->readPointer(0, true);
+    if (tableHandle == 0) {
+        spdlog::warn("References table handle is null");
+        return entries;
+    }
+    
+    // From tableHandle, read: tablePointer(ptrSize) + nbEntries(+ptrSize+4) + gcGeneration(+ptrSize+12)
+    auto handleBuf = m_memory->readMemory(tableHandle, 120);
+    if (!handleBuf) {
+        spdlog::warn("Failed to read references table handle at 0x{:X}", tableHandle);
+        return entries;
+    }
+    
+    uint64_t tablePointer = handleBuf->readPointer(0, true);
+    int nbEntries = handleBuf->read<int32_t>(ptrSize + 4);
+    int nbUsedEntries = handleBuf->read<int32_t>(ptrSize + 8);
+    int gcGeneration = handleBuf->read<int32_t>(ptrSize + 12) & 0xFF;
+    
+    spdlog::info("WSL References Table: {} entries ({} used), gcGeneration={}", 
+                 nbEntries, nbUsedEntries, gcGeneration);
+    
+    if (nbEntries <= 0 || nbEntries > 100000) {
+        spdlog::warn("Invalid references table size: {}", nbEntries);
+        return entries;
+    }
+    
+    // Read array of entry pointers
+    auto tableBuf = m_memory->readMemory(tablePointer, nbEntries * ptrSize);
+    if (!tableBuf) {
+        spdlog::warn("Failed to read references table entries");
+        return entries;
+    }
+    
+    // For each entry pointer, read the entry data
+    int entrySize = intSize + 3 * ptrSize;  // bitfield(intSize) + factory + wsl + native pointers
+    int loaded = 0;
+    
+    for (int i = 0; i < nbEntries; i++) {
+        uint64_t entryPtr = tableBuf->readPointer(i * ptrSize, true);
+        if (entryPtr == 0) continue;
+        
+        auto entryBuf = m_memory->readMemory(entryPtr, entrySize);
+        if (!entryBuf) continue;
+        
+        int bitfield = entryBuf->read<int32_t>(0);
+        int entryGcGen = bitfield & 0xFF;
+        if (entryGcGen != gcGeneration) continue;
+        
+        uint64_t factoryPtr = entryBuf->readPointer(intSize, true);
+        uint64_t wslPtr = entryBuf->readPointer(intSize + ptrSize, true);
+        uint64_t nativePtr = entryBuf->readPointer(intSize + 2 * ptrSize, true);
+        
+        if (factoryPtr == 0) continue;
+        
+        // Read packageID from factory info
+        auto factBuf = m_memory->readMemory(factoryPtr, 4);
+        if (!factBuf) continue;
+        
+        int packageID = factBuf->read<int32_t>(0);
+        
+        WSLRefEntry entry;
+        entry.index = i;
+        entry.packageID = packageID;
+        entry.bitfield = bitfield;
+        entry.factoryPtr = factoryPtr;
+        entry.wslPtr = wslPtr;
+        entry.nativePtr = nativePtr;
+        entries.push_back(entry);
+        loaded++;
+    }
+    
+    spdlog::info("Loaded {} references table entries", loaded);
+    return entries;
+}
+
+std::vector<int> CharacterExtractor::parseWSLReferences(uint64_t factoryPtr, uint64_t wslPtr) {
+    std::vector<int> references;
+    if (wslPtr == 0) return references;
+    
+    int ptrSize = m_config.is64Bit ? 8 : 4;
+    
+    // Read factory info: packageID(4) + slots(4) + smartArraySize × 3
+    int smartArraySize = ptrSize + 4 + 4;
+    int factorySize = 8 + ptrSize + 3 * smartArraySize;
+    auto factBuf = m_memory->readMemory(factoryPtr, factorySize);
+    if (!factBuf) return references;
+    
+    int numSlots = factBuf->read<int32_t>(4);
+    if (numSlots <= 0 || numSlots > 1000) return references;
+    
+    // Read the WSL buffer: numSlots × 8 bytes
+    // Each attribute is value(4) + typeCode(4) = 8 bytes for basic types
+    // DOUBLE/LONG have an extra typeCode + value2, making them 12 bytes
+    int wslBufSize = numSlots * 8;
+    auto wslBuf = m_memory->readMemory(wslPtr, wslBufSize);
+    if (!wslBuf) return references;
+    
+    // Parse attributes - scan for typeCode = 1 (REFERENCE)
+    int offset = 0;
+    while (offset + 8 <= wslBufSize) {
+        int value = wslBuf->read<int32_t>(offset);
+        offset += 4;
+        
+        int typeCode = wslBuf->read<int32_t>(offset);
+        offset += 4;
+        
+        if (typeCode == 1) {
+            // REFERENCE type - value is an index into the references table
+            if (value > 0) {
+                references.push_back(value);
+            }
+        } else if (typeCode == 130 || typeCode == 131 || typeCode == 132 || typeCode == 195) {
+            // LONG or DOUBLE - has an extra 4 bytes (second half of the 64-bit value)  
+            // But we need to handle this carefully: the structure is:
+            // value1(4) + typeCode(4) + value2(4) + finalTypeCode(4)
+            // The first typeCode is a "mid" type code, and there's a final one too
+            // We already consumed value1 + typeCode above
+            // Skip value2(4) + finalTypeCode(4)
+            offset += 4; // value2
+            if (offset + 4 <= wslBufSize) {
+                offset += 4; // final typeCode
+            }
+        }
+        // For INTEGER (2,4) and FLOAT (3,4), the 8 bytes we already read is complete
+    }
+    
+    return references;
+}
+
+std::map<int, int> CharacterExtractor::decodeNativeIntIntHashtable(uint64_t nativePtr) {
+    std::map<int, int> result;
+    if (nativePtr == 0) return result;
+    
+    int ptrSize = m_config.is64Bit ? 8 : 4;
+    
+    // Hashtable layout (from HashtableDecoder.java):
+    // +0:          (2 × ptrSize reserved - prev/next or metadata)
+    // +2×ptrSize:  bucketsPointer
+    // +3×ptrSize:  firstBucketPointer (unused)
+    // +4×ptrSize:  nbBuckets (4 bytes)
+    // +4×ptrSize+4: nbElements (4 bytes)
+    int hashTableHeaderSize = 4 * ptrSize + 8;
+    auto headerBuf = m_memory->readMemory(nativePtr, hashTableHeaderSize);
+    if (!headerBuf) return result;
+    
+    uint64_t bucketsPtr = headerBuf->readPointer(2 * ptrSize, true);
+    int nbBuckets = headerBuf->read<int32_t>(4 * ptrSize);
+    int nbElements = headerBuf->read<int32_t>(4 * ptrSize + 4);
+    
+    if (bucketsPtr == 0 || nbBuckets <= 0 || nbBuckets > 100000) return result;
+    if (nbElements <= 0 || nbElements > 100000) return result;
+    
+    spdlog::debug("IntInt hashtable: {} buckets, {} elements", nbBuckets, nbElements);
+    
+    // Read buckets array
+    auto bucketsBuf = m_memory->readMemory(bucketsPtr, nbBuckets * ptrSize);
+    if (!bucketsBuf) return result;
+    
+    // For IntInt hash (packageID 11/35), key layout:
+    // keySize = 16 (64-bit) or 12 (32-bit) — from ContainersDecoder
+    // valueSize = 12 (64-bit) or 4 (32-bit)
+    // Entry layout: key(keySize) + nextPointer(ptrSize) + value(valueSize)
+    int keySize = m_config.is64Bit ? 16 : 12;
+    int valueOffset = keySize + ptrSize;
+    int valueSize = m_config.is64Bit ? 12 : 4;
+    int entrySize = valueOffset + valueSize;
+    
+    for (int b = 0; b < nbBuckets; b++) {
+        uint64_t entryPtr = bucketsBuf->readPointer(b * ptrSize, true);
+        
+        // Follow linked list
+        int chainLen = 0;
+        while (entryPtr != 0 && chainLen < 1000) {
+            auto entryBuf = m_memory->readMemory(entryPtr, entrySize);
+            if (!entryBuf) break;
+            
+            int key = entryBuf->read<int32_t>(0);
+            int value = entryBuf->read<int32_t>(valueOffset);
+            uint64_t nextPtr = entryBuf->readPointer(keySize, true);
+            
+            result[key] = value;
+            
+            entryPtr = nextPtr;
+            chainLen++;
+        }
+    }
+    
+    if (static_cast<int>(result.size()) != nbElements) {
+        spdlog::debug("Hashtable size mismatch: got {}, expected {}", result.size(), nbElements);
+    }
+    
+    return result;
+}
+
+std::vector<int> CharacterExtractor::extractTitlesFromWSL() {
+    std::vector<int> titleIds;
+    
+    spdlog::info("=== Extracting titles from WSL References Table ===");
+    
+    auto entries = readReferencesTable();
+    if (entries.empty()) {
+        spdlog::warn("No references table entries found");
+        return titleIds;
+    }
+    
+    // Step 1: Find PlayerAvatar entry (packageID 1654)
+    const WSLRefEntry* avatarEntry = nullptr;
+    for (const auto& entry : entries) {
+        if (entry.packageID == 1654) {
+            // In Java: check m_rcPedigreeRegistry attribute is valid
+            // We'll accept the first match for now
+            avatarEntry = &entry;
+            spdlog::info("Found PlayerAvatar entry at index {}", entry.index);
+            break;
+        }
+    }
+    
+    if (!avatarEntry) {
+        spdlog::warn("PlayerAvatar (packageID 1654) not found in references table");
+        return titleIds;
+    }
+    
+    // Step 2: Parse WSL data for PlayerAvatar to extract REFERENCE values
+    auto avatarRefs = parseWSLReferences(avatarEntry->factoryPtr, avatarEntry->wslPtr);
+    spdlog::info("PlayerAvatar has {} REFERENCE attributes", avatarRefs.size());
+    
+    // Step 3: Build index of all entries by their table index for lookup
+    std::map<int, const WSLRefEntry*> entryByIndex;
+    for (const auto& entry : entries) {
+        entryByIndex[entry.index] = &entry;
+    }
+    
+    // Step 4: Follow avatar references to find title registry
+    // The title registry is a ClassInstance (WSL entry) that itself contains
+    // m_rhTitles — a REFERENCE to a native IntIntHashTable
+    for (int refIdx : avatarRefs) {
+        auto it = entryByIndex.find(refIdx);
+        if (it == entryByIndex.end()) continue;
+        
+        const WSLRefEntry* refEntry = it->second;
+        
+        // Check if this reference has sub-references (it's a WSL ClassInstance)
+        if (refEntry->wslPtr == 0) continue;
+        
+        auto subRefs = parseWSLReferences(refEntry->factoryPtr, refEntry->wslPtr);
+        
+        for (int subRefIdx : subRefs) {
+            auto subIt = entryByIndex.find(subRefIdx);
+            if (subIt == entryByIndex.end()) continue;
+            
+            const WSLRefEntry* subRefEntry = subIt->second;
+            
+            // Check if this is a native entry (the titles hashtable is native)
+            bool isNative = (subRefEntry->bitfield & 0x10000000) != 0;
+            if (!isNative || subRefEntry->nativePtr == 0) continue;
+            
+            // Read native packageID to check if it's an IntIntHashTable (11 or 35)
+            auto nativeFact = m_memory->readMemory(subRefEntry->factoryPtr, 12);
+            if (!nativeFact) continue;
+            
+            int nativePackageID = nativeFact->read<int32_t>(0);
+            
+            if (nativePackageID != 11 && nativePackageID != 35) continue;
+            
+            // This is an IntInt hashtable - decode it
+            auto hashMap = decodeNativeIntIntHashtable(subRefEntry->nativePtr);
+            
+            if (hashMap.empty()) continue;
+            
+            // Check if keys look like title DIDs (typically > 0x70000000 / 1879048192)
+            int titleLikeCount = 0;
+            for (const auto& [key, value] : hashMap) {
+                if (key > 0x70000000) titleLikeCount++;
+            }
+            
+            if (titleLikeCount > 0 && titleLikeCount >= static_cast<int>(hashMap.size()) / 2) {
+                spdlog::info("Found titles hashtable at ref {} -> sub-ref {} (native pkg {}): {} entries, {} title-like DIDs",
+                             refIdx, subRefIdx, nativePackageID, hashMap.size(), titleLikeCount);
+                
+                for (const auto& [titleDID, acquisitionData] : hashMap) {
+                    if (titleDID > 0) {
+                        titleIds.push_back(titleDID);
+                    }
+                }
+                
+                spdlog::info("Extracted {} title IDs from WSL references table", titleIds.size());
+                return titleIds;
+            }
+        }
+    }
+    
+    spdlog::info("No titles hashtable found in avatar references (searched {} refs)", avatarRefs.size());
+    return titleIds;
 }
 
 bool CharacterExtractor::scanPatterns() {
