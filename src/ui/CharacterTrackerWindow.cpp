@@ -64,6 +64,48 @@ void CharacterTrackerWindow::setupUi() {
     mainLayout->setSpacing(8);
     mainLayout->setContentsMargins(12, 12, 12, 12);
     
+    // Table & tree selection styling — ensures alternating rows still highlight when selected
+    setStyleSheet(R"(
+        QTableWidget {
+            background-color: #1a1a2e;
+            alternate-background-color: #151525;
+            color: #e0e0e0;
+            gridline-color: #252542;
+            border: 1px solid #3a3a5c;
+        }
+        QTableWidget::item:selected {
+            background-color: #1a6d63;
+            color: #ffffff;
+        }
+        QTableWidget::item:alternate:selected {
+            background-color: #1a6d63;
+            color: #ffffff;
+        }
+        QTreeWidget {
+            background-color: #1a1a2e;
+            alternate-background-color: #151525;
+            color: #e0e0e0;
+            border: 1px solid #3a3a5c;
+        }
+        QTreeWidget::item:selected {
+            background-color: #1a6d63;
+            color: #ffffff;
+        }
+        QTreeWidget::item:alternate:selected {
+            background-color: #1a6d63;
+            color: #ffffff;
+        }
+        QHeaderView::section {
+            background-color: #1a1a2e;
+            color: #c9a227;
+            padding: 6px;
+            border: none;
+            border-right: 1px solid #252542;
+            border-bottom: 2px solid #c9a227;
+            font-weight: bold;
+        }
+    )");
+    
     // === Top control bar ===
     auto* controlLayout = new QHBoxLayout();
     

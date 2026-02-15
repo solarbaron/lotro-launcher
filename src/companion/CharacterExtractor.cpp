@@ -1567,17 +1567,12 @@ std::vector<CharacterExtractor::WSLRefEntry> CharacterExtractor::readReferencesT
     int ptrSize = m_config.is64Bit ? 8 : 4;
     int intSize = m_config.is64Bit ? 8 : 4;  // intSize from Java config
     
-    // referencesTableAddress is an offset from module base
-    uint64_t refTableOffset = m_config.is64Bit ? 0x1dd4138 : 0x1d2e5f4;
-    
-    std::string moduleName = m_config.is64Bit ? "lotroclient64.exe" : "lotroclient.exe";
-    auto modInfo = m_memory->getModuleEx(moduleName);
-    if (!modInfo) {
-        spdlog::warn("Failed to get module info for WSL references table");
+    if (m_config.referencesTableOffset == 0) {
+        spdlog::warn("References table offset not found by pattern scanner");
         return entries;
     }
     
-    uint64_t refTableAddr = modInfo->baseAddress + refTableOffset;
+    uint64_t refTableAddr = m_config.referencesTableAddress();
     
     // Read pointer at referencesTableAddress → table handle
     auto ptrBuf = m_memory->readMemory(refTableAddr, ptrSize);
@@ -1955,6 +1950,20 @@ bool CharacterExtractor::scanPatterns() {
         } else {
             spdlog::error("Storage Data pattern not found");
             allFound = false;
+        }
+        
+        // References Table: 488b05?3488b08488b0cd1428d14c500000000488b4910
+        auto refsIdx = PatternScanner::find(data, "488b05?3488b08488b0cd1428d14c500000000488b4910");
+        if (refsIdx) {
+            // Offset calculation: index + 3 + 4 + value
+            size_t instrOffset = *refsIdx + 3;
+            int32_t relOffset = buffer->read<int32_t>(instrOffset);
+            uint64_t finalAddr = modInfo->baseAddress + instrOffset + 4 + relOffset;
+            
+            m_config.referencesTableOffset = finalAddr - m_config.baseAddress;
+            spdlog::info("Found References Table: 0x{:X} (Offset: 0x{:X})", finalAddr, m_config.referencesTableOffset);
+        } else {
+            spdlog::warn("References Table pattern not found (title extraction will use fallback)");
         }
         
     } else {

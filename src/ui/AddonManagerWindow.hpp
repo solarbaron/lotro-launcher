@@ -122,6 +122,15 @@ private:
     QListWidget* createAddonGrid();
     QWidget* createAddonTypeTab(AddonType type);
     
+    // Selection helpers — work across both grid and table views
+    QString getSelectedAddonId() const;
+    QString getSelectedAddonName() const;
+    QListWidget* getCurrentGrid() const;
+    QTableWidget* getCurrentTable() const;
+    
+    // Sorting helper for grid
+    void sortGrid(QListWidget* grid, int sortIndex);
+    
     class Impl;
     std::unique_ptr<Impl> m_impl;
 };

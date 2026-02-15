@@ -105,6 +105,13 @@ struct LotroMemoryConfig {
     uint64_t storageDataAddress() const {
         return baseAddress + storageDataOffset;
     }
+    
+    /**
+     * Get absolute address for references table
+     */
+    uint64_t referencesTableAddress() const {
+        return baseAddress + referencesTableOffset;
+    }
 };
 
 } // namespace lotro

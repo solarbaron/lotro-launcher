@@ -610,21 +610,25 @@ QFuture<bool> AddonManager::installAddon(
             // Copy contents to final destination
             spdlog::info("Copying addon to final destination: {}", destDir.string());
             
-            // Use cp -r to copy all contents
-            QProcess copyProcess;
-            QStringList copyArgs;
-            copyArgs << "-r" << "-f"
-                     << QString::fromStdString(copySource.string())
-                     << QString::fromStdString(destDir.string());
-            
-            copyProcess.start("cp", copyArgs);
-            if (!copyProcess.waitForFinished(60000)) {
-                spdlog::error("Copy to destination failed");
-                if (progress) {
-                    progress(-1, 100, QString("Failed to install %1").arg(addonName));
+            // Copy each top-level item from the temp/source directory to the destination
+            // This avoids copying the temp directory folder itself (which would create
+            // .../Plugins/lotro-launcher-addon-123/ instead of .../Plugins/AddonName/)
+            for (const auto& entry : std::filesystem::directory_iterator(copySource)) {
+                QProcess copyProcess;
+                QStringList copyArgs;
+                copyArgs << "-r" << "-f"
+                         << QString::fromStdString(entry.path().string())
+                         << QString::fromStdString(destDir.string());
+                
+                copyProcess.start("cp", copyArgs);
+                if (!copyProcess.waitForFinished(60000)) {
+                    spdlog::error("Copy to destination failed for: {}", entry.path().string());
+                    if (progress) {
+                        progress(-1, 100, QString("Failed to install %1").arg(addonName));
+                    }
+                    tempDir.removeRecursively();
+                    return false;
                 }
-                tempDir.removeRecursively();
-                return false;
             }
             
             // Clean up temp directory
